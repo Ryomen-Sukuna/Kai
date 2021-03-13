@@ -84,7 +84,7 @@ Hi {}, my name is {}!
 
 HELP_STRINGS = """
 
-*Main commands available:*[](https://telegra.ph/file/8d4ac6da617e8e729e1ad.jpg)
+ Main commands available:[.](https://telegra.ph/file/8d4ac6da617e8e729e1ad.jpg)
  -> /help: PM's you this message.
  -> /help <module name>: PM's you info about that module.
  -> /donate: information on how to donate!
