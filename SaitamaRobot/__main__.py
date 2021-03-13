@@ -84,7 +84,7 @@ Hi {}, my name is {}!
 
 HELP_STRINGS = """
 
-*Main* commands available:*[.](https://telegra.ph/file/8d4ac6da617e8e729e1ad.jpg)
+*Main commands available:*[.](https://telegra.ph/file/8d4ac6da617e8e729e1ad.jpg)
  -> /help: PM's you this message.
  -> /help <module name>: PM's you info about that module.
  -> /donate: information on how to donate!
@@ -100,7 +100,7 @@ And the following:
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
-KAI_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
+KAI_IMG = "https://telegra.ph/file/8c30301988d1b518aa879.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project via [Paypal](ko-fi.com/sawada) or by contacting @Sawada \
