@@ -16,7 +16,7 @@ class Config(object):
 
     API_ID = 1511741  
     API_HASH = "ec3909aaa39889f44148d1f0e3c888be"
-    TOKEN = "1608615537:AAHmbf174eu3Ae0fJ0SWponUZfegWCiTE3I"
+    TOKEN = "1608658535:AAGfrF88LsZ39LQWJx0li_aHZcCsVxgslHA"
     OWNER_ID = 645739169  
     OWNER_USERNAME = "Anomaliii"
     SUPPORT_CHAT = "ZeroBotSupport"
