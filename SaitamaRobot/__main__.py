@@ -91,7 +91,8 @@ HELP_STRINGS = """
  -> /settings:
    × in PM: will send you your settings for all supported modules.
    × in a group: will redirect you to pm, with all that chat's settings.
-nAll commands can either be used with / or !.\n"
+nAll commands can either be used with / or !.\n
+"""
 
 KAI_IMG = "https://i.ibb.co/1f93Vxn/2383b401afbd6081955179c9add41d5a.gif"
 
