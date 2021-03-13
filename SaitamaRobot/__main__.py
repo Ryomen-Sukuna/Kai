@@ -84,23 +84,16 @@ Hi {}, my name is {}!
 
 HELP_STRINGS = """
 
-*Main commands available:*[.](https://telegra.ph/file/8d4ac6da617e8e729e1ad.jpg)
+*Main commands available:*[](https://telegra.ph/file/8d4ac6da617e8e729e1ad.jpg)
  -> /help: PM's you this message.
  -> /help <module name>: PM's you info about that module.
  -> /donate: information on how to donate!
  -> /settings:
    × in PM: will send you your settings for all supported modules.
    × in a group: will redirect you to pm, with all that chat's settings.
+nAll commands can either be used with / or !.\n"
 
-
-{}
-And the following:
-""".format(
-    dispatcher.bot.first_name,
-    "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
-)
-
-KAI_IMG = "https://telegra.ph/file/8c30301988d1b518aa879.jpg"
+KAI_IMG = "https://i.ibb.co/1f93Vxn/2383b401afbd6081955179c9add41d5a.gif"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project via [Paypal](ko-fi.com/sawada) or by contacting @Sawada \
@@ -211,7 +204,7 @@ def start(update: Update, context: CallbackContext):
 
         else:
             first_name = update.effective_user.first_name
-            update.effective_message.reply_photo(
+            update.effective_message.reply_animation(
                 KAI_IMG,
                 PM_START_TEXT.format(
                     escape_markdown(first_name), escape_markdown(context.bot.first_name)
@@ -237,12 +230,6 @@ def start(update: Update, context: CallbackContext):
                                 text="🔔 Updates Channel",
                                 url="https://t.me/KaiUpdates",
                             ),
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text="🧾 Getting started guide",
-                                url="https://t.me/OnePunchUpdates/29",
-                            )
                         ],
                         [
                             InlineKeyboardButton(
