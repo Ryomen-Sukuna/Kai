@@ -3,7 +3,7 @@ from functools import wraps
 
 from telegram.ext import CallbackContext
 
-from KaiRoboto.modules.helper_funcs.misc import is_module_loaded
+from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
@@ -13,9 +13,9 @@ if is_module_loaded(FILENAME):
     from telegram.ext import CommandHandler, JobQueue, run_async
     from telegram.utils.helpers import escape_markdown
 
-    from KaiRoboto import EVENT_LOGS, LOGGER, dispatcher
-    from KaiRoboto.modules.helper_funcs.chat_status import user_admin
-    from KaiRoboto.modules.sql import log_channel_sql as sql
+    from SaitamaRobot import EVENT_LOGS, LOGGER, dispatcher
+    from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+    from SaitamaRobot.modules.sql import log_channel_sql as sql
 
     def loggable(func):
         @wraps(func)
