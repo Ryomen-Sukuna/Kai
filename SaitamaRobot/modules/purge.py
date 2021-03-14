@@ -1,6 +1,11 @@
 from telethon import events
 from pyrogram import filters
 from SaitamaRobot import app
+from SaitamaRobot import telethn
+from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
+    can_delete_messages,
+    user_is_admin,
+)
 import asyncio
 from pyrogram import raw
 
