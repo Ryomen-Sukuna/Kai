@@ -26,7 +26,6 @@ class Config(object):
     EVENT_LOGS = (
         -1001190806654
     )  # Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
-
     # RECOMMENDED
     SQLALCHEMY_DATABASE_URI = "postgres://zptpeedknmbybm:a223ce70b25abe1730cb6d7837a976cab47591ecc7d53453bb9ae0f7d41775fa@ec2-54-161-239-198.compute-1.amazonaws.com:5432/d5337u8b5q0der"  # needed for any database modules # its "URI" and not "URL" as herok and similar ones only accept it as such
     LOAD = []
@@ -36,7 +35,6 @@ class Config(object):
     URL = None
     SPAMWATCH_API = ""  # go to support.spamwat.ch to get key
     SPAMWATCH_SUPPORT_CHAT = "@SpamWatchSupport"
-
     # OPTIONAL
     ##List of id's -  (not usernames) for users which have sudo access to the bot.
     DRAGONS = get_user_list("elevated_users.json", "sudos")
@@ -47,28 +45,24 @@ class Config(object):
     # List of id's (not usernames) for users which WONT be banned/kicked by the bot.
     TIGERS = get_user_list("elevated_users.json", "tigers")
     WOLVES = get_user_list("elevated_users.json", "whitelists")
-    DONATION_LINK = None  # EG, paypal
+    DONATION_LINK = None  
     CERT_PATH = None
     PORT = 5000
-    DEL_CMDS = True  # Delete commands that users dont have access to, like delete /ban if a non admin uses it.
+    DEL_CMDS = True  
     STRICT_GBAN = True
-    WORKERS = (
-        8  # Number of subthreads to use. Set as number of threads your processor uses
-    )
-    BAN_STICKER = ""  # banhammer marie sticker id, the bot will send this sticker before banning or kicking a user in chat.
-    ALLOW_EXCL = True  # Allow ! commands as well as / (Leave this to true so that blacklist can work)
-    CASH_API_KEY = (
-        "awoo"  # Get your API key from https://www.alphavantage.co/support/#api-key
-    )
-    TIME_API_KEY = "awoo"  # Get your API key from https://timezonedb.com/api
-    WALL_API = (
-        "awoo"  # For wallpapers, get one from https://wall.alphacoders.com/api.php
-    )
-    AI_API_KEY = "awoo"  # For chatbot, get one from https://coffeehouse.intellivoid.net/dashboard
-    BL_CHATS = []  # List of groups that you want blacklisted.
+    WORKERS = 8 
+    BAN_STICKER = "" 
+    ALLOW_EXCL = True 
+    CASH_API_KEY = "HTGGP6MNR4723PMX" 
+    TIME_API_KEY = "351YPDTFI28B" 
+    WALL_API = "5ebd89288c6c23da598151b3b2e366bc"
+    AI_API_KEY = "awoo" 
+    BL_CHATS = []  
     SPAMMERS = None
     LASTFM_API_KEY = None
     CUSTOM_CMD = False
+    CF_API _KEY = 0799060b18b294009263af0e5276044566a9773c3a018c4dfe033f1db8e3e02c879d4740a62c507f47ef0d15d9f84d8dfa7842e02901b5fe986d11cc31f0c749
+    LASTFM_API_KEY = eb81a880f9e1afe02c9d9f52a72d8e59
     ALLOW_CHATS = -1001442216071
 
 
