@@ -30,8 +30,6 @@ telethon==1.16.4
 pyrogram
 tgcrypto
 spamwatch
-configparser
-rich
 alphabet_detector
 pyrate-limiter
 cachetools
