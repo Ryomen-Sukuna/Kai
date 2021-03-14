@@ -17,7 +17,7 @@ async def user_can_purge(_, c, m):
 
 can_purge = filters.create(user_can_purge)
 
-@app.on_message(filters.command("purge")& filters.reply & can_purge, group=0)
+@kp.on_message(filters.command("purge")& filters.reply & can_purge, group=0)
 async def purge(c, m):
     messages = list(range(m.message_id + 1, m.reply_to_message.message_id, -1))
     while len(messages) != 0:
@@ -29,7 +29,7 @@ async def purge(c, m):
         text="**Fast Purge Completed!!!**",
         chat_id=m.chat.id)
 
-@app.on_message(filters.command('purge')& ~filters.reply & can_purge)
+@kp.on_message(filters.command('purge')& ~filters.reply & can_purge)
 async def int_purge(c, m):
     try:
         count = int(m.command[1])
