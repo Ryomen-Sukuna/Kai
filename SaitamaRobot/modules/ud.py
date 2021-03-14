@@ -3,12 +3,12 @@ from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import ParseMode, Update
 from pyrogram import filters
-from SaitamaRobot import app
+from SaitamaRobot import kp
 import aiohttp
 import os
 
 
-@app.on_message(filters.command("ud"))
+@kp.on_message(filters.command("ud"))
 async def ud(c, m):
     try:
         async with aiohttp.ClientSession() as sess:
