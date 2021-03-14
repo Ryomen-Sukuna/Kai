@@ -597,17 +597,13 @@ __help__ =f"""
      Uses @Intellivoid's Coffeehouse Artificial Engine. Every ban is checked by real trusty people before being finalized.
 """
 
-GBAN_HANDLER = CommandHandler("gban", gban, run_async=True)
-UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
-GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
+GBAN_HANDLER = CommandHandler("gban", gban)
+UNGBAN_HANDLER = CommandHandler("ungban", ungban)
+GBAN_LIST = CommandHandler("gbanlist", gbanlist)
 
-GBAN_STATUS = CommandHandler(
-    "antispam", gbanstat, filters=Filters.chat_type.groups, run_async=True
-)
+GBAN_STATUS = CommandHandler("antispam", gbanstat, filters=Filters.group)
 
-GBAN_ENFORCER = MessageHandler(
-    Filters.all & Filters.chat_type.groups, enforce_gban, run_async=True
-)
+GBAN_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gban)
 
 SPBTOGGLE_HANDLER = CommandHandler("spb", spbtoggle)
 dispatcher.add_handler(SPBTOGGLE_HANDLER)
