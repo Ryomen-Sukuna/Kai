@@ -1,17 +1,17 @@
 import html
 from typing import Optional
 
-import SaitamaRobot.modules.sql.blsticker_sql as sql
-from SaitamaRobot import LOGGER, dispatcher
-from SaitamaRobot.modules.connection import connected
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.alternate import send_message
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
-from SaitamaRobot.modules.helper_funcs.misc import split_message
-from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
+import KaiRoboto.modules.sql.blsticker_sql as sql
+from KaiRoboto import LOGGER, dispatcher
+from KaiRoboto.modules.connection import connected
+from KaiRoboto.modules.disable import DisableAbleCommandHandler
+from KaiRoboto.modules.helper_funcs.alternate import send_message
+from KaiRoboto.modules.helper_funcs.chat_status import user_admin, user_not_admin
+from KaiRoboto.modules.helper_funcs.misc import split_message
+from KaiRoboto.modules.helper_funcs.string_handling import extract_time
 
-from SaitamaRobot.modules.log_channel import loggable
-from SaitamaRobot.modules.warns import warn
+from KaiRoboto.modules.log_channel import loggable
+from KaiRoboto.modules.warns import warn
 from telegram import Chat, Message, ParseMode, Update, User, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
@@ -493,21 +493,6 @@ def __stats__():
         sql.num_stickers_filters(), sql.num_stickers_filter_chats()
     )
 
-
-__help__ = """
-Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
-*NOTE:* Blacklist stickers do not affect the group admin
- • `/blsticker`*:* See current blacklisted sticker
-*Only admin:*
- • `/addblsticker <sticker link>`*:* Add the sticker trigger to the black list. Can be added via reply sticker
- • `/unblsticker <sticker link>`*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once
- • `/rmblsticker <sticker link>`*:* Same as above
- • `/blstickermode <ban/tban/mute/tmute>`*:* sets up a default action on what to do if users use blacklisted stickers
-Note:
- • `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message
-"""
-
-__mod_name__ = "Stickers Blacklist"
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
     "blsticker", blackliststicker, admin_ok=True

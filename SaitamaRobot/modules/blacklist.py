@@ -6,18 +6,18 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-import SaitamaRobot.modules.sql.blacklist_sql as sql
-from SaitamaRobot import dispatcher, LOGGER
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
-from SaitamaRobot.modules.helper_funcs.extraction import extract_text
-from SaitamaRobot.modules.helper_funcs.misc import split_message
-from SaitamaRobot.modules.log_channel import loggable
-from SaitamaRobot.modules.warns import warn
-from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
-from SaitamaRobot.modules.connection import connected
-from SaitamaRobot.modules.sql.approve_sql import is_approved
-from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
+import KaiRoboto.modules.sql.blacklist_sql as sql
+from KaiRoboto import dispatcher, LOGGER
+from KaiRoboto.modules.disable import DisableAbleCommandHandler
+from KaiRoboto.modules.helper_funcs.chat_status import user_admin, user_not_admin
+from KaiRoboto.modules.helper_funcs.extraction import extract_text
+from KaiRoboto.modules.helper_funcs.misc import split_message
+from KaiRoboto.modules.log_channel import loggable
+from KaiRoboto.modules.warns import warn
+from KaiRoboto.modules.helper_funcs.string_handling import extract_time
+from KaiRoboto.modules.connection import connected
+from KaiRoboto.modules.sql.approve_sql import is_approved
+from KaiRoboto.modules.helper_funcs.alternate import send_message, typing_action
 
 BLACKLIST_GROUP = 11
 
@@ -453,6 +453,8 @@ __mod_name__ = "Blacklists"
 
 __help__ = """
 
+- Blacklist Users
+
 Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
 
 *NOTE*: Blacklists do not affect group admins.
@@ -464,6 +466,20 @@ Admin only:
  • `/unblacklist <triggers>`*:* Remove triggers from the blacklist. Same newline logic applies here, so you can remove multiple triggers at once.
  • `/blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>`*:* Action to perform when someone sends blacklisted words.
 
+- Blacklist Stickers
+
+Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
+
+*NOTE:* Blacklist stickers do not affect the group admin
+ • `/blsticker`*:* See current blacklisted sticker
+
+*Admin Only:*
+ • `/addblsticker <sticker link>`*:* Add the sticker trigger to the black list. Can be added via reply sticker
+ • `/unblsticker <sticker link>`*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once
+ • `/rmblsticker <sticker link>`*:* Same as above
+ • `/blstickermode <ban/tban/mute/tmute>`*:* sets up a default action on what to do if users use blacklisted stickers
+Note:
+ • `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message
 """
 BLACKLIST_HANDLER = DisableAbleCommandHandler(
     "blacklist", blacklist, pass_args=True, admin_ok=True

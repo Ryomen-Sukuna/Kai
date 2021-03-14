@@ -1,14 +1,14 @@
 import html
 
-from SaitamaRobot import ALLOW_EXCL, CustomCommandHandler, dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import (
+from KaiRoboto import ALLOW_EXCL, CustomCommandHandler, dispatcher
+from KaiRoboto.modules.disable import DisableAbleCommandHandler
+from KaiRoboto.modules.helper_funcs.chat_status import (
     bot_can_delete,
     connection_status,
     dev_plus,
     user_admin,
 )
-from SaitamaRobot.modules.sql import cleaner_sql as sql
+from KaiRoboto.modules.sql import cleaner_sql as sql
 from telegram import ParseMode, Update
 from telegram.ext import (
     CallbackContext,
@@ -227,7 +227,7 @@ Blue text cleaner removed any made up commands that people send in your chat.
  • `/unignoreblue <word>`*:* remove prevent auto cleaning of the command
  • `/listblue`*:* list currently whitelisted commands
  
- *Following are Disasters only commands, admins cannot use these:*
+ *Following are Owner and Sudo only commands, admins cannot use these:*
  • `/gignoreblue <word>`*:* globally ignorea bluetext cleaning of saved word across Saitama.
  • `/ungignoreblue <word>`*:* remove said command from global cleaning list
 """
@@ -254,7 +254,7 @@ dispatcher.add_handler(REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
 dispatcher.add_handler(LIST_CLEAN_BLUE_TEXT_HANDLER)
 dispatcher.add_handler(CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP)
 
-__mod_name__ = "Bluetext Cleaning"
+__mod_name__ = "Cleaner"
 __handlers__ = [
     SET_CLEAN_BLUE_TEXT_HANDLER,
     ADD_CLEAN_BLUE_TEXT_HANDLER,

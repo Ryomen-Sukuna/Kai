@@ -2,11 +2,11 @@ import html
 import random
 import time
 
-import SaitamaRobot.modules.fun_strings as fun_strings
-from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user
+import KaiRoboto.modules.fun_strings as fun_strings
+from KaiRoboto import dispatcher
+from KaiRoboto.modules.disable import DisableAbleCommandHandler
+from KaiRoboto.modules.helper_funcs.chat_status import is_user_admin
+from KaiRoboto.modules.helper_funcs.extraction import extract_user
 from telegram import ChatPermissions, ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, run_async
@@ -324,6 +324,16 @@ def weebify(update: Update, context: CallbackContext):
         message.reply_text(string)
 
 
+@run_async
+def animequotes(update: Update, context: CallbackContext):
+    message = update.effective_message
+    name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
+    reply_photo = message.reply_to_message.reply_photo if message.reply_to_message else message.reply_photo
+    reply_photo(
+        random.choice(animequotes_strings.QUOTES_IMG))
+
+
+
 __help__ = """
  • `/runs`*:* reply a random string from an array of replies
  • `/slap`*:* slap a user, or get slapped if not a reply
@@ -339,6 +349,7 @@ __help__ = """
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
  • `/8ball`*:* predicts using 8ball method 
+ • `/animequotes`*:* gives random anime quotes
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
@@ -355,6 +366,8 @@ EIGHTBALL_HANDLER = DisableAbleCommandHandler("8ball", eightball)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
 WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
+ANIMEQUOTES_HANDLER = DisableAbleCommandHandler("animequotes", animequotes)
+
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)
@@ -370,6 +383,7 @@ dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(EIGHTBALL_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
+dispatcher.add_handler(ANIMEQUOTES_HANDLER)
 
 __mod_name__ = "Fun"
 __command_list__ = [
@@ -387,6 +401,7 @@ __command_list__ = [
     "shout",
     "weebify",
     "8ball",
+    "animequotes",
 ]
 __handlers__ = [
     RUNS_HANDLER,
@@ -403,4 +418,5 @@ __handlers__ = [
     SHOUT_HANDLER,
     WEEBIFY_HANDLER,
     EIGHTBALL_HANDLER,
+    ANIMEQUOTES_HANDLER,
 ]

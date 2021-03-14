@@ -1,11 +1,18 @@
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot import dispatcher
+import time
+from typing import List
+from KaiRoboto.modules.helper_funcs.chat_status import user_admin
+from KaiRoboto.modules.disable import DisableAbleCommandHandler
+from KaiRoboto import dispatcher
 
+import requests
+from telegram import ParseMode, Update
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import ParseMode, Update
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
+from KaiRoboto import StartTime, dispatcher
+from KaiRoboto.modules.helper_funcs.chat_status import sudo_plus
+from KaiRoboto.modules.disable import DisableAbleCommandHandler
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -80,39 +87,65 @@ def markdown_help(update: Update, context: CallbackContext):
         return
     markdown_help_sender(update)
 
+def ping(update: Update, _):
+    msg = update.effective_message
+    start_time = time.time()
+    message = msg.reply_text("Pinging...")
+    end_time = time.time()
+    ping_time = round((end_time - start_time) * 1000, 3)
+    message.edit_text(
+        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
+    )
 
 __help__ = """
 *Available commands:*
 *Markdown:*
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
-*Paste:*
+
+ *Paste:*
  • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
-*React:*
+
+ *React:*
  • `/react`*:* Reacts with a random reaction 
-*Urban Dictonary:*
+
+ *Urban Dictonary:*
  • `/ud <word>`*:* Type the word or expression you want to search use
-*Wikipedia:*
+
+ *Last FM:*
+ • `/setuser <username>`*:* sets your last.fm username.
+ • `/clearuser`*:* removes your last.fm username from the bot's database.
+ • `/lastfm`*:* returns what you're scrobbling on last.fm
+
+ *Reverse:*
+ • `/reverse`*:* Does a reverse image search of the media which it was replied to.
+
+ *Wikipedia:*
  • `/wiki <query>`*:* wikipedia your query
-*Wallpapers:*
+
+ *Wallpapers:*
  • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com
-*Currency converter:* 
+
+ *Currency converter:* 
  • `/cash`*:* currency converter
-Example:
+ Example:
  `/cash 1 USD INR`  
       _OR_
  `/cash 1 usd inr`
-Output: `1.0 USD = 75.505 INR`
+ Output: `1.0 USD = 75.505 INR`
 """
 
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
+PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
+dispatcher.add_handler(PING_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["id", "echo"]
+__command_list__ = ["id", "echo","ping"]
 __handlers__ = [
     ECHO_HANDLER,
     MD_HELP_HANDLER,
+    PING_HANDLER
 ]
