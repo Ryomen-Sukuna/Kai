@@ -80,7 +80,7 @@ except:
     CF_API_KEY = None
 
 
-SUDO_USERS.append(OWNER_ID)
+DRAGONS.append(OWNER_ID)
 DEV_USERS.append(OWNER_ID)
 
 # SpamWatch
@@ -98,7 +98,7 @@ updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs=
 telethn = TelegramClient("kai", API_ID, API_HASH)
 dispatcher = updater.dispatcher
 
-kp = Client("KaiPyro", api_id=APP_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
+kp = Client("KaiPyro", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
 apps = []
 apps.append(kp)
 
@@ -147,3 +147,12 @@ from SaitamaRobot.modules.helper_funcs.handlers import (
 tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
+
+def spamfilters(text, user_id, chat_id):
+    # print("{} | {} | {}".format(text, user_id, chat_id))
+    if int(user_id) in SPAMMERS:
+        print("This user is a spammer!")
+        return True
+    else:
+        return False
+
