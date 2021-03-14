@@ -28,10 +28,15 @@ async def admin_check(message: Message) -> bool:
     return check_status.status in admin_strings
 
 __mod_name__ = "NLP"
-
-def get_help(chat):
-    return gs(chat, "nlp_help")
-
+__help__ = f"""
+*Chatroom Spam Prediction*
+This feature uses @Intellivoid's Coffeehouse AI to
+process chat messages and detect spam.
+This comes under Coffehouse' NLP. Learn more about
+it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatroom)
+*Command:*
+• `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
+"""
 
 @kp.on_message(filters.command("nlpstat"), group=8)
 async def nlp_mode(client, message):
