@@ -1,17 +1,28 @@
 import time
 from typing import List
+from random import randint
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot import dispatcher
-
+from SaitamaRobot import (
+    dispatcher,
+    WALL_API,
+)
 import requests
-from telegram import ParseMode, Update
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram import ParseMode, Update
+import requests as r
+import wikipedia
+from telegram import (
+    ParseMode, 
+    Update,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode, 
+    Update,
+)
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
 from SaitamaRobot import StartTime, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
+from SaitamaRobot.modules.helper_funcs.alternate import send_action, typing_action
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 MARKDOWN_HELP = f"""
@@ -93,7 +104,127 @@ def ping(update: Update, _):
     ping_time = round((end_time - start_time) * 1000, 3)
     message.edit_text(
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
+
+@typing_action
+def paste(update, context):
+    msg = update.effective_message
+
+    if msg.reply_to_message and msg.reply_to_message.document:
+        file = context.bot.get_file(msg.reply_to_message.document)
+        file.download("file.txt")
+        text = codecs.open("file.txt", "r+", encoding="utf-8")
+        paste_text = text.read()
+        link = (
+            post(
+                "https://nekobin.com/api/documents",
+                json={"content": paste_text},
+            )
+            .json()
+            .get("result")
+            .get("key")
+        )
+        text = "**Pasted to Nekobin!!!**"
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    text="View Link", url=f"https://nekobin.com/{link}"
+                ),
+                InlineKeyboardButton(
+                    text="View Raw",
+                    url=f"https://nekobin.com/raw/{link}",
+                ),
+            ]
+        ]
+        msg.reply_text(
+            text,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+        )
+        os.remove("file.txt")
+    else:
+        msg.reply_text("Give me a text file to paste on nekobin")
+        return
     )
+
+@typing_action
+def wiki(update, context):
+    kueri = re.split(pattern="wiki", string=update.effective_message.text)
+    wikipedia.set_lang("en")
+    if len(str(kueri[1])) == 0:
+        update.effective_message.reply_text("Enter keywords!")
+    else:
+        try:
+            pertama = update.effective_message.reply_text("🔄 Loading...")
+            keyboard = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="🔧 More Info...",
+                            url=wikipedia.page(kueri).url,
+                        )
+                    ]
+                ]
+            )
+            context.bot.editMessageText(
+                chat_id=update.effective_chat.id,
+                message_id=pertama.message_id,
+                text=wikipedia.summary(kueri, sentences=10),
+                reply_markup=keyboard,
+            )
+        except wikipedia.PageError as e:
+            update.effective_message.reply_text(f"⚠ Error: {e}")
+        except BadRequest as et:
+            update.effective_message.reply_text(f"⚠ Error: {et}")
+        except wikipedia.exceptions.DisambiguationError as eet:
+            update.effective_message.reply_text(
+                f"⚠ Error\n There are too many query! Express it more!\nPossible query result:\n{eet}"
+            )
+
+@send_action(ChatAction.UPLOAD_PHOTO)
+def wall(update, context):
+    chat_id = update.effective_chat.id
+    msg = update.effective_message
+    msg_id = update.effective_message.message_id
+    args = context.args
+    query = " ".join(args)
+    if not query:
+        msg.reply_text("Please enter a query!")
+        return
+    else:
+        caption = query
+        term = query.replace(" ", "%20")
+        json_rep = r.get(
+            f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}"
+        ).json()
+        if not json_rep.get("success"):
+            msg.reply_text("An error occurred!")
+
+        else:
+            wallpapers = json_rep.get("wallpapers")
+            if not wallpapers:
+                msg.reply_text("No results found! Refine your search.")
+                return
+            else:
+                index = randint(0, len(wallpapers) - 1)  # Choose random index
+                wallpaper = wallpapers[index]
+                wallpaper = wallpaper.get("url_image")
+                wallpaper = wallpaper.replace("\\", "")
+                context.bot.send_photo(
+                    chat_id,
+                    photo=wallpaper,
+                    caption="Preview",
+                    reply_to_message_id=msg_id,
+                    timeout=60,
+                )
+                context.bot.send_document(
+                    chat_id,
+                    document=wallpaper,
+                    filename="wallpaper",
+                    caption=caption,
+                    reply_to_message_id=msg_id,
+                    timeout=60,
+                )
 
 __help__ = """
 *Available commands:*
@@ -135,15 +266,24 @@ __help__ = """
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
+PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
+WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
+WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
 
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(PING_HANDLER)
+dispatcher.add_handler(PASTE_HANDLER)
+dispatcher.add_handler(WIKI_HANDLER)
+dispatcher.add_hanlder(WALLPAPER_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["id", "echo","ping"]
+__command_list__ = ["id", "echo","ping", "paste", "wiki", "wall"]
 __handlers__ = [
     ECHO_HANDLER,
     MD_HELP_HANDLER,
-    PING_HANDLER
+    PING_HANDLER,
+    PASTE_HANDLER, 
+    WIKI_HANDLER,
+    WALLPAPER_HANDLER
 ]
