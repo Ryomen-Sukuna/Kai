@@ -20,8 +20,12 @@ from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
+from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
+from SaitamaRobot import kp, get_entity
+from pyrogram import Client, filters
+from pyrogram.types import Chat, User
 
 
 @connection_status

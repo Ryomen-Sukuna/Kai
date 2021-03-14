@@ -21,7 +21,7 @@ from SaitamaRobot import (
     StartTime,
     telethn,
     updater,
-    app
+    kp,
 )
 
 # needed to dynamically load modules
@@ -85,7 +85,7 @@ Hi {}, my name is {}!
 """
 
 HELP_STRINGS = """
- *Main commands available:* [.](https://telegra.ph/file/8d4ac6da617e8e729e1ad.jpg)
+ *Main commands available:* [.](https://telegra.ph/file/dda0ef3d991d65c53048b.jpg)
 
  -> /help: PM's you this message.
  -> /help <module name>: PM's you info about that module.
@@ -669,4 +669,5 @@ if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     main()
+    sp.start()
     idle()
