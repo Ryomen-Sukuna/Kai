@@ -1,5 +1,5 @@
 from pyrogram import filters
-from SaitamaRobot import kp, CF_API_KEY, log
+from SaitamaRobot import kp, CF_API_KEY, EVENT_LOGS
 from pyrogram.handlers import MessageHandler
 from pyrogram.types import ChatPermissions, Message
 from pyrogram.errors import BadRequest
