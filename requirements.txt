@@ -33,6 +33,7 @@ spamwatch
 alphabet_detector
 pyrate-limiter
 cachetools
+Intellivoid-SPB
 ujson
 pretty_errors
 humanize

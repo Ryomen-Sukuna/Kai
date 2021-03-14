@@ -1,6 +1,6 @@
 from telethon import events
 from pyrogram import filters
-from SaitamaRobot import app
+from SaitamaRobot import kp
 from SaitamaRobot import telethn
 from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
     can_delete_messages,
