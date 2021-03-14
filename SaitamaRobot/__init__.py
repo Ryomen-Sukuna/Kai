@@ -25,7 +25,7 @@ log = logging.getLogger("rich")
 log.info("[KAI] Kai is starting. | An Zero Union Project. | Licensed under GPLv3.")
 
 log.info("[KAI] Not affiliated to Shie Hashaikai or Vilain in any way whatsoever.")
-log.info("[KAK] Project maintained by: github.com/ChisakiKai (t.me/Anomaliii)")
+log.info("[KAI] Project maintained by: github.com/ChisakiKai (t.me/Anomaliii)")
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 7:
@@ -61,12 +61,12 @@ MESSAGE_DUMP = kaiconfig.getfloat("MESSAGE_DUMP")
 GBAN_LOGS = kaiconfig.getfloat("GBAN_LOGS")
 NO_LOAD = kaiconfig.get("NO_LOAD").split()
 NO_LOAD = list(map(str, NO_LOAD))
-SUDO_USERS = get_user_list("elevated_users.json", "sudos")
+DRAGONS = get_user_list("elevated_users.json", "sudos")
 DEV_USERS = get_user_list("elevated_users.json", "devs")
-SUPPORT_USERS = get_user_list("elevated_users.json", "supports")
-SARDEGNA_USERS = get_user_list("elevated_users.json", "sardegnas")
-WHITELIST_USERS = get_user_list("elevated_users.json", "whitelists")
-SPAMMERS = get_user_list("elevated_users.json", "spammers")
+DEMON = get_user_list("elevated_users.json", "supports")
+TIGERS = get_user_list("elevated_users.json", "demons")
+WOLVES = get_user_list("elevated_users.json", "tigers")
+SPAMMERS = get_user_list("elevated_users.json", "wolves")
 spamwatch_api = kaiconfig.get("spamwatch_api")
 CASH_API_KEY = kaiconfig.get("CASH_API_KEY")
 TIME_API_KEY = kaiconfig.get("TIME_API_KEY")
@@ -130,24 +130,20 @@ async def get_entity(client, entity):
     return entity, entity_client
 
 
-SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS)
+DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
-WHITELIST_USERS = list(WHITELIST_USERS)
-SUPPORT_USERS = list(SUPPORT_USERS)
-SARDEGNA_USERS = list(SARDEGNA_USERS)
-SPAMMERS = list(SPAMMERS)
+WOLVES = list(WOLVES)
+DEMONS = list(DEMONS)
+TIGERS = list(TIGERS)
 
 # Load at end to ensure all prev variables have been set
-from tg_bot.modules.helper_funcs.handlers import CustomCommandHandler
+from SaitamaRobot.modules.helper_funcs.handlers import (
+    CustomCommandHandler,
+    CustomMessageHandler,
+    CustomRegexHandler,
+)
 
-if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
-    tg.CommandHandler = CustomCommandHandler
-
-
-def spamfilters(text, user_id, chat_id):
-    # print("{} | {} | {}".format(text, user_id, chat_id))
-    if int(user_id) in SPAMMERS:
-        print("This user is a spammer!")
-        return True
-    else:
-        return False
+# make sure the regex handler can take extra kwargs
+tg.RegexHandler = CustomRegexHandler
+tg.CommandHandler = CustomCommandHandler
+tg.MessageHandler = CustomMessageHandler
