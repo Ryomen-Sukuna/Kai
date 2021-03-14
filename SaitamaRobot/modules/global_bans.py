@@ -2,9 +2,9 @@ import html
 import time
 from datetime import datetime
 from io import BytesIO
-from tg_bot.modules.sql.users_sql import get_user_com_chats
-import tg_bot.modules.sql.global_bans_sql as sql
-from tg_bot import (
+from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
+import SaitamaRobot.modules.sql.global_bans_sql as sql
+from SaitamaRobot import (
     DEV_USERS,
     GBAN_LOGS,
     OWNER_ID,
@@ -17,19 +17,19 @@ from tg_bot import (
     dispatcher,
     log
 )
-from tg_bot.modules.helper_funcs.chat_status import (
+from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_admin,
     support_plus,
     user_admin,
 )
-from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
-from tg_bot.modules.helper_funcs.misc import send_to_list
-from tg_bot.modules.sql.users_sql import get_all_chats
+from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+from SaitamaRobot.modules.helper_funcs.misc import send_to_list
+from SaitamaRobot.modules.sql.users_sql import get_all_chats
 from telegram import ParseMode, Update
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
 from telegram.utils.helpers import mention_html
-from tg_bot.modules.helper_funcs.chat_status import dev_plus
+from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from spamprotection.sync import SPBClient
 from spamprotection.errors import HostDownError
 from spamwatch.errors import SpamWatchError, Error, UnauthorizedError, NotFoundError, Forbidden, TooManyRequests
@@ -109,32 +109,36 @@ def gban(update: Update, context: CallbackContext):
 
     if int(user_id) in DEV_USERS:
         message.reply_text(
-            "That user is part of the Union\nI can't act against our own."
+            "That user is part of the Association\nI can't act against our own."
         )
         return
 
-    if int(user_id) in SUDO_USERS:
+    if int(user_id) in DRAGONS:
         message.reply_text(
-            "I spy, with my little eye... a nation! Why are you guys turning on each other?"
+            "I spy, with my little eye... a disaster! Why are you guys turning on each other?"
         )
         return
 
-    if int(user_id) in SUPPORT_USERS:
+    if int(user_id) in DEMONS:
         message.reply_text(
-            "OOOH someone's trying to gban a Sakura Nation! *grabs popcorn*"
+            "OOOH someone's trying to gban a Demon Disaster! *grabs popcorn*"
         )
         return
 
-    if int(user_id) in SARDEGNA_USERS:
-        message.reply_text("That's a Sardegna! They cannot be banned!")
+    if int(user_id) in TIGERS:
+        message.reply_text("That's a Tiger! They cannot be banned!")
         return
 
-    if int(user_id) in WHITELIST_USERS:
-        message.reply_text("That's a Neptunia! They cannot be banned!")
+    if int(user_id) in WOLVES:
+        message.reply_text("That's a Wolf! They cannot be banned!")
         return
 
-    if int(user_id) in (777000, 1087968824):
-        message.reply_text("Huh, why would I gban Telegram bots?")
+    if user_id == bot.id:
+        message.reply_text("You uhh...want me to punch myself?")
+        return
+
+    if user_id in [777000, 1087968824]:
+        message.reply_text("Fool! You can't attack Telegram's native tech!")
         return
 
     if user_id == bot.id:
@@ -616,4 +620,4 @@ __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set
     dispatcher.add_handler(GBAN_ENFORCER, GBAN_ENFORCE_GROUP)
-    __handlers__.append((GBAN_ENFORCER, GBAN_ENFORCE_GROUP))
+    __handlers__.append((GBAN_ENFORCER, GBAN_ENFORCE_GROUP))Sinei
