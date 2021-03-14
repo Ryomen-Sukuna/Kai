@@ -66,8 +66,6 @@ UNGBAN_ERRORS = {
 }
 
 
-
-
 SPB_MODE = True
 client = SPBClient()
 
@@ -287,7 +285,7 @@ def gban(update: Update, context: CallbackContext):
     try:
         bot.send_message(
             user_id,
-            "#GBAN"
+            "#EVENT"
             "You have been marked as Malicious and as such have been banned from any future groups we manage."
             f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
             f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",
@@ -521,15 +519,13 @@ def gbanstat(update: Update, context: CallbackContext):
         if args[0].lower() in ["on", "yes"]:
             sql.enable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "I've enabled gbans in this group. This will help protect you "
-                "from spammers, unsavoury characters, and the biggest trolls."
+                "Antispam is now enabled ✅ "
+                "I am now protecting your group from potential remote threats!"
             )
         elif args[0].lower() in ["off", "no"]:
             sql.disable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "I've disabled gbans in this group. GBans wont affect your users "
-                "anymore. You'll be less protected from any trolls and spammers "
-                "though!"
+                "Antispan is now disabled ❌ " "Spamwatch is now disabled ❌"
             )
     else:
         update.effective_message.reply_text(
