@@ -1,11 +1,11 @@
 import html
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
-from KaiRoboto import dispatcher, DRAGONS
-from KaiRoboto.modules.helper_funcs.extraction import extract_user
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot import dispatcher, DRAGONS
+from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from telegram.ext import CallbackContext, run_async, CallbackQueryHandler
-import KaiRoboto.modules.sql.approve_sql as sql
-from KaiRoboto.modules.helper_funcs.chat_status import user_admin
-from KaiRoboto.modules.log_channel import loggable
+import SaitamaRobot.modules.sql.approve_sql as sql
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.log_channel import loggable
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
 from telegram.utils.helpers import mention_html
 from telegram.error import BadRequest
@@ -13,7 +13,6 @@ from telegram.error import BadRequest
 
 @loggable
 @user_admin
-@run_async
 def approve(update, context):
     message = update.effective_message
     chat_title = message.chat.title
@@ -58,7 +57,6 @@ def approve(update, context):
 
 @loggable
 @user_admin
-@run_async
 def disapprove(update, context):
     message = update.effective_message
     chat_title = message.chat.title
@@ -96,7 +94,6 @@ def disapprove(update, context):
 
 
 @user_admin
-@run_async
 def approved(update, context):
     message = update.effective_message
     chat_title = message.chat.title
@@ -114,7 +111,6 @@ def approved(update, context):
 
 
 @user_admin
-@run_async
 def approval(update, context):
     message = update.effective_message
     chat = update.effective_chat
@@ -136,7 +132,6 @@ def approval(update, context):
         )
 
 
-@run_async
 def unapproveall(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
@@ -167,7 +162,6 @@ def unapproveall(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 def unapproveall_btn(update: Update, context: CallbackContext):
     query = update.callback_query
     chat = update.effective_chat

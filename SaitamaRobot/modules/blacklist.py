@@ -6,23 +6,22 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-import KaiRoboto.modules.sql.blacklist_sql as sql
-from KaiRoboto import dispatcher, LOGGER
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
-from KaiRoboto.modules.helper_funcs.chat_status import user_admin, user_not_admin
-from KaiRoboto.modules.helper_funcs.extraction import extract_text
-from KaiRoboto.modules.helper_funcs.misc import split_message
-from KaiRoboto.modules.log_channel import loggable
-from KaiRoboto.modules.warns import warn
-from KaiRoboto.modules.helper_funcs.string_handling import extract_time
-from KaiRoboto.modules.connection import connected
-from KaiRoboto.modules.sql.approve_sql import is_approved
-from KaiRoboto.modules.helper_funcs.alternate import send_message, typing_action
+import SaitamaRobot.modules.sql.blacklist_sql as sql
+from SaitamaRobot import dispatcher, LOGGER
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
+from SaitamaRobot.modules.helper_funcs.extraction import extract_text
+from SaitamaRobot.modules.helper_funcs.misc import split_message
+from SaitamaRobot.modules.log_channel import loggable
+from SaitamaRobot.modules.warns import warn
+from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
+from SaitamaRobot.modules.connection import connected
+from SaitamaRobot.modules.sql.approve_sql import is_approved
+from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
 BLACKLIST_GROUP = 11
 
 
-@run_async
 @user_admin
 @typing_action
 def blacklist(update, context):
@@ -68,7 +67,6 @@ def blacklist(update, context):
         send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
 
 
-@run_async
 @user_admin
 @typing_action
 def add_blacklist(update, context):
@@ -121,7 +119,6 @@ def add_blacklist(update, context):
         )
 
 
-@run_async
 @user_admin
 @typing_action
 def unblacklist(update, context):
@@ -198,7 +195,6 @@ def unblacklist(update, context):
         )
 
 
-@run_async
 @loggable
 @user_admin
 @typing_action
@@ -330,7 +326,6 @@ def findall(p, s):
         i = s.find(p, i + 1)
 
 
-@run_async
 @user_not_admin
 def del_blacklist(update, context):
     chat = update.effective_chat

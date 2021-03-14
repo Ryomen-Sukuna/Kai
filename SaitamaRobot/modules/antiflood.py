@@ -4,15 +4,15 @@ import re
 
 from telegram import Message, Chat, Update, User, ChatPermissions
 
-from KaiRoboto import TIGERS, WOLVES, dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import (
+from SaitamaRobot import TIGERS, WOLVES, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     is_user_admin,
     user_admin,
     user_admin_no_reply,
 )
-from KaiRoboto.modules.log_channel import loggable
-from KaiRoboto.modules.sql import antiflood_sql as sql
+from SaitamaRobot.modules.log_channel import loggable
+from SaitamaRobot.modules.sql import antiflood_sql as sql
 from telegram.error import BadRequest
 from telegram.ext import (
     CallbackContext,
@@ -23,15 +23,14 @@ from telegram.ext import (
     run_async,
 )
 from telegram.utils.helpers import mention_html, escape_markdown
-from KaiRoboto.modules.helper_funcs.string_handling import extract_time
-from KaiRoboto.modules.connection import connected
-from KaiRoboto.modules.helper_funcs.alternate import send_message
-from KaiRoboto.modules.sql.approve_sql import is_approved
+from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
+from SaitamaRobot.modules.connection import connected
+from SaitamaRobot.modules.helper_funcs.alternate import send_message
+from SaitamaRobot.modules.sql.approve_sql import is_approved
 
 FLOOD_GROUP = 3
 
 
-@run_async
 @loggable
 def check_flood(update, context) -> str:
     user = update.effective_user  # type: Optional[User]
@@ -113,7 +112,6 @@ def check_flood(update, context) -> str:
         )
 
 
-@run_async
 @user_admin_no_reply
 @bot_admin
 def flood_button(update: Update, context: CallbackContext):
@@ -143,7 +141,6 @@ def flood_button(update: Update, context: CallbackContext):
             pass
 
 
-@run_async
 @user_admin
 @loggable
 def set_flood(update, context) -> str:
@@ -239,7 +236,6 @@ def set_flood(update, context) -> str:
     return ""
 
 
-@run_async
 def flood(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -282,7 +278,6 @@ def flood(update, context):
             )
 
 
-@run_async
 @user_admin
 def set_flood_mode(update, context):
     chat = update.effective_chat  # type: Optional[Chat]

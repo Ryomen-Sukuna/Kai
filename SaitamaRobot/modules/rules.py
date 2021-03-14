@@ -1,9 +1,9 @@
 from typing import Optional
 
-import KaiRoboto.modules.sql.rules_sql as sql
-from KaiRoboto import dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import user_admin
-from KaiRoboto.modules.helper_funcs.string_handling import markdown_parser
+import SaitamaRobot.modules.sql.rules_sql as sql
+from SaitamaRobot import dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,

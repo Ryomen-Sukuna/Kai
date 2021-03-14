@@ -5,7 +5,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from KaiRoboto import (
+from SaitamaRobot import (
     DEV_USERS,
     LOGGER,
     OWNER_ID,
@@ -15,8 +15,8 @@ from KaiRoboto import (
     WOLVES,
     dispatcher,
 )
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
-from KaiRoboto.modules.helper_funcs.chat_status import (
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     can_restrict,
     connection_status,
@@ -27,12 +27,11 @@ from KaiRoboto.modules.helper_funcs.chat_status import (
     user_can_ban,
     can_delete,
 )
-from KaiRoboto.modules.helper_funcs.extraction import extract_user_and_text
-from KaiRoboto.modules.helper_funcs.string_handling import extract_time
-from KaiRoboto.modules.log_channel import gloggable, loggable
+from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
+from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
+from SaitamaRobot.modules.log_channel import gloggable, loggable
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -139,7 +138,6 @@ def ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -228,7 +226,6 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -288,7 +285,6 @@ def punch(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @bot_admin
 @can_restrict
 def punchme(update: Update, context: CallbackContext):
@@ -304,7 +300,6 @@ def punchme(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Huh? I can't :/")
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -353,7 +348,6 @@ def unban(update: Update, context: CallbackContext) -> str:
     return log
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict

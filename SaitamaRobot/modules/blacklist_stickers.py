@@ -1,17 +1,17 @@
 import html
 from typing import Optional
 
-import KaiRoboto.modules.sql.blsticker_sql as sql
-from KaiRoboto import LOGGER, dispatcher
-from KaiRoboto.modules.connection import connected
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
-from KaiRoboto.modules.helper_funcs.alternate import send_message
-from KaiRoboto.modules.helper_funcs.chat_status import user_admin, user_not_admin
-from KaiRoboto.modules.helper_funcs.misc import split_message
-from KaiRoboto.modules.helper_funcs.string_handling import extract_time
+import SaitamaRobot.modules.sql.blsticker_sql as sql
+from SaitamaRobot import LOGGER, dispatcher
+from SaitamaRobot.modules.connection import connected
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.alternate import send_message
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
+from SaitamaRobot.modules.helper_funcs.misc import split_message
+from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 
-from KaiRoboto.modules.log_channel import loggable
-from KaiRoboto.modules.warns import warn
+from SaitamaRobot.modules.log_channel import loggable
+from SaitamaRobot.modules.warns import warn
 from telegram import Chat, Message, ParseMode, Update, User, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
@@ -19,7 +19,6 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html, mention_markdown
 
 
-@run_async
 def blackliststicker(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
@@ -64,7 +63,6 @@ def blackliststicker(update: Update, context: CallbackContext):
     send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
 
 
-@run_async
 @user_admin
 def add_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -156,7 +154,6 @@ def add_blackliststicker(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 @user_admin
 def unblackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -253,7 +250,6 @@ def unblackliststicker(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 @loggable
 @user_admin
 def blacklist_mode(update: Update, context: CallbackContext):
@@ -365,7 +361,6 @@ def blacklist_mode(update: Update, context: CallbackContext):
     return ""
 
 
-@run_async
 @user_not_admin
 def del_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot

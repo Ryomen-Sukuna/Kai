@@ -5,10 +5,10 @@ from telegram import Update, TelegramError
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async, CallbackContext
 
-import KaiRoboto.modules.sql.users_sql as sql
+import SaitamaRobot.modules.sql.users_sql as sql
 
-from KaiRoboto import dispatcher, OWNER_ID, LOGGER, DEV_USERS
-from KaiRoboto.modules.helper_funcs.chat_status import sudo_plus, dev_plus
+from SaitamaRobot import dispatcher, OWNER_ID, LOGGER, DEV_USERS
+from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
 USERS_GROUP = 4
 DEV_AND_MORE = DEV_USERS.append(int(OWNER_ID))

@@ -1,9 +1,9 @@
 from time import sleep
 
-import KaiRoboto.modules.sql.global_bans_sql as gban_sql
-import KaiRoboto.modules.sql.users_sql as user_sql
-from KaiRoboto import DEV_USERS, OWNER_ID, dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import dev_plus
+import SaitamaRobot.modules.sql.global_bans_sql as gban_sql
+import SaitamaRobot.modules.sql.users_sql as user_sql
+from SaitamaRobot import DEV_USERS, OWNER_ID, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (
@@ -108,7 +108,6 @@ def dbcleanup(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 def callback_button(update: Update, context: CallbackContext):
     bot = context.bot
     query = update.callback_query

@@ -2,9 +2,9 @@ import importlib
 from typing import Union
 
 from future.utils import string_types
-from KaiRoboto import dispatcher
-from KaiRoboto.modules.helper_funcs.handlers import CMD_STARTERS, SpamChecker
-from KaiRoboto.modules.helper_funcs.misc import is_module_loaded
+from SaitamaRobot import dispatcher
+from SaitamaRobot.modules.helper_funcs.handlers import CMD_STARTERS, SpamChecker
+from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded
 from telegram import ParseMode, Update
 from telegram.ext import (
     CallbackContext,
@@ -20,12 +20,12 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 # If module is due to be loaded, then setup all the magical handlers
 if is_module_loaded(FILENAME):
 
-    from KaiRoboto.modules.helper_funcs.chat_status import (
+    from SaitamaRobot.modules.helper_funcs.chat_status import (
         connection_status,
         is_user_admin,
         user_admin,
     )
-    from KaiRoboto.modules.sql import disable_sql as sql
+    from SaitamaRobot.modules.sql import disable_sql as sql
     from telegram.ext.dispatcher import run_async
 
     DISABLE_CMDS = []
@@ -129,8 +129,7 @@ if is_module_loaded(FILENAME):
                     return False
                 else:
                     return True
-
-    @run_async
+                    
     @connection_status
     @user_admin
     def disable(update: Update, context: CallbackContext):
@@ -152,15 +151,14 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I disable?")
-
-    @run_async
+            
     @connection_status
     @user_admin
     def disable_module(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
-            disable_module = "KaiRoboto.modules." + args[0].rsplit(".", 1)[0]
+            disable_module = "SaitamaRobot.modules." + args[0].rsplit(".", 1)[0]
 
             try:
                 module = importlib.import_module(disable_module)
@@ -205,8 +203,7 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I disable?")
-
-    @run_async
+            
     @connection_status
     @user_admin
     def enable(update: Update, context: CallbackContext):
@@ -226,8 +223,7 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I enable?")
-
-    @run_async
+            
     @connection_status
     @user_admin
     def enable_module(update: Update, context: CallbackContext):
@@ -279,8 +275,7 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I enable?")
-
-    @run_async
+            
     @connection_status
     @user_admin
     def list_cmds(update: Update, context: CallbackContext):
@@ -305,8 +300,7 @@ if is_module_loaded(FILENAME):
         for cmd in disabled:
             result += " - `{}`\n".format(escape_markdown(cmd))
         return "The following commands are currently restricted:\n{}".format(result)
-
-    @run_async
+        
     @connection_status
     def commands(update: Update, context: CallbackContext):
         chat = update.effective_chat

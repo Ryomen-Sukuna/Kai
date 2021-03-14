@@ -15,25 +15,25 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import mention_html, escape_markdown
 
-from KaiRoboto import dispatcher, LOGGER, DRAGONS
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
-from KaiRoboto.modules.helper_funcs.handlers import MessageHandlerChecker
-from KaiRoboto.modules.helper_funcs.chat_status import user_admin
-from KaiRoboto.modules.helper_funcs.extraction import extract_text
-from KaiRoboto.modules.helper_funcs.filters import CustomFilters
-from KaiRoboto.modules.helper_funcs.misc import build_keyboard_parser
-from KaiRoboto.modules.helper_funcs.msg_types import get_filter_type
-from KaiRoboto.modules.helper_funcs.string_handling import (
+from SaitamaRobot import dispatcher, LOGGER, DRAGONS
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.handlers import MessageHandlerChecker
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.helper_funcs.extraction import extract_text
+from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
+from SaitamaRobot.modules.helper_funcs.misc import build_keyboard_parser
+from SaitamaRobot.modules.helper_funcs.msg_types import get_filter_type
+from SaitamaRobot.modules.helper_funcs.string_handling import (
     split_quotes,
     button_markdown_parser,
     escape_invalid_curly_brackets,
     markdown_to_html,
 )
-from KaiRoboto.modules.sql import cust_filters_sql as sql
+from SaitamaRobot.modules.sql import cust_filters_sql as sql
 
-from KaiRoboto.modules.connection import connected
+from SaitamaRobot.modules.connection import connected
 
-from KaiRoboto.modules.helper_funcs.alternate import send_message, typing_action
+from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
 HANDLER_GROUP = 10
 
@@ -50,7 +50,6 @@ ENUM_FUNC_MAP = {
 }
 
 
-@run_async
 @typing_action
 def list_handlers(update, context):
     chat = update.effective_chat
@@ -269,7 +268,6 @@ def stop_filter(update, context):
     )
 
 
-@run_async
 def reply_filter(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -501,7 +499,6 @@ def reply_filter(update, context):
                 break
 
 
-@run_async
 def rmall_filters(update, context):
     chat = update.effective_chat
     user = update.effective_user
@@ -528,7 +525,6 @@ def rmall_filters(update, context):
         )
 
 
-@run_async
 def rmall_callback(update, context):
     query = update.callback_query
     chat = update.effective_chat

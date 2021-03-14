@@ -3,14 +3,14 @@ import html
 # AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
 from time import sleep, time
 
-import KaiRoboto.modules.sql.chatbot_sql as sql
+import SaitamaRobot.modules.sql.chatbot_sql as sql
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 from coffeehouse.lydia import LydiaAI
-from KaiRoboto import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import user_admin
-from KaiRoboto.modules.helper_funcs.filters import CustomFilters
-from KaiRoboto.modules.log_channel import gloggable
+from SaitamaRobot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
+from SaitamaRobot.modules.log_channel import gloggable
 from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.ext import (

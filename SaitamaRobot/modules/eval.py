@@ -6,8 +6,8 @@ import textwrap
 import traceback
 from contextlib import redirect_stdout
 
-from KaiRoboto import LOGGER, dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import dev_plus
+from SaitamaRobot import LOGGER, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 
@@ -49,14 +49,12 @@ def send(msg, bot, update):
 
 
 @dev_plus
-@run_async
 def evaluate(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(eval, bot, update), bot, update)
 
 
 @dev_plus
-@run_async
 def execute(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(exec, bot, update), bot, update)
@@ -115,7 +113,6 @@ def do(func, bot, update):
 
 
 @dev_plus
-@run_async
 def clear(update: Update, context: CallbackContext):
     bot = context.bot
     log_input(update)

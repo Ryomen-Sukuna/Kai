@@ -5,13 +5,12 @@ from telethon import events
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 
-from KaiRoboto import telethn, dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import dev_plus
+from SaitamaRobot import telethn, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
 DEBUG_MODE = False
 
 
-@run_async
 @dev_plus
 def debug(update: Update, context: CallbackContext):
     global DEBUG_MODE
@@ -52,7 +51,6 @@ async def i_do_nothing_yes(event):
 support_chat = os.getenv("SUPPORT_CHAT")
 
 
-@run_async
 @dev_plus
 def logs(update: Update, context: CallbackContext):
     user = update.effective_user

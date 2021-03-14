@@ -1,14 +1,14 @@
 import html
 
-from KaiRoboto import ALLOW_EXCL, CustomCommandHandler, dispatcher
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
-from KaiRoboto.modules.helper_funcs.chat_status import (
+from SaitamaRobot import ALLOW_EXCL, CustomCommandHandler, dispatcher
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_can_delete,
     connection_status,
     dev_plus,
     user_admin,
 )
-from KaiRoboto.modules.sql import cleaner_sql as sql
+from SaitamaRobot.modules.sql import cleaner_sql as sql
 from telegram import ParseMode, Update
 from telegram.ext import (
     CallbackContext,
@@ -42,7 +42,6 @@ for handler_list in dispatcher.handlers:
             command_list += handler.command
 
 
-@run_async
 def clean_blue_text_must_click(update: Update, context: CallbackContext):
     bot = context.bot
     chat = update.effective_chat
@@ -65,7 +64,6 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
                 message.delete()
 
 
-@run_async
 @connection_status
 @bot_can_delete
 @user_admin
@@ -101,7 +99,6 @@ def set_blue_text_must_click(update: Update, context: CallbackContext):
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
-@run_async
 @user_admin
 def add_bluetext_ignore(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -123,7 +120,6 @@ def add_bluetext_ignore(update: Update, context: CallbackContext):
         message.reply_text(reply)
 
 
-@run_async
 @user_admin
 def remove_bluetext_ignore(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -147,7 +143,6 @@ def remove_bluetext_ignore(update: Update, context: CallbackContext):
         message.reply_text(reply)
 
 
-@run_async
 @user_admin
 def add_bluetext_ignore_global(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -168,7 +163,6 @@ def add_bluetext_ignore_global(update: Update, context: CallbackContext):
         message.reply_text(reply)
 
 
-@run_async
 @dev_plus
 def remove_bluetext_ignore_global(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -189,7 +183,6 @@ def remove_bluetext_ignore_global(update: Update, context: CallbackContext):
         message.reply_text(reply)
 
 
-@run_async
 @dev_plus
 def bluetext_ignore_list(update: Update, context: CallbackContext):
 

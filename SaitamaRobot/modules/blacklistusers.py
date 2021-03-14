@@ -1,7 +1,7 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 import html
-import KaiRoboto.modules.sql.blacklistusers_sql as sql
-from KaiRoboto import (
+import SaitamaRobot.modules.sql.blacklistusers_sql as sql
+from SaitamaRobot import (
     DEV_USERS,
     OWNER_ID,
     DRAGONS,
@@ -10,12 +10,12 @@ from KaiRoboto import (
     WOLVES,
     dispatcher,
 )
-from KaiRoboto.modules.helper_funcs.chat_status import dev_plus
-from KaiRoboto.modules.helper_funcs.extraction import (
+from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
+from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
-from KaiRoboto.modules.log_channel import gloggable
+from SaitamaRobot.modules.log_channel import gloggable
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, run_async
@@ -25,7 +25,6 @@ BLACKLISTWHITELIST = [OWNER_ID] + DEV_USERS + DRAGONS + WOLVES + DEMONS
 BLABLEUSERS = [OWNER_ID] + DEV_USERS
 
 
-@run_async
 @dev_plus
 @gloggable
 def bl_user(update: Update, context: CallbackContext) -> str:
@@ -68,7 +67,6 @@ def bl_user(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @dev_plus
 @gloggable
 def unbl_user(update: Update, context: CallbackContext) -> str:
@@ -111,7 +109,6 @@ def unbl_user(update: Update, context: CallbackContext) -> str:
         return ""
 
 
-@run_async
 @dev_plus
 def bl_users(update: Update, context: CallbackContext):
     users = []

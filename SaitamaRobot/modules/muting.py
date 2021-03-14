@@ -1,20 +1,20 @@
 import html
 from typing import Optional
 
-from KaiRoboto import LOGGER, TIGERS, dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import (
+from SaitamaRobot import LOGGER, TIGERS, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     can_restrict,
     connection_status,
     is_user_admin,
     user_admin,
 )
-from KaiRoboto.modules.helper_funcs.extraction import (
+from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
-from KaiRoboto.modules.helper_funcs.string_handling import extract_time
-from KaiRoboto.modules.log_channel import loggable
+from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
+from SaitamaRobot.modules.log_channel import loggable
 from telegram import Bot, Chat, ChatPermissions, ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, run_async

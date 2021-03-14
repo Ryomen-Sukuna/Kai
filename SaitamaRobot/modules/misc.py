@@ -1,8 +1,8 @@
 import time
 from typing import List
-from KaiRoboto.modules.helper_funcs.chat_status import user_admin
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
-from KaiRoboto import dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot import dispatcher
 
 import requests
 from telegram import ParseMode, Update
@@ -10,9 +10,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import ParseMode, Update
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
-from KaiRoboto import StartTime, dispatcher
-from KaiRoboto.modules.helper_funcs.chat_status import sudo_plus
-from KaiRoboto.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot import StartTime, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
