@@ -16,7 +16,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     ADMIN_CACHE,
 )
 
-from KaiRoboto.modules.helper_funcs.extraction import (
+from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
