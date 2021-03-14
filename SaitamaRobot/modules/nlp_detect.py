@@ -110,13 +110,3 @@ async def detect_spam(client, message):
         except (aiohttp.ClientConnectionError, asyncio.TimeoutError):
             log.warning("Can't reach SpamProtection API")
             await asyncio.sleep(0.5)
-            
- __help__ = f"""
- *Chatroom Spam Prediction*
- This feature uses @Intellivoid's Coffeehouse AI to
- process chat messages and detect spam.
- This comes under Coffehouse' NLP. Learn more about
- it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatroom)
- *Command:*
- • `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
-"""
