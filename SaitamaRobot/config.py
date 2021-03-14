@@ -16,7 +16,7 @@ class Config(object):
 
     API_ID = 1511741  
     API_HASH = "ec3909aaa39889f44148d1f0e3c888be"
-    TOKEN = "1608658535:AAGfrF88LsZ39LQWJx0li_aHZcCsVxgslHA"
+    TOKEN = "1608615537:AAFclSxl0IBPOsTze6Cj9i_RIAlOmdvDxg0"
     OWNER_ID = 645739169  
     OWNER_USERNAME = "Anomaliii"
     SUPPORT_CHAT = "ZeroBotSupport"
@@ -34,7 +34,7 @@ class Config(object):
     WEBHOOK = False
     INFOPIC = True
     URL = None
-    SPAMWATCH_API = ""  # go to support.spamwat.ch to get key
+    SPAMWATCH_API = "wEKqN~jAkIOdpORwtxfWRGs9ipgkCqoiIsZ4P1cHEvaYmAOLAoia6i16blEmlxlF"  # go to support.spamwat.ch to get key
     SPAMWATCH_SUPPORT_CHAT = "@SpamWatchSupport"
 
     # OPTIONAL
