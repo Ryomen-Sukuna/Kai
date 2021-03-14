@@ -119,3 +119,4 @@ async def detect_spam(client, message):
  it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatroom)
  *Command:*
  • `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
+"""
