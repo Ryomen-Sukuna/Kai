@@ -180,7 +180,7 @@ dispatcher = updater.dispatcher
 
 kp = Client("KaiPyrogram", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN) # pyrogram client
 apps = []
-apps.append = (kp)
+apps.append(kp)
 
 async def get_entity(client, entity):
     entity_client = client
