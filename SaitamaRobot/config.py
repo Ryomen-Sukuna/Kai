@@ -69,7 +69,8 @@ class Config(object):
     SPAMMERS = None
     LASTFM_API_KEY = None
     CUSTOM_CMD = False
-    ALLOW_CHATS = -1001442216071
+    ALLOW_CHATS = -1001442216071 
+    CF_API_KEY = None
 
 
 class Production(Config):
