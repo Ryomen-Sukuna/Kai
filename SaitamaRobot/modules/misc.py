@@ -101,15 +101,6 @@ def markdown_help(update: Update, context: CallbackContext):
         return
     markdown_help_sender(update)
 
-def ping(update: Update, _):
-    msg = update.effective_message
-    start_time = time.time()
-    message = msg.reply_text("Pinging...")
-    end_time = time.time()
-    ping_time = round((end_time - start_time) * 1000, 3)
-    message.edit_text(
-        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
-
 def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
@@ -142,7 +133,16 @@ def wiki(update: Update, context: CallbackContext):
             update.effective_message.reply_text(
                 f"⚠ Error\n There are too many query! Express it more!\nPossible query result:\n{eet}"
             )
-
+            
+def ping(update: Update, _):
+    msg = update.effective_message
+    start_time = time.time()
+    message = msg.reply_text("Pinging...")
+    end_time = time.time()
+    ping_time = round((end_time - start_time) * 1000, 3)
+    message.edit_text(
+        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
+            
 @send_action(ChatAction.UPLOAD_PHOTO)
 def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
