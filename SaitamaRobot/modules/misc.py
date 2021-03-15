@@ -100,16 +100,6 @@ def markdown_help(update: Update, context: CallbackContext):
         )
         return
     markdown_help_sender(update)
-
-def ping(update: Update, _):
-    msg = update.effective_message
-    start_time = time.time()
-    message = msg.reply_text("Pinging...")
-    end_time = time.time()
-    ping_time = round((end_time - start_time) * 1000, 3)
-    message.edit_text(
-        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
-
 def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
@@ -228,6 +218,15 @@ def paste(update, context):
     else:
         msg.reply_text("Give me a text file to paste on nekobin")
         return
+
+def ping(update: Update, _):
+    msg = update.effective_message
+    start_time = time.time()
+    message = msg.reply_text("Pinging...")
+    end_time = time.time()
+    ping_time = round((end_time - start_time) * 1000, 3)
+    message.edit_text(
+        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
 
 __help__ = """
 *Available commands:*
