@@ -23,13 +23,13 @@
 <a href="https://github.com/Ryomen-Sukuna/SaitamaRobot" alt="GitHub repo size"> <img src="https://img.shields.io/github/repo-size/ryomen-sukuna/kai" /> </a>
 <a href="https://app.codacy.com/gh/Ryomen-Sukuna/Kai?utm_source=github.com&utm_medium=referral&utm_content=Ryomen-Sukuna/Kai&utm_campaign=Badge_Grade_Settings" alt="Codacy Badge">
 <img src="https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51" /> </a>
-<a href="http://hits.dwyl.com/ryomen-sukuna/kai" alt="HitCount"> <img src="http://hits.dwyl.com/ryomen-sukuna/kai.svg" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/SaitamaRobot/blob/master/LICENSE" alt="GPLv3 license"> <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" /> </a>
+<a href="http://hits.dwyl.com/ryomen-sukuna/kai" alt="HitCount"> <img src="http://hits.dwyl.com/ryomen-sukuna/kai.svg" /> </a>
 </p>
 <p align="center">
-<a href="https://t.me/Anomaliii" alt="Donate!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
-<a href="https://t.me/KaiUpdates" alt="Telegram!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
 <a href="" alt="Ryomen-Sukuna"> <img src="https://img.shields.io/badge/Built%20by-Sukuna-blue" /> </a>
+<a href="https://t.me/KaiUpdates" alt="Telegram!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
+<a href="https://t.me/Anomaliii" alt="Donate!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai/graphs/commit-activity" alt="Maintenance"> <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /> </a>
 <a href="https://makeapullrequest.com" alt="PRs Welcome"> <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" /> </a>
 </p>
@@ -45,8 +45,8 @@ Originally [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot) fork. Kai is 
 Should you be forking this repo then do not forget to star it - <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ryomen-sukuna/kai?color=white&label=%F0%9F%8C%9F%20star">
 
 ## Credits 📍
-+ (TsunayoshiSawada)[https://github.com/SawadaTsunayoshi) for base this bot
-+ (Dank-Del)[https://github.com/Dank-del) for SPB & NLP module
++ (TsunayoshiSawada)[https://github.com/SawadaTsunayoshi] for base this bot
++ (Dank-Del)[https://github.com/Dank-del] for SPB & NLP module
 + (Userbotindo)[https://github.com/userbotindo]
 + (Saber)[https://github.com/hyper-ub/saber]
 * Well, it's all in the commit history 
