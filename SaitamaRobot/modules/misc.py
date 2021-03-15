@@ -111,7 +111,7 @@ def ping(update: Update, _):
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
 
 @typing_action
-def wiki(update, context):
+def paste(update, context):
     msg = update.effective_message
 
     if msg.reply_to_message and msg.reply_to_message.document:
