@@ -40,9 +40,8 @@ def get_user_id(username):
             except BadRequest as excp:
                 if excp.message != 'Chat not found':
                     LOGGER.exception("Error extracting user ID")
-
     return None
-@run_async
+    
 @dev_plus
 def broadcast(update: Update, context: CallbackContext):
     bot = context.bot
@@ -67,7 +66,6 @@ def broadcast(update: Update, context: CallbackContext):
             f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked.")
 
 
-@run_async
 def log_user(update: Update, _):
     chat = update.effective_chat
     msg = update.effective_message
@@ -88,7 +86,6 @@ def log_user(update: Update, _):
                         msg.forward_from.username)
 
 
-@run_async
 @sudo_plus
 def chats(update: Update, _):
 
@@ -106,7 +103,7 @@ def chats(update: Update, _):
 
 
 def __stats__():
-    return f"{sql.num_users()} users, across {sql.num_chats()} chats"
+    return f"-> {sql.num_users()} users, across {sql.num_chats()} chats"
 
 
 def __migrate__(old_chat_id, new_chat_id):

@@ -525,7 +525,7 @@ def gbanstat(update: Update, context: CallbackContext):
         elif args[0].lower() in ["off", "no"]:
             sql.disable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "Antispan is now disabled ❌ " "Spamwatch is now disabled ❌"
+                "Antispam is now disabled ❌ " "Spamwatch is now disabled ❌"
             )
     else:
         update.effective_message.reply_text(
@@ -538,7 +538,7 @@ def gbanstat(update: Update, context: CallbackContext):
 
 
 def __stats__():
-    return f"• {sql.num_gbanned_users()} gbanned users."
+    return f"-> {sql.num_gbanned_users()} gbanned users."
 
 
 def __user_info__(user_id):
@@ -573,22 +573,21 @@ def __chat_settings__(chat_id, user_id):
     
     
 __help__ =f"""
-     *Admins only:*
-      • `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
+*Admins only:*
+• `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
+Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect
+you and your groups by removing spam flooders as quickly as possible.
+*Note:* Users can appeal gbans or report spammers at @YorkTownEagleUnion
 
-     Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect
-     you and your groups by removing spam flooders as quickly as possible.
-     *Note:* Users can appeal gbans or report spammers at @YorkTownEagleUnion
+Kai also integrates @Spamwatch and @Intellivoid's SpamProtectionBot API to remove Spammers as much as possible from your chatroom!
+*What is SpamWatch?*
+SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters.
+Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
+*Note:* Users can appeal spamwatch bans at @SpamwatchSupport
 
-     Kai also integrates @Spamwatch and @Intellivoid's SpamProtectionBot API to remove Spammers as much as possible from your chatroom!
-     *What is SpamWatch?*
-     SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters.
-     Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
-     *Note:* Users can appeal spamwatch bans at @SpamwatchSupport
-
-     *What is Spam protection?*
-     SpamProtection is the new AI antispam service which makes sure that your chat is free of spambots, scammers, and pedophiles.
-     Uses @Intellivoid's Coffeehouse Artificial Engine. Every ban is checked by real trusty people before being finalized.
+*What is Spam protection?*
+SpamProtection is the new AI antispam service which makes sure that your chat is free of spambots, scammers, and pedophiles.
+Uses @Intellivoid's Coffeehouse Artificial Engine. Every ban is checked by real trusty people before being finalized.
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban)

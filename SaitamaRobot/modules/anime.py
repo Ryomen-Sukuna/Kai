@@ -11,8 +11,6 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Upda
 from telegram.ext import CallbackContext, run_async
 
 info_btn = "More Information"
-kaizoku_btn = "Kaizoku ☠️"
-kayo_btn = "Kayo 🏴‍☠️"
 prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
@@ -168,7 +166,6 @@ def extract_arg(message: Message):
         return reply.text
     return None
 
-@run_async
 def airing(update: Update, context: CallbackContext):
     message = update.effective_message
     search_str = extract_arg(message)
@@ -191,7 +188,6 @@ def airing(update: Update, context: CallbackContext):
     update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
-@run_async
 def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -263,7 +259,6 @@ def anime(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 def character(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -297,7 +292,6 @@ def character(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -363,7 +357,6 @@ def manga(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 def user(update: Update, context: CallbackContext):
     message = update.effective_message
     search_query = extract_arg(message)
@@ -447,7 +440,6 @@ def user(update: Update, context: CallbackContext):
     progress_message.delete()
 
 
-@run_async
 def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
     upcomin = jikan.top("anime", page=1, subtype="upcoming")
@@ -462,75 +454,7 @@ def upcoming(update: Update, context: CallbackContext):
 
     update.effective_message.reply_text(upcoming_message)
 
-
-def site_search(update: Update, context: CallbackContext, site: str):
-    message = update.effective_message
-    search_query = extract_arg(message)
-    more_results = True
-
-    if not search_query:
-        message.reply_text("Give something to search")
-        return
-
-    if site == "kaizoku":
-        search_url = f"https://animekaizoku.com/?s={search_query}"
-        html_text = requests.get(search_url).text
-        soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {"class": "post-title"})
-
-        if search_result:
-            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KaizokuAnime: \n"
-            for entry in search_result:
-                post_link = "https://animekaizoku.com/" + entry.a["href"]
-                post_name = html.escape(entry.text)
-                result += f"• <a href='{post_link}'>{post_name}</a>\n"
-        else:
-            more_results = False
-            result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KaizokuAnime"
-
-    elif site == "kayo":
-        search_url = f"https://animekayo.com/?s={search_query}"
-        html_text = requests.get(search_url).text
-        soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {"class": "title"})
-
-        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime: \n"
-        for entry in search_result:
-
-            if entry.text.strip() == "Nothing Found":
-                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime"
-                more_results = False
-                break
-
-            post_link = entry.a["href"]
-            post_name = html.escape(entry.text.strip())
-            result += f"• <a href='{post_link}'>{post_name}</a>\n"
-
-    buttons = [[InlineKeyboardButton("See all results", url=search_url)]]
-
-    if more_results:
-        message.reply_text(
-            result,
-            parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            disable_web_page_preview=True,
-        )
-    else:
-        message.reply_text(
-            result, parse_mode=ParseMode.HTML, disable_web_page_preview=True
-        )
-
-
-@run_async
-def kaizoku(update: Update, context: CallbackContext):
-    site_search(update, context, "kaizoku")
-
-
-@run_async
-def kayo(update: Update, context: CallbackContext):
-    site_search(update, context, "kayo")
-
-
+    
 __help__ = """
 Get information about anime, manga or characters from [AniList](anilist.co).
 
@@ -541,8 +465,6 @@ Get information about anime, manga or characters from [AniList](anilist.co).
  • `/manga <manga>`*:* returns information about the manga.
  • `/user <user>`*:* returns information about a MyAnimeList user.
  • `/upcoming`*:* returns a list of new anime in the upcoming seasons.
- • `/kaizoku <anime>`*:* search an anime on animekaizoku.com
- • `/kayo <anime>`*:* search an anime on animekayo.com
  • `/airing <anime>`*:* returns anime airing info.
 
  """

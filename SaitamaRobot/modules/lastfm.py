@@ -11,7 +11,6 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 import SaitamaRobot.modules.sql.last_fm_sql as sql
 
 
-@run_async
 def set_user(update: Update, context: CallbackContext):
     args = context.args
     msg = update.effective_message
@@ -25,7 +24,6 @@ def set_user(update: Update, context: CallbackContext):
             "That's not how this works...\nRun /setuser followed by your username!")
 
 
-@run_async
 def clear_user(update: Update, _):
     user = update.effective_user.id
     sql.set_user(user, "")
@@ -33,7 +31,6 @@ def clear_user(update: Update, _):
         "Last.fm username successfully cleared from my database!")
 
 
-@run_async
 def last_fm(update: Update, _):
     msg = update.effective_message
     user = update.effective_user.first_name
@@ -86,6 +83,9 @@ def last_fm(update: Update, _):
         [[InlineKeyboardButton("📺 Youtube", url=f'https://www.youtube.com/results?search_query={artist}+-+{song}')]]
         )
     msg.reply_text(rep, reply_markup=buttons, parse_mode=ParseMode.HTML)
+    
+    def __stats__():
+        return f"-> {sql.num_lastfm()} Last.FM username, across {sql.num_chats()} chats."
 
 SET_USER_HANDLER = CommandHandler("setuser", set_user, pass_args=True)
 CLEAR_USER_HANDLER = CommandHandler("clearuser", clear_user)
