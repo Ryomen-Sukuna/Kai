@@ -27,7 +27,7 @@ class Config(object):
         -1001190806654
     )  # Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
     # RECOMMENDED
-    SQLALCHEMY_DATABASE_URI = "postgres://u6vhed6ujtu306:pa2bd9cba0f797f243ba9e7dc858057b8eef2ab0b4a5a242a165e156767ab43a5@ec2-3-213-66-125.compute-1.amazonaws.com:5432/dehpp360ikbooo"  # needed for any database modules # its "URI" and not "URL" as herok and similar ones only accept it as such
+    SQLALCHEMY_DATABASE_URI = "postgres://u2ts8eke6gc8iq:p6ee326aa74c22d627099ffd7505a86bb0a18ffb12c94dccefc44d725195208d1@ec2-107-20-102-32.compute-1.amazonaws.com:5432/d4fmj5ipg3jhne"  # needed for any database modules # its "URI" and not "URL" as herok and similar ones only accept it as such
     LOAD = []
     NO_LOAD = ["rss", "cleaner", "connection", "math"]
     WEBHOOK = False
