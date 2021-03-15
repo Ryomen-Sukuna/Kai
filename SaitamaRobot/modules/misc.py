@@ -23,6 +23,7 @@ from telegram import (
     MessageEntity,
     TelegramError,
 )
+from telegram.error import BadRequest
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
 from SaitamaRobot import StartTime, dispatcher
