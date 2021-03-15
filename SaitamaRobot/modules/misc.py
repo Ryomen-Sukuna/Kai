@@ -106,7 +106,7 @@ def ping(update: Update, _):
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
 
 @typing_action
-def paste(update: Update, context: CallbackContext):
+def wiki(update, context)
     msg = update.effective_message
 
     if msg.reply_to_message and msg.reply_to_message.document:
@@ -148,7 +148,7 @@ def paste(update: Update, context: CallbackContext):
     )
 
 @typing_action
-def wiki(update: Update, context: CallbackContext):
+def wiki(update, context):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
     if len(str(kueri[1])) == 0:
@@ -266,9 +266,9 @@ __help__ = """
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
-WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
-WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
+PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, run_async=True)
+WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, run_async=True)
+WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, run_async=True)
 
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
@@ -285,5 +285,5 @@ __handlers__ = [
     PING_HANDLER,
     PASTE_HANDLER, 
     WIKI_HANDLER,
-    WALLPAPER_HANDLER
+    WALLPAPER_HANDLER,
 ]
