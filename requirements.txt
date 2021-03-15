@@ -36,5 +36,6 @@ pyrate-limiter
 cachetools
 Intellivoid-SPB
 ujson
+youtube_dl
 pretty_errors
 humanize
