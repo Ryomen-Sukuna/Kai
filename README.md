@@ -13,8 +13,8 @@
 <a href="https://github.com/Ryomen-Sukuna/Kai" alt="GitHub closed issues"> <img src="https://img.shields.io/github/issues-closed-raw/ryomen-sukuna/kai?style=flat&logo=github&color=success" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai" alt="GitHub commit activity"> <img src="https://img.shields.io/github/commit-activity/m/ryomen-sukuna/kai" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai/graphs/contributors" alt="GitHub contributors"> <img src="https://img.shields.io/github/contributors/ryomen-sukuna/kai?style=flat&logo=github" /> </a>
-<a href="https://github.com/Ryomen-Sukuna/Kai/network/members" alt="GitHub forks"> <img src="https://img.shields.io/github/forks/Ryomen-Sukuna/Kai?label=Forks&logo=github" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai" alt="GitHub issues"> <img src="https://img.shields.io/github/issues-raw/ryomen-sukuna/kai?style=flat&logo=github&color=yellow" /> </a>
+<a href="https://github.com/Ryomen-Sukuna/Kai/network/members" alt="GitHub forks"> <img src="https://img.shields.io/github/forks/Ryomen-Sukuna/Kai?label=Forks&logo=github" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai" alt="GitHub closed pull requests"> <img src="https://img.shields.io/github/issues-pr-closed-raw/ryomen-sukuna/kai?color=success" /> </a>
 </p>
 <p align="center">
