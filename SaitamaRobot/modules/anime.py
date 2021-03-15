@@ -475,16 +475,12 @@ CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
 MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
-KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("kaizoku", kaizoku)
-KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kayo", kayo)
 
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
 dispatcher.add_handler(AIRING_HANDLER)
 dispatcher.add_handler(USER_HANDLER)
-dispatcher.add_handler(KAIZOKU_SEARCH_HANDLER)
-dispatcher.add_handler(KAYO_SEARCH_HANDLER)
 dispatcher.add_handler(UPCOMING_HANDLER)
 
 __mod_name__ = "Anime"
@@ -504,7 +500,5 @@ __handlers__ = [
     MANGA_HANDLER,
     USER_HANDLER,
     UPCOMING_HANDLER,
-    KAIZOKU_SEARCH_HANDLER,
-    KAYO_SEARCH_HANDLER,
     AIRING_HANDLER,
 ]
