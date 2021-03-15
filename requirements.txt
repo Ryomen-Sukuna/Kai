@@ -2,9 +2,9 @@ future
 emoji
 lxml
 beautifulsoup4
-requests
+requests==2.20
 sqlalchemy
-python-telegram-bot==13.4.1
+python-telegram-bot==12.8
 psycopg2-binary
 feedparser
 pynewtonmath
