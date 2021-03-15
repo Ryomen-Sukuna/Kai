@@ -277,7 +277,7 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(PING_HANDLER)
 dispatcher.add_handler(WIKI_HANDLER)
-dispatcher.add_hanlder(WALLPAPER_HANDLER)
+dispatcher.add_handler(WALLPAPER_HANDLER)
 dispatcher.add_handler(PASTE_HANDLER)
 
 __mod_name__ = "Extras"
