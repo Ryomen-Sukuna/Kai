@@ -29,7 +29,8 @@
 <a href="" alt="Ryomen-Sukuna"> <img src="https://img.shields.io/badge/Built%20by-Sukuna-blue" /> </a>
 <a href="https://t.me/Anomaliii" alt="Donate!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai/graphs/commit-activity" alt="Maintenance"> <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /> </a>
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5c121a363d734496846820ee8006c527)](https://www.codacy.com/gh/Ryomen-Sukuna/Kai/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Ryomen-Sukuna/Kai&amp;utm_campaign=Badge_Grade)
+<a href="https://www.codacy.com/gh/Ryomen-Sukuna/Kai/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Ryomen-Sukuna/Kai&amp;utm_campaign=Badge_Grade">
+<img src="https://app.codacy.com/project/badge/Grade/5c121a363d734496846820ee8006c527"/></a>
 </p>
 
 
