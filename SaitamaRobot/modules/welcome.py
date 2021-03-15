@@ -27,7 +27,7 @@ from SaitamaRobot.modules.helper_funcs.string_handling import (
     markdown_parser,
 )
 from SaitamaRobot.modules.log_channel import loggable
-from SaitamaRobot.modules.sql.antispam_sql import is_user_gbanned
+from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
 from telegram import (
     ChatPermissions,
     InlineKeyboardButton,
