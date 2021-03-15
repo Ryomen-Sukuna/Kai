@@ -110,49 +110,6 @@ def ping(update: Update, _):
     message.edit_text(
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
 
-@typing_action
-def paste(update: Update, context: CallbackContext):
-    args = context.args
-    msg = update.effective_message
-
-    if msg.reply_to_message and msg.reply_to_message.document:
-        file = context.bot.get_file(msg.reply_to_message.document)
-        file.download("file.txt")
-        text = codecs.open("file.txt", "r+", encoding="utf-8")
-        paste_text = text.read()
-        link = (
-            post(
-                "https://nekobin.com/api/documents",
-                json={"content": paste_text},
-            )
-            .json()
-            .get("result")
-            .get("key")
-        )
-        text = "**Pasted to Nekobin!!!**"
-        buttons = [
-            [
-                InlineKeyboardButton(
-                    text="View Link", url=f"https://nekobin.com/{link}"
-                ),
-                InlineKeyboardButton(
-                    text="View Raw",
-                    url=f"https://nekobin.com/raw/{link}",
-                ),
-            ]
-        ]
-        msg.reply_text(
-            text,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-        )
-        os.remove("file.txt")
-    else:
-        msg.reply_text("Give me a text file to paste on nekobin")
-        return
-    )
-
 def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
@@ -231,6 +188,47 @@ def wall(update: Update, context: CallbackContext):
                     timeout=60,
                 )
 
+@typing_action
+def paste(update, context):
+    msg = update.effective_message
+
+    if msg.reply_to_message and msg.reply_to_message.document:
+        file = context.bot.get_file(msg.reply_to_message.document)
+        file.download("file.txt")
+        text = codecs.open("file.txt", "r+", encoding="utf-8")
+        paste_text = text.read()
+        link = (
+            post(
+                "https://nekobin.com/api/documents",
+                json={"content": paste_text},
+            )
+            .json()
+            .get("result")
+            .get("key")
+        )
+        text = "**Pasted to Nekobin!!!**"
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    text="View Link", url=f"https://nekobin.com/{link}"
+                ),
+                InlineKeyboardButton(
+                    text="View Raw",
+                    url=f"https://nekobin.com/raw/{link}",
+                ),
+            ]
+        ]
+        msg.reply_text(
+            text,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+        )
+        os.remove("file.txt")
+    else:
+        msg.reply_text("Give me a text file to paste on nekobin")
+        return
+
 __help__ = """
 *Available commands:*
 *Markdown:*
@@ -278,9 +276,9 @@ WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(PING_HANDLER)
-dispatcher.add_handler(PASTE_HANDLER)
 dispatcher.add_handler(WIKI_HANDLER)
 dispatcher.add_hanlder(WALLPAPER_HANDLER)
+dispatcher.add_handler(PASTE_HANDLER)
 
 __mod_name__ = "Extras"
 __command_list__ = ["id", "echo","ping", "paste", "wiki", "wall"]
