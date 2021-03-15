@@ -272,9 +272,9 @@ __help__ = """
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, run_async=True)
-WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, run_async=True)
-WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, run_async=True)
+PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
+WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
+WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
 
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
