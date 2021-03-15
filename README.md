@@ -8,7 +8,6 @@
 - x -|│  “	Just some code who is a bot for fun. ”  │| - x -
 </p>
 
-
 <p align="center">
 <a href="https://github.com/Ryomen-Sukuna/Kai" alt="GitHub closed issues"> <img src="https://img.shields.io/github/issues-closed-raw/ryomen-sukuna/kai?style=flat&logo=github&color=success" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai" alt="GitHub commit activity"> <img src="https://img.shields.io/github/commit-activity/m/ryomen-sukuna/kai" /> </a>
