@@ -40,10 +40,10 @@ from telegram.error import (
 )
 from telegram.ext import (
     CallbackContext,
-    CallbackQueryHandler,
     CommandHandler,
-    Filters,
     MessageHandler,
+    CallbackQueryHandler,
+    Filters,
 )
 from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
@@ -641,8 +641,8 @@ def main():
     dispatcher.add_handler(settings_callback_handler)
     dispatcher.add_handler(migrate_handler)
     dispatcher.add_handler(donate_handler)
-
     dispatcher.add_error_handler(error_callback)
+    # dispatcher.add_error_handler(error_handler)
 
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
@@ -661,13 +661,12 @@ def main():
         telethn.disconnect()
     else:
         telethn.run_until_disconnected()
-
     updater.idle()
 
 
 if __name__ == "__main__":
+    sp.start()
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     main()
-    sp.start()
     idle()
