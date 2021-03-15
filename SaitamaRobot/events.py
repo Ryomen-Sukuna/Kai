@@ -1,5 +1,5 @@
-from telethon import events
-from SaitamaRobot import client
+from pyrogram import events
+from pyrogram import client
 
 
 def register(**args):
