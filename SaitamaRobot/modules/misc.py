@@ -69,7 +69,15 @@ def echo(update: Update, context: CallbackContext):
             args[1], quote=False, parse_mode="MARKDOWN", disable_web_page_preview=True
         )
     message.delete()
-
+    
+def ping(update: Update, _):
+    msg = update.effective_message
+    start_time = time.time()
+    message = msg.reply_text("Pinging...")
+    end_time = time.time()
+    ping_time = round((end_time - start_time) * 1000, 3)
+    message.edit_text(
+        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
 
 def markdown_help_sender(update: Update):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
@@ -133,16 +141,7 @@ def wiki(update: Update, context: CallbackContext):
             update.effective_message.reply_text(
                 f"⚠ Error\n There are too many query! Express it more!\nPossible query result:\n{eet}"
             )
-            
-def ping(update: Update, _):
-    msg = update.effective_message
-    start_time = time.time()
-    message = msg.reply_text("Pinging...")
-    end_time = time.time()
-    ping_time = round((end_time - start_time) * 1000, 3)
-    message.edit_text(
-        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
-            
+                       
 @send_action(ChatAction.UPLOAD_PHOTO)
 def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
