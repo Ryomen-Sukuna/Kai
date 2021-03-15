@@ -271,7 +271,7 @@ __help__ = """
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
+PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True, run_async=True)
 WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
 WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
 
