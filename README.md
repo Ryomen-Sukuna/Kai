@@ -22,7 +22,6 @@
 <a href="https://github.com/Ryomen-Sukuna/SaitamaRobot/blob/master/LICENSE" alt="GPLv3 license"> <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/SaitamaRobot" alt="GitHub repo size"> <img src="https://img.shields.io/github/repo-size/ryomen-sukuna/kai" /> </a>
 <a href="https://makeapullrequest.com" alt="PRs Welcome"> <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" /> </a>
-<img src="https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/SaitamaRobot" alt="Docker!"> <img src="https://aleen42.github.io/badges/src/docker.svg" /> </a>
 <a href="http://hits.dwyl.com/ryomen-sukuna/kai" alt="HitCount"> <img src="http://hits.dwyl.com/ryomen-sukuna/kai.svg" /> </a>
 </p>
@@ -31,6 +30,7 @@
 <a href="" alt="Ryomen-Sukuna"> <img src="https://img.shields.io/badge/Built%20by-Sukuna-blue" /> </a>
 <a href="https://t.me/Anomaliii" alt="Donate!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai/graphs/commit-activity" alt="Maintenance"> <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /> </a>
+<img src="https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51" /> </a>
 <a href="https://app.codacy.com/gh/Ryomen-Sukuna/Kai?utm_source=github.com&utm_medium=referral&utm_content=Ryomen-Sukuna/Kai&utm_campaign=Badge_Grade_Settings" alt="Codacy Badge">
 </p>
 
