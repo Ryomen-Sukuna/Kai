@@ -33,8 +33,6 @@
 <img src="https://app.codacy.com/project/badge/Grade/5c121a363d734496846820ee8006c527"/></a>
 </p>
 
-
-
 Originally [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot) fork. Kai is a simple solution to your group management needs 
 , purely weeab themed.
 
