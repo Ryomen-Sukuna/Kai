@@ -220,7 +220,7 @@ def paste(update, context):
         msg.reply_text("Give me a text file to paste on nekobin")
         return
 
-def ping(update: Update, _):
+def ping(update: Update, context: CallbackContext):
     msg = update.effective_message
     start_time = time.time()
     message = msg.reply_text("Pinging...")
