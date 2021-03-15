@@ -7,7 +7,6 @@ from SaitamaRobot import (
     dispatcher,
     WALL_API,
 )
-import requests
 import requests as r
 import wikipedia
 from requests import get, post
@@ -111,6 +110,7 @@ def ping(update: Update, _):
     message.edit_text(
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
 
+@typing_action
 def paste(update: Update, context: CallbackContext):
     args = context.args
     msg = update.effective_message
