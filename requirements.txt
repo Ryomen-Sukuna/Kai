@@ -13,6 +13,7 @@ zalgo-text
 geopy
 nltk
 psutil
+fontTools
 aiohttp>=2.2.5
 Pillow>=4.2.0
 CurrencyConverter
