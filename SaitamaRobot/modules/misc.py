@@ -100,6 +100,7 @@ def markdown_help(update: Update, context: CallbackContext):
         )
         return
     markdown_help_sender(update)
+
 def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
