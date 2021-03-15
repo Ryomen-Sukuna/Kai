@@ -4,6 +4,8 @@
 
 # Kai Robot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ce668a1c7db44e7da152f51e3affe0b7)](https://app.codacy.com/gh/Ryomen-Sukuna/Kai?utm_source=github.com&utm_medium=referral&utm_content=Ryomen-Sukuna/Kai&utm_campaign=Badge_Grade_Settings)
+
 <p align="center">
 - x -|│  “	Just some code who is a bot for fun. ”  │| - x -
 </p>
