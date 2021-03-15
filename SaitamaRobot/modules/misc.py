@@ -112,7 +112,7 @@ def ping(update: Update, _):
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
 
 @typing_action
-def paste(update, context):
+def paste(update: Update, context: CallbackContext):
     msg = update.effective_message
 
     if msg.reply_to_message and msg.reply_to_message.document:
@@ -154,7 +154,7 @@ def paste(update, context):
     )
 
 @typing_action
-def wiki(update, context):
+def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
     if len(str(kueri[1])) == 0:
@@ -188,7 +188,7 @@ def wiki(update, context):
             )
 
 @send_action(ChatAction.UPLOAD_PHOTO)
-def wall(update, context):
+def wall(update, Update context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message
     msg_id = update.effective_message.message_id
