@@ -70,7 +70,6 @@ def echo(update: Update, context: CallbackContext):
         )
     message.delete()
 
-    
 def ping(update: Update, _):
     msg = update.effective_message
     start_time = time.time()
@@ -80,6 +79,7 @@ def ping(update: Update, _):
     message.edit_text(
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
 
+    )
 
 def markdown_help_sender(update: Update):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
@@ -91,7 +91,6 @@ def markdown_help_sender(update: Update):
         "[URL](example.com) [button](buttonurl:github.com) "
         "[button2](buttonurl://google.com:same)"
     )
-
 
 def markdown_help(update: Update, context: CallbackContext):
     if update.effective_chat.type != "private":
