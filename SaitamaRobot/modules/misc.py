@@ -10,13 +10,18 @@ from SaitamaRobot import (
 import requests
 import requests as r
 import wikipedia
+from requests import get, post
 from telegram import (
+    Chat,
+    ChatAction,
     ParseMode, 
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ParseMode, 
-    Update,
+    Message,
+    MessageEntity,
+    TelegramError,
 )
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
