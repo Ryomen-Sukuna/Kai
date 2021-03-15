@@ -4,8 +4,6 @@
 
 # Kai Robot
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ce668a1c7db44e7da152f51e3affe0b7)](https://app.codacy.com/gh/Ryomen-Sukuna/Kai?utm_source=github.com&utm_medium=referral&utm_content=Ryomen-Sukuna/Kai&utm_campaign=Badge_Grade_Settings)
-
 <p align="center">
 - x -|│  “	Just some code who is a bot for fun. ”  │| - x -
 </p>
@@ -31,8 +29,7 @@
 <a href="" alt="Ryomen-Sukuna"> <img src="https://img.shields.io/badge/Built%20by-Sukuna-blue" /> </a>
 <a href="https://t.me/Anomaliii" alt="Donate!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/Kai/graphs/commit-activity" alt="Maintenance"> <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /> </a>
-<img src="https://api.codacy.com/project/badge/Grade/5c121a363d734496846820ee8006c527" /> </a>
-<a href="https://app.codacy.com/project/badge/Grade/5c121a363d734496846820ee8006c527" alt="Codacy Badge">
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5c121a363d734496846820ee8006c527)](https://www.codacy.com/gh/Ryomen-Sukuna/Kai/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Ryomen-Sukuna/Kai&amp;utm_campaign=Badge_Grade)
 </p>
 
 
