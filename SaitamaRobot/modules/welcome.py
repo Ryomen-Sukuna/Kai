@@ -3,11 +3,13 @@ import random
 import re
 import time
 from functools import partial
+from contextlib import suppress
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
+import SaitamaRobot
 from SaitamaRobot import (
     DEV_USERS,
-    log,
+    LOGGER,
     OWNER_ID,
     DRAGONS,
     DEMONS,
@@ -15,6 +17,7 @@ from SaitamaRobot import (
     WOLVES,
     sw,
     dispatcher,
+    JOIN_LOGGER
 )
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -126,9 +129,9 @@ def send(update, message, keyboard, backup_message):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_to_message_id=reply,
             )
-            log.warning(message)
-            log.warning(keyboard)
-            log.exception("Could not parse! got invalid url host errors")
+            LOGGER.warning(message)
+            LOGGER.warning(keyboard)
+            LOGGER.exception("Could not parse! got invalid url host errors")
         elif excp.message == "Have no rights to send a message":
             return
         else:
@@ -140,10 +143,11 @@ def send(update, message, keyboard, backup_message):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_to_message_id=reply,
             )
-            log.exception()
+            LOGGER.exception()
     return msg
 
 
+@run_async
 @loggable
 def new_member(update: Update, context: CallbackContext):
     bot, job_queue = context.bot, context.job_queue
@@ -166,7 +170,7 @@ def new_member(update: Update, context: CallbackContext):
         welcome_bool = True
         media_wel = False
 
-        if sw != None:
+        if sw is not None:
             sw_ban = sw.get_ban(new_mem.id)
             if sw_ban:
                 return
@@ -186,50 +190,75 @@ def new_member(update: Update, context: CallbackContext):
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Oh hi, my creator.", reply_to_message_id=reply
+                    "Oh, Genos? Let's get this moving.", reply_to_message_id=reply
                 )
                 welcome_log = (
                     f"{html.escape(chat.title)}\n"
                     f"#USER_JOINED\n"
-                    f"Bot Owner just joined the chat"
+                    f"Bot Owner just joined the group"
                 )
                 continue
 
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Whoa! A member of the Zero Union just joined!",
+                    "Be cool! A member of the Heroes Association just joined.",
                     reply_to_message_id=reply,
+                )
+                welcome_log = (
+                    f"{html.escape(chat.title)}\n"
+                    f"#USER_JOINED\n"
+                    f"Bot Dev just joined the group"
                 )
                 continue
 
             # Welcome Sudos
             elif new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
-                    "Huh! A Dragons level just joined! Stay Alert!",
+                    "Whoa! A Dragon disaster just joined! Stay Alert!",
                     reply_to_message_id=reply,
+                )
+                welcome_log = (
+                    f"{html.escape(chat.title)}\n"
+                    f"#USER_JOINED\n"
+                    f"Bot Sudo just joined the group"
                 )
                 continue
 
             # Welcome Support
-            elif new_mem.id in TIGERS:
+            elif new_mem.id in DEMONS:
                 update.effective_message.reply_text(
-                    "Huh! Someone with a Tiger level just joined!",
+                    "Huh! Someone with a Demon disaster level just joined!",
                     reply_to_message_id=reply,
+                )
+                welcome_log = (
+                    f"{html.escape(chat.title)}\n"
+                    f"#USER_JOINED\n"
+                    f"Bot Support just joined the group"
                 )
                 continue
 
             # Welcome Whitelisted
-            elif new_mem.id in DEMONS:
+            elif new_mem.id in TIGERS:
                 update.effective_message.reply_text(
-                    "Oof! A Demon level just joined!", reply_to_message_id=reply
+                    "Roar! A Tiger disaster just joined!", reply_to_message_id=reply
+                )
+                welcome_log = (
+                    f"{html.escape(chat.title)}\n"
+                    f"#USER_JOINED\n"
+                    f"A whitelisted user joined the chat"
                 )
                 continue
 
-            # Welcome Wolves
+            # Welcome Tigers
             elif new_mem.id in WOLVES:
                 update.effective_message.reply_text(
-                    "Oof! A Wolves level just joined!", reply_to_message_id=reply
+                    "Awoo! A Wolf disaster just joined!", reply_to_message_id=reply
+                )
+                welcome_log = (
+                    f"{html.escape(chat.title)}\n"
+                    f"#USER_JOINED\n"
+                    f"A whitelisted user joined the chat"
                 )
                 continue
 
@@ -262,7 +291,7 @@ def new_member(update: Update, context: CallbackContext):
                         parse_mode=ParseMode.HTML,
                     )
                 update.effective_message.reply_text(
-                    "Kai Comes, Thanks for Adding Me.", reply_to_message_id=reply
+                    "Watashi ga kita!", reply_to_message_id=reply
                 )
                 continue
 
@@ -275,7 +304,7 @@ def new_member(update: Update, context: CallbackContext):
 
                 first_name = (
                     new_mem.first_name or "PersonWithNoName"
-                ) # edge case of empty name - occurs for some bugs.
+                )  # edge case of empty name - occurs for some bugs.
 
                 if cust_welcome:
                     if cust_welcome == sql.DEFAULT_WELCOME:
@@ -385,7 +414,7 @@ def new_member(update: Update, context: CallbackContext):
                                 }
                             }
                         )
-                    new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
+                    new_join_mem = f'<a href="tg://user?id={user.id}">{html.escape(new_mem.first_name)}</a>'
                     message = msg.reply_text(
                         f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
                         reply_markup=InlineKeyboardMarkup(
@@ -398,7 +427,7 @@ def new_member(update: Update, context: CallbackContext):
                                 }
                             ]
                         ),
-                        parse_mode=ParseMode.MARKDOWN,
+                        parse_mode=ParseMode.HTML,
                         reply_to_message_id=reply,
                     )
                     bot.restrict_chat_member(
@@ -423,22 +452,14 @@ def new_member(update: Update, context: CallbackContext):
 
         if welcome_bool:
             if media_wel:
-                if ENUM_FUNC_MAP[welc_type] == dispatcher.bot.send_sticker:
-                    sent = ENUM_FUNC_MAP[welc_type](
-                        chat.id,
-                        cust_content,
-                        reply_markup=keyboard,
-                        reply_to_message_id=reply,
-                    )
-                else:
-                    sent = ENUM_FUNC_MAP[welc_type](
-                        chat.id,
-                        cust_content,
-                        caption=res,
-                        reply_markup=keyboard,
-                        reply_to_message_id=reply,
-                        parse_mode="markdown",
-                    )
+                sent = ENUM_FUNC_MAP[welc_type](
+                    chat.id,
+                    cust_content,
+                    caption=res,
+                    reply_markup=keyboard,
+                    reply_to_message_id=reply,
+                    parse_mode="markdown",
+                )
             else:
                 sent = send(update, res, keyboard, backup_message)
             prev_welc = sql.get_clean_pref(chat.id)
@@ -484,6 +505,7 @@ def check_not_bot(member, chat_id, message_id, context):
             pass
 
 
+@run_async
 def left_member(update: Update, context: CallbackContext):
     bot = context.bot
     chat = update.effective_chat
@@ -508,7 +530,7 @@ def left_member(update: Update, context: CallbackContext):
         if left_mem:
 
             # Thingy for spamwatched users
-            if sw != None:
+            if sw is not None:
                 sw_ban = sw.get_ban(left_mem.id)
                 if sw_ban:
                     return
@@ -524,14 +546,14 @@ def left_member(update: Update, context: CallbackContext):
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Sorry to see you leave :(", reply_to_message_id=reply
+                    "Oi! Genos! He left..", reply_to_message_id=reply
                 )
                 return
 
             # Give the devs a special goodbye
             elif left_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "See you later at the Zero Union!",
+                    "See you later at the Hero's Association!",
                     reply_to_message_id=reply,
                 )
                 return
@@ -592,6 +614,7 @@ def left_member(update: Update, context: CallbackContext):
             )
 
 
+@run_async
 @user_admin
 def welcome(update: Update, context: CallbackContext):
     args = context.args
@@ -654,6 +677,7 @@ def welcome(update: Update, context: CallbackContext):
             )
 
 
+@run_async
 @user_admin
 def goodbye(update: Update, context: CallbackContext):
     args = context.args
@@ -705,6 +729,7 @@ def goodbye(update: Update, context: CallbackContext):
             )
 
 
+@run_async
 @user_admin
 @loggable
 def set_welcome(update: Update, context: CallbackContext) -> str:
@@ -729,6 +754,7 @@ def set_welcome(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def reset_welcome(update: Update, context: CallbackContext) -> str:
@@ -748,6 +774,7 @@ def reset_welcome(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def set_goodbye(update: Update, context: CallbackContext) -> str:
@@ -770,6 +797,7 @@ def set_goodbye(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def reset_goodbye(update: Update, context: CallbackContext) -> str:
@@ -789,6 +817,7 @@ def reset_goodbye(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def welcomemute(update: Update, context: CallbackContext) -> str:
@@ -831,20 +860,21 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
             )
         else:
             msg.reply_text(
-                "Please enter `off`/`no`/`soft`/`strong`!",
-                parse_mode=ParseMode.MARKDOWN,
+                "Please enter <code>off</code>/<code>no</code>/<code>soft</code>/<code>strong</code>!",
+                parse_mode=ParseMode.HTML,
             )
             return ""
     else:
         curr_setting = sql.welcome_mutes(chat.id)
         reply = (
-            f"\n Give me a setting!\nChoose one out of: `off`/`no` or `soft` or `strong` only! \n"
-            f"Current setting: `{curr_setting}`"
+            f"\n Give me a setting!\nChoose one out of: <code>off</code>/<code>no</code> or <code>soft</code> or <code>strong</code> only! \n"
+            f"Current setting: <code>{curr_setting}</code>"
         )
-        msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
+        msg.reply_text(reply, parse_mode=ParseMode.HTML)
         return ""
 
 
+@run_async
 @user_admin
 @loggable
 def clean_welcome(update: Update, context: CallbackContext) -> str:
@@ -887,6 +917,7 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @user_admin
 def cleanservice(update: Update, context: CallbackContext) -> str:
     args = context.args
@@ -902,24 +933,26 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
                 update.effective_message.reply_text("Welcome clean service is : on")
             else:
                 update.effective_message.reply_text(
-                    "Invalid option", parse_mode=ParseMode.MARKDOWN
+                    "Invalid option", parse_mode=ParseMode.HTML
                 )
         else:
             update.effective_message.reply_text(
-                "Usage is on/yes or off/no", parse_mode=ParseMode.MARKDOWN
+                "Usage is <code>on</code>/<code>yes</code> or <code>off</code>/<code>no</code>",
+                parse_mode=ParseMode.HTML,
             )
     else:
         curr = sql.clean_service(chat.id)
         if curr:
             update.effective_message.reply_text(
-                "Welcome clean service is : on", parse_mode=ParseMode.MARKDOWN
+                "Welcome clean service is : <code>on</code>", parse_mode=ParseMode.HTML
             )
         else:
             update.effective_message.reply_text(
-                "Welcome clean service is : off", parse_mode=ParseMode.MARKDOWN
+                "Welcome clean service is : <code>off</code>", parse_mode=ParseMode.HTML
             )
 
 
+@run_async
 def user_button(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
@@ -1020,11 +1053,13 @@ WELC_MUTE_HELP_TXT = (
 )
 
 
+@run_async
 @user_admin
 def welcome_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
+@run_async
 @user_admin
 def welcome_mute_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
