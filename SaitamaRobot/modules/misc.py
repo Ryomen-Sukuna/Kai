@@ -69,6 +69,7 @@ def echo(update: Update, context: CallbackContext):
             args[1], quote=False, parse_mode="MARKDOWN", disable_web_page_preview=True
         )
     message.delete()
+
     
 def ping(update: Update, _):
     msg = update.effective_message
@@ -78,6 +79,7 @@ def ping(update: Update, _):
     ping_time = round((end_time - start_time) * 1000, 3)
     message.edit_text(
         "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
+
 
 def markdown_help_sender(update: Update):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
