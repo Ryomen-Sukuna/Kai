@@ -177,7 +177,7 @@ else:
         LOGGER.warning("Can't connect to SpamWatch!")
 
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
-telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+telethn = TelegramClient("kai", API_ID, API_HASH)
 dispatcher = updater.dispatcher
 
 kp = Client("KaiPyrogram", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
