@@ -13,11 +13,11 @@ from requests import get, post
 from telegram import (
     Chat,
     ChatAction,
-    ParseMode, 
+    ParseMode,
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    ParseMode, 
+    ParseMode,
     Message,
     MessageEntity,
     TelegramError,
@@ -70,6 +70,7 @@ def echo(update: Update, context: CallbackContext):
         )
     message.delete()
 
+
 def ping(update: Update, _):
     msg = update.effective_message
     start_time = time.time()
@@ -77,9 +78,9 @@ def ping(update: Update, _):
     end_time = time.time()
     ping_time = round((end_time - start_time) * 1000, 3)
     message.edit_text(
-        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
-
+        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
     )
+
 
 def markdown_help_sender(update: Update):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
@@ -91,6 +92,7 @@ def markdown_help_sender(update: Update):
         "[URL](example.com) [button](buttonurl:github.com) "
         "[button2](buttonurl://google.com:same)"
     )
+
 
 def markdown_help(update: Update, context: CallbackContext):
     if update.effective_chat.type != "private":
@@ -109,6 +111,7 @@ def markdown_help(update: Update, context: CallbackContext):
         )
         return
     markdown_help_sender(update)
+
 
 def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
@@ -142,7 +145,8 @@ def wiki(update: Update, context: CallbackContext):
             update.effective_message.reply_text(
                 f"⚠ Error\n There are too many query! Express it more!\nPossible query result:\n{eet}"
             )
-                       
+
+
 @send_action(ChatAction.UPLOAD_PHOTO)
 def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -188,6 +192,7 @@ def wall(update: Update, context: CallbackContext):
                     timeout=60,
                 )
 
+
 @typing_action
 def paste(update, context):
     msg = update.effective_message
@@ -229,6 +234,7 @@ def paste(update, context):
         msg.reply_text("Give me a text file to paste on nekobin")
         return
 
+
 __help__ = """
 *Available commands:*
 *Markdown:*
@@ -269,7 +275,9 @@ __help__ = """
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True, run_async=True)
+PASTE_HANDLER = DisableAbleCommandHandler(
+    "paste", paste, pass_args=True, run_async=True
+)
 WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
 WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
 
@@ -281,12 +289,12 @@ dispatcher.add_handler(WALLPAPER_HANDLER)
 dispatcher.add_handler(PASTE_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["id", "echo","ping", "paste", "wiki", "wall"]
+__command_list__ = ["id", "echo", "ping", "paste", "wiki", "wall"]
 __handlers__ = [
     ECHO_HANDLER,
     MD_HELP_HANDLER,
     PING_HANDLER,
-    PASTE_HANDLER, 
+    PASTE_HANDLER,
     WIKI_HANDLER,
     WALLPAPER_HANDLER,
 ]

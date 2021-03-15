@@ -217,6 +217,7 @@ def warn_user(update: Update, context: CallbackContext) -> str:
         message.reply_text("That looks like an invalid User ID to me.")
     return ""
 
+
 @user_admin
 @bot_admin
 @loggable
