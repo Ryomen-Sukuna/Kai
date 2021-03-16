@@ -33,7 +33,7 @@ class Config(object):
     WEBHOOK = False
     INFOPIC = True
     URL = None
-    SPAMWATCH_API = ""  # go to support.spamwat.ch to get key
+    SPAMWATCH_API = "wEKqN~jAkIOdpORwtxfWRGs9ipgkCqoiIsZ4P1cHEvaYmAOLAoia6i16blEmlxlF"  # go to support.spamwat.ch to get key
     SPAMWATCH_SUPPORT_CHAT = "@SpamWatchSupport"
     # OPTIONAL
     ##List of id's -  (not usernames) for users which have sudo access to the bot.
@@ -51,7 +51,7 @@ class Config(object):
     DEL_CMDS = True  
     STRICT_GBAN = True
     WORKERS = 8 
-    BAN_STICKER = "" 
+    BAN_STICKER = "CAADAgADOwADPPEcAXkko5EB3YGYAg" 
     ALLOW_EXCL = True 
     CASH_API_KEY = "HTGGP6MNR4723PMX" 
     TIME_API_KEY = "351YPDTFI28B" 
