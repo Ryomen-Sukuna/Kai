@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import spamwatch
+from telegram.ext import tg
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 from pyrogram import Client, errors
