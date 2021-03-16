@@ -10,6 +10,7 @@ pynewtonmath
 spongemock
 zalgo-text
 geopy
+pymongo[srv]
 nltk
 psutil
 fontTools
