@@ -1,39 +1,32 @@
 import logging
 import os
-import sys, json
+import sys
 import time
 import spamwatch
 import telegram.ext as tg
 from telethon import TelegramClient
-from telethon.sessions import MemorySession
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
-from configparser import ConfigParser
-from rich.logging import RichHandler
+
 StartTime = time.time()
 
-def get_user_list(__init__, key):
-    with open("{}/tg_bot/{}".format(os.getcwd(), __init__), "r") as json_file:
-        return json.load(json_file)[key]
-
 # enable logging
-FORMAT = "[Enterprise] %(message)s"
-logging.basicConfig(handlers=[RichHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-log = logging.getLogger("rich")
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    level=logging.INFO,
+)
 
-log.info("[KIGYO] Kigyo is starting. | An Eagle Union Project. | Licensed under GPLv3.")
-
-log.info("[KIGYO] Not affiliated to Azur Lane or Yostar in any way whatsoever.")
-log.info("[KIGYO] Project maintained by: github.com/Dank-del (t.me/dank_as_fuck)")
+LOGGER = logging.getLogger(__name__)
 
 # if version < 3.6, stop bot.
-if sys.version_info[0] < 3 or sys.version_info[1] < 7:
-    log.error(
-        "[KIGYO] You MUST have a python version of at least 3.7! Multiple features depend on this. Bot quitting."
+if sys.version_info[0] < 3 or sys.version_info[1] < 6:
+    LOGGER.error(
+        "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting."
     )
     quit(1)
+
 ENV = bool(os.environ.get("ENV", False))
 
 if ENV:
