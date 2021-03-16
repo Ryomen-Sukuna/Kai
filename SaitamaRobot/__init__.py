@@ -9,21 +9,19 @@ from pyrogram import Client, errors
 
 StartTime = time.time()
 
-# enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
-    level=logging.INFO,
-)
+FORMAT = "[Enterprise] %(message)s"
+logging.basicConfig(handlers=[RichHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+log = logging.getLogger("rich")
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger3(__name__)
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     LOGGER.error(
         "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting."
     )
-    quit(1)
+    quit(1) seeds a
 
 ENV = bool(os.environ.get("ENV", False))
 
