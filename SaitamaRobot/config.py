@@ -29,6 +29,7 @@ class Config(object):
     # RECOMMENDED
     SQLALCHEMY_DATABASE_URI = "postgres://jhsowzjj:aDlpgDdamvFZ-zTQAqvVhQrm3Yc711RM@queenie.db.elephantsql.com:5432/jhsowzjj"  # needed for any database modules # its "URI" and not "URL" as herok and similar ones only accept it as such
     LOAD = []
+    DB_URI = "postgres://jhsowzjj:aDlpgDdamvFZ-zTQAqvVhQrm3Yc711RM@queenie.db.elephantsql.com:5432/jhsowzjj
     NO_LOAD = ["rss", "cleaner", "connection", "math"]
     WEBHOOK = False
     INFOPIC = True
