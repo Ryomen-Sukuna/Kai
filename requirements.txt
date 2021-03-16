@@ -1,6 +1,6 @@
 future
 emoji
-sqalchemy
+sqlalchemy
 lxml
 beautifulsoup4
 requests==2.20
