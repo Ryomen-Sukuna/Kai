@@ -36,6 +36,9 @@ pytz
 hachoir
 pybase64
 pySmartDL
+youtube-search-python
+pytz
+instantmusic
 validators
 youtube_dl
 pretty_errors
