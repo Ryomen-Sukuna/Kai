@@ -5,8 +5,7 @@ import time
 import spamwatch
 
 import telegram.ext as tg
-from telethon import TelegramClient
-from telethon.sessions import MemorySession
+from telethon importTelegramClient
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
@@ -174,7 +173,7 @@ else:
         LOGGER.warning("Can't connect to SpamWatch!")
 
 updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10})
-telethn = TelegramClient("saitama", API_ID, API_HASH)
+telethon = TelegramClient("saitama", API_ID, API_HASH)
 dispatcher = updater.dispatcher
 
 kp = Client("KaiPyro", app_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
