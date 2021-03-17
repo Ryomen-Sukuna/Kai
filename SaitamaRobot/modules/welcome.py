@@ -235,35 +235,20 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome yourself
-            elif new_mem.id == bot.id:
-                creator = None
-                if not SaitamaRobot.ALLOW_CHATS:
-                    with suppress(BadRequest):
-                         update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I'm outta here.")
-                    bot.leave_chat(update.effective_chat.id)
-                    return
-                for x in bot.bot.get_chat_administrators(update.effective_chat.id):
-                    if x.status == "creator":
-                        creator = x.user
-                        break
-                if creator:
-                    bot.send_message(
-                        JOIN_LOGGER,
-                        "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>\n<b>Creator:</b> <code>{}</code>".format(
-                            html.escape(chat.title), chat.id, html.escape(creator)
-                        ),
-                        parse_mode=ParseMode.HTML,
-                    )
-                else:
-                    bot.send_message(
-                        JOIN_LOGGER,
-                        "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>".format(
-                            html.escape(chat.title), chat.id
-                        ),
-                        parse_mode=ParseMode.HTML,
-                    )
+            elif new_mem.id == context.bot.id:
                 update.effective_message.reply_text(
-                    "Kai Comes, Thanks for Adding Me.", reply_to_message_id=reply
+                    "Hey  {}, I'm {}! Thank you for adding me to {}".format(
+                        user.first_name, context.bot.first_name, chat_name
+                    ),
+                    reply_to_message_id=reply,
+                )
+
+                context.bot.send_message(
+                    JOIN_LOGGER,
+                    "Kai have been added to <pre>{}</pre> with ID: \n<pre>{}</pre>".format(
+                        chat.title,
+                        chat.id),
+                    parse_mode=ParseMode.HTML,
                 )
                 continue
 
