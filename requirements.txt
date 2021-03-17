@@ -23,7 +23,7 @@ bleach
 gpytranslate
 markdown2
 wikipedia
-telethon==1.16.4
+telethon
 pyrogram
 tgcrypto
 spamwatch
