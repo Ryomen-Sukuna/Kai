@@ -5,10 +5,8 @@ import time
 import spamwatch
 
 import telegram.ext as tg
-from telethon import TelegramClient
 from pyrogram import Client, errors
-from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
-from pyrogram.types import Chat, User
+from telethon import TelegramClient
 
 StartTime = time.time()
 
@@ -95,7 +93,7 @@ if ENV:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
 else:
-    from SaitamaRobot.config import Development as Config
+    from MashaRoBot.config import Development as Config
 
     TOKEN = Config.TOKEN
 
@@ -153,6 +151,7 @@ else:
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
     INFOPIC = Config.INFOPIC
+    REDIS_URL = Config.REDIS_URL
     
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
@@ -172,40 +171,11 @@ else:
         sw = None
         LOGGER.warning("Can't connect to SpamWatch!")
 
-updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10})
-telethn = TelegramClient("saitama", API_ID, API_HASH)
+
+updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+telethn = TelegramClient("kai", API_ID, API_HASH)
+kp= Client("KaiPyro", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 dispatcher = updater.dispatcher
-
-kp = Client("KaiPyro", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
-apps = []
-apps.append(kp)
-
-
-async def get_entity(client, entity):
-    entity_client = client
-    if not isinstance(entity, Chat):
-        try:
-            entity = int(entity)
-        except ValueError:
-            pass
-        except TypeError:
-            entity = entity.id
-        try:
-            entity = await client.get_chat(entity)
-        except (PeerIdInvalid, ChannelInvalid):
-            for kp in apps:
-                if kp != client:
-                    try:
-                        entity = await kp.get_chat(entity)
-                    except (PeerIdInvalid, ChannelInvalid):
-                        pass
-                    else:
-                        entity_client = kp
-                        break
-            else:
-                entity = await kp.get_chat(entity)
-                entity_client = kp
-    return entity, entity_client
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
@@ -214,16 +184,13 @@ DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import CustomCommandHandler
+from MashaRoBot.modules.helper_funcs.handlers import (
+    CustomCommandHandler,
+    CustomMessageHandler,
+    CustomRegexHandler,
+)
 
-if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
-    tg.CommandHandler = CustomCommandHandler
-
-
-def spamfilters(text, user_id, chat_id):
-    # print("{} | {} | {}".format(text, user_id, chat_id))
-    if int(user_id) in SPAMMERS:
-        print("This user is a spammer!")
-        return True
-    else:
-        return False
+# make sure the regex handler can take extra kwargs
+tg.RegexHandler = CustomRegexHandler
+tg.CommandHandler = CustomCommandHandler
+tg.MessageHandler = CustomMessageHandler
