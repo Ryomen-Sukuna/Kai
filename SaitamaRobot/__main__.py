@@ -3,6 +3,7 @@ import time
 import re
 from sys import argv
 from typing import Optional
+from pyrogram import idle, Client
 
 from SaitamaRobot import (
     ALLOW_EXCL,
@@ -20,6 +21,7 @@ from SaitamaRobot import (
     StartTime,
     telethn,
     updater,
+    kp,
 )
 
 # needed to dynamically load modules
@@ -685,6 +687,8 @@ def main():
 
 
 if __name__ == "__main__":
+    kp.start()
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     main()
+    idle()
