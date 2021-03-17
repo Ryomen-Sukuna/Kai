@@ -32,6 +32,11 @@ pyrate-limiter
 cachetools
 Intellivoid-SPB
 ujson
+pytz
+hachoir
+pybase64
+pySmartDL
+validators
 youtube_dl
 pretty_errors
 humanize
