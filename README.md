@@ -43,7 +43,7 @@ Should you be forking this repo then do not forget to star it - <img alt="GitHub
 
 
 ## Deploy To Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Xlaaf/Kai) 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Ryomen-Sukuna/Kai) 
 
 
 ## Credits 📍
