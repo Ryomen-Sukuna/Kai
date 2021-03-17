@@ -13,20 +13,25 @@ from telethon import TelegramClient
 StartTime = time.time()
 
 # enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
-    level=logging.INFO,
-)
+FORMAT = "[Villain] %(message)s"
+logging.basicConfig(handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
+
+
+LOGGER.info("[Vilain] Kai is starting. | An Zero Union Project. | Licensed under GPLv3.")
+
+LOGGER.info("[KAI] Not affiliated to Shie Hashaikai or Villain in any way whatsoever.")
+LOGGER.info("[KAI] Project maintained by: github.com/Ryomen-Sukuna (t.me/Anomaliii)")
+
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     LOGGER.error(
         "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting."
     )
-    quit(1)
+    sys.exit(1)
 
 ENV = bool(os.environ.get("ENV", False))
 
