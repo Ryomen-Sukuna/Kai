@@ -6,21 +6,20 @@ import spamwatch
 
 import telegram.ext as tg
 from pyrogram import Client, errors
-from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from telethon import TelegramClient
 
 StartTime = time.time()
 
 # enable logging
-FORMAT = "[Villain] %(message)s"
+FORMAT = "[KAI] %(message)s"
 logging.basicConfig(handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
 
 
-LOGGER.info("[Vilain] Kai is starting. | An Zero Union Project. | Licensed under GPLv3.")
+LOGGER.info("[KAI] Kai is starting. | An Zero Union Project. | Licensed under GPLv3.")
 
 LOGGER.info("[KAI] Not affiliated to Shie Hashaikai or Villain in any way whatsoever.")
 LOGGER.info("[KAI] Project maintained by: github.com/Ryomen-Sukuna (t.me/Anomaliii)")
@@ -113,7 +112,6 @@ else:
 
     JOIN_LOGGER = Config.JOIN_LOGGER
     OWNER_USERNAME = Config.OWNER_USERNAME
-    ALLOW_CHATS = Config.ALLOW_CHATS
     try:
         DRAGONS = set(int(x) for x in Config.DRAGONS or [])
         DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
