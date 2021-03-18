@@ -51,5 +51,6 @@ Should you be forking this repo then do not forget to star it - <img alt="GitHub
 + [Dank-Del](https://github.com/Dank-del) for SPB & NLP module
 + [Userbotindo](https://github.com/userbotindo)
 + [Saber](https://github.com/hyper-ub/saber)
++ [IGRIS_BOT](https://github.com/HellxGodLike/IGRIS_BOT)
 + Well, it's all in the commit history 
 Feel free to open pull requests should any be missing.
