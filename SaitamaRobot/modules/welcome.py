@@ -235,15 +235,15 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome yourself
-            elif new_mem.id == context.bot.id:
+            elif new_mem.id == bot.id:
                 update.effective_message.reply_text(
                     "Hey  {}, I'm {}! Thank you for adding me to {}".format(
-                        user.first_name, context.bot.first_name, chat.title
+                        user.first_name, bot.first_name, html.escape(chat.title)
                     ),
                     reply_to_message_id=reply,
                 )
 
-                context.bot.send_message(
+                bot.send_message(
                     JOIN_LOGGER,
                     "Kai have been added to <pre>{}</pre> with ID: \n<pre>{}</pre>".format(
                         chat.title,
