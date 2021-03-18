@@ -1,6 +1,6 @@
 import logging
 import os
-import sys
+import sys, json
 import time
 import spamwatch
 
@@ -11,6 +11,10 @@ from telethon import TelegramClient
 
 StartTime = time.time()
 
+def get_user_list(__init__, key):
+    with open("{}/tg_bot/{}".format(os.getcwd(), __init__), "r") as json_file:
+        return json.load(json_file)[key]
+        
 # enable logging
 FORMAT = "[KAI] %(message)s"
 logging.basicConfig(handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
