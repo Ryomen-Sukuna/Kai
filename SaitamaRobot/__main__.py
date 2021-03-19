@@ -85,7 +85,7 @@ Hi {}, my name is {}!
 """
 
 HELP_STRINGS = """
- *Main* commands available[:](https://telegra.ph/file/dda0ef3d991d65c53048b.jpg)
+ *Main* commands available[:](https://telegra.ph/file/f17b58ca75b7b3357dcf1.jpg)
 
  -> /help: PM's you this message.
  -> /help <module name>: PM's you info about that module.
@@ -97,10 +97,7 @@ HELP_STRINGS = """
 
 KAI_IMG = "https://i.ibb.co/1f93Vxn/2383b401afbd6081955179c9add41d5a.gif"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project via [Paypal](ko-fi.com/sawada) or by contacting @Sawada \
- Supporting isnt always financial! \
- Those who cannot provide monetary support are welcome to help us develop the bot at @OnePunchDev."""
+DONATE_STRING = """× I'm Free for Everyone ×"""
 
 IMPORTED = {}
 MIGRATEABLE = []
