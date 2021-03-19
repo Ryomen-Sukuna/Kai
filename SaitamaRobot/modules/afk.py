@@ -142,7 +142,7 @@ def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: 
             )
             update.effective_message.reply_text(res)
         else:
-            res = "{} is AFK.\nReason: <code>{}</code>\nLast seen <code>{}<code> ago.".format(
+            res = "{} is AFK.\nReason: <code>{}</code>\nLast seen <code>{}</code> ago.".format(
                 html.escape(fst_name),
                 html.escape(user.reason),
                 time
