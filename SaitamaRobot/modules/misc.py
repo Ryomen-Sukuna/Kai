@@ -79,7 +79,7 @@ def ping(update: Update, _):
     end_time = time.time()
     ping_time = round((end_time - start_time) * 1000, 3)
     message.edit_text(
-        "*Pong!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
+        "*Pong!!!*\n`{} ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
 
     )
 
@@ -235,30 +235,22 @@ __help__ = """
 *Available commands:*
 *Markdown:*
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
-
  *Paste:*
  • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
-
  *React:*
  • `/react`*:* Reacts with a random reaction 
-
  *Urban Dictonary:*
  • `/ud <word>`*:* Type the word or expression you want to search use
-
  *Last FM:*
  • `/setuser <username>`*:* sets your last.fm username.
  • `/clearuser`*:* removes your last.fm username from the bot's database.
  • `/lastfm`*:* returns what you're scrobbling on last.fm
-
  *Reverse:*
  • `/reverse`*:* Does a reverse image search of the media which it was replied to.
-
  *Wikipedia:*
  • `/wiki <query>`*:* wikipedia your query
-
  *Wallpapers:*
  • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com
-
  *Currency converter:* 
  • `/cash`*:* currency converter
  Example:
@@ -282,7 +274,7 @@ dispatcher.add_handler(WIKI_HANDLER)
 dispatcher.add_handler(WALLPAPER_HANDLER)
 dispatcher.add_handler(PASTE_HANDLER)
 
-__mod_name__ = "Extras"
+__mod_name__ = "Extra"
 __command_list__ = ["id", "echo","ping", "paste", "wiki", "wall"]
 __handlers__ = [
     ECHO_HANDLER,
