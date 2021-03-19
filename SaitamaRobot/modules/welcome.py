@@ -245,10 +245,10 @@ def new_member(update: Update, context: CallbackContext):
 
                 bot.send_message(
                     JOIN_LOGGER,
-                    "Kai have been added to <pre>{}</pre> with ID: \n<pre>{}</pre>".format(
-                        chat.title,
-                        chat.id),
-                    parse_mode=ParseMode.HTML,
+                        "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>".format(
+                            html.escape(chat.title), chat.id
+                        ),
+                        parse_mode=ParseMode.HTML,
                 )
                 continue
 
