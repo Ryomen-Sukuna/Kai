@@ -7,7 +7,6 @@ requests
 python-telegram-bot==13.4.1
 psycopg2-binary
 feedparser
-pynewtonmath
 spongemock
 zalgo-text
 geopy
