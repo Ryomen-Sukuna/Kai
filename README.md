@@ -1,5 +1,5 @@
 <p align="center">
-  ><img src="https://i.ibb.co/GWmsDMm/2383b401afbd6081955179c9add41d5a.gif">
+  <img src="https://i.ibb.co/GWmsDMm/2383b401afbd6081955179c9add41d5a.gif">
 </p>
 
 # Kai Robot
