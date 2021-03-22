@@ -2,7 +2,7 @@
   <img src="https://i.ibb.co/GWmsDMm/2383b401afbd6081955179c9add41d5a.gif">
 </p>
 
-# Kai Robot
+# Chisaki Kai
 
 <p align="center">
 - x -|│  “	Just some code who is a bot for fun. ”  │| - x -
