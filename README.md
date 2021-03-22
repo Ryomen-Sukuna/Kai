@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://telegra.ph/file/2ce2e9e84a55d3535f599.jpg">
+  ><img src="https://i.ibb.co/GWmsDMm/2383b401afbd6081955179c9add41d5a.gif">
 </p>
 
 # Kai Robot
@@ -40,10 +40,6 @@ Originally [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot) fork. Kai is 
 * News channel: <a  href="https://t.me/KaiUpdates" alt="Kai Updates"> <img  src="https://img.shields.io/badge/%F0%9F%92%A1-Kai%20Updates-9cf" /> </a>
 
 Should you be forking this repo then do not forget to star it - <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ryomen-sukuna/kai?color=white&label=%F0%9F%8C%9F%20star">
-
-
-## Deploy To Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Ryomen-Sukuna/Kai) 
 
 
 ## Credits 📍
