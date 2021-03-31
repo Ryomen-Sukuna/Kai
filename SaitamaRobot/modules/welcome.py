@@ -245,10 +245,10 @@ def new_member(update: Update, context: CallbackContext):
 
                 bot.send_message(
                     JOIN_LOGGER,
-                        "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>".format(
-                            html.escape(chat.title), chat.id
-                        ),
-                        parse_mode=ParseMode.HTML,
+                    "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>".format(
+                        html.escape(chat.title), chat.id
+                    ),
+                    parse_mode=ParseMode.HTML,
                 )
                 continue
 
@@ -261,7 +261,7 @@ def new_member(update: Update, context: CallbackContext):
 
                 first_name = (
                     new_mem.first_name or "PersonWithNoName"
-                ) # edge case of empty name - occurs for some bugs.
+                )  # edge case of empty name - occurs for some bugs.
 
                 if cust_welcome:
                     if cust_welcome == sql.DEFAULT_WELCOME:

@@ -147,13 +147,13 @@ for module_name in ALL_MODULES:
 
 # do not async
 def send_help(chat_id, text, keyboard=None):
-    '''#TODO
+    """#TODO
 
     Params:
         chat_id  -
         text     -
         keyboard -
-    '''
+    """
 
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
@@ -229,16 +229,14 @@ def start(update: Update, context: CallbackContext):
                             InlineKeyboardButton(
                                 text="Source code",
                                 url="https://github.com/Ryomen-Sukuna/Kai",
-                            )
+                            ),
                         ],
                     ]
                 ),
             )
     else:
         update.effective_message.reply_text(
-            "Yo, I'm Here!\n<b>Alive since:</b> <code>{}</code>".format(
-                uptime
-            ),
+            "Yo, I'm Here!\n<b>Alive since:</b> <code>{}</code>".format(uptime),
             parse_mode=ParseMode.HTML,
         )
 
@@ -558,7 +556,7 @@ def donate(update: Update, context: CallbackContext):
     if chat.type == "private":
         update.effective_message.reply_text(
             DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
-        )       
+        )
     else:
         try:
             bot.send_message(

@@ -327,11 +327,17 @@ def weebify(update: Update, context: CallbackContext):
 @run_async
 def animequotes(update: Update, context: CallbackContext):
     message = update.effective_message
-    name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
-    reply_photo = message.reply_to_message.reply_photo if message.reply_to_message else message.reply_photo
-    reply_photo(
-        random.choice(animequotes_strings.QUOTES_IMG))
-
+    name = (
+        message.reply_to_message.from_user.first_name
+        if message.reply_to_message
+        else message.from_user.first_name
+    )
+    reply_photo = (
+        message.reply_to_message.reply_photo
+        if message.reply_to_message
+        else message.reply_photo
+    )
+    reply_photo(random.choice(animequotes_strings.QUOTES_IMG))
 
 
 __help__ = """
