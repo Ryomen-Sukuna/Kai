@@ -45,7 +45,5 @@ Should you be forking this repo then do not forget to star it - <img alt="GitHub
 + [TsunayoshiSawada](https://github.com/SawadaTsunayoshi) for base this bot
 + [Dank-Del](https://github.com/Dank-del) for SPB & NLP module & others
 + [Userbotindo](https://github.com/userbotindo) for misc
-+ [Saber](https://github.com/hyper-ub/saber) for afk
-+ [IGRIS_BOT](https://github.com/HellxGodLike/IGRIS_BOT) for song
 + Well, it's all in the commit history 
 Feel free to open pull requests should any be missing.
