@@ -439,7 +439,7 @@ def __chat_settings__(chat_id, user_id):
 
 
 def __stats__():
-    return "╠> {} blacklist triggers, across {} chats.".format(
+    return "• {} blacklist triggers, across {} chats.".format(
         sql.num_blacklist_filters(), sql.num_blacklist_filter_chats()
     )
 
@@ -460,7 +460,7 @@ Admin only:
  • `/addblacklist <triggers>`*:* Add a trigger to the blacklist. Each line is considered one trigger, so using different lines will allow you to add multiple triggers.
  • `/unblacklist <triggers>`*:* Remove triggers from the blacklist. Same newline logic applies here, so you can remove multiple triggers at once.
  • `/blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>`*:* Action to perform when someone sends blacklisted words.
-
+───────────────────────────────
 - Blacklist Stickers
 
 Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
@@ -476,6 +476,7 @@ Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, 
 Note:
  • `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message
 """
+
 BLACKLIST_HANDLER = DisableAbleCommandHandler(
     "blacklist", blacklist, pass_args=True, admin_ok=True
 )
