@@ -95,7 +95,7 @@ HELP_STRINGS = """
    × in a group: will redirect you to pm, with all that chat's settings.
 """
 
-KAI_IMG = "https://i.ibb.co/1f93Vxn/2383b401afbd6081955179c9add41d5a.gif"
+KAI_IMG = "https://telegra.ph/file/805d67c52c6ee73003d1e.jpg"
 
 DONATE_STRING = """× I'm Free for Everyone ×"""
 
@@ -201,7 +201,7 @@ def start(update: Update, context: CallbackContext):
 
         else:
             first_name = update.effective_user.first_name
-            update.effective_message.reply_animation(
+            update.effective_message.reply_photo(
                 KAI_IMG,
                 caption=PM_START_TEXT.format(
                     escape_markdown(first_name), escape_markdown(context.bot.first_name)
@@ -211,7 +211,7 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="☑️ Add to your group",
+                                text="Add to your group",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
                                 ),
@@ -219,12 +219,12 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="🚑 Support Group",
+                                text="Support Group",
                                 url=f"https://t.me/{SUPPORT_CHAT}",
                             ),
                             InlineKeyboardButton(
-                                text="🗄 Source code",
-                                url="https://github.com/AnimeKaizoku/SaitamaRobot",
+                                text="Source code",
+                                url="https://github.com/Ryomen-Sukuna/Kai",
                             )
                         ],
                     ]
