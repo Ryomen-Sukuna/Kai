@@ -20,7 +20,10 @@ from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+from SaitamaRobot.modules.helper_funcs.extraction import (
+    extract_user,
+    extract_user_and_text,
+)
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from SaitamaRobot import kp, get_entity
@@ -159,7 +162,7 @@ def demote(update: Update, context: CallbackContext) -> str:
             can_invite_users=False,
             can_restrict_members=False,
             can_pin_messages=False,
-            can_promote_members=False, 
+            can_promote_members=False,
             can_manage_voice_chats=False,
         )
 
