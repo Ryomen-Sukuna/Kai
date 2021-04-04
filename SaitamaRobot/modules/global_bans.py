@@ -23,7 +23,10 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     support_plus,
     user_admin,
 )
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+from SaitamaRobot.modules.helper_funcs.extraction import (
+    extract_user,
+    extract_user_and_text,
+)
 from SaitamaRobot.modules.helper_funcs.misc import send_to_list
 from SaitamaRobot.modules.sql.users_sql import get_all_chats
 from telegram import ParseMode, Update
@@ -33,7 +36,14 @@ from telegram.utils.helpers import mention_html
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from spamprotection.sync import SPBClient
 from spamprotection.errors import HostDownError
-from spamwatch.errors import SpamWatchError, Error, UnauthorizedError, NotFoundError, Forbidden, TooManyRequests
+from spamwatch.errors import (
+    SpamWatchError,
+    Error,
+    UnauthorizedError,
+    NotFoundError,
+    Forbidden,
+    TooManyRequests,
+)
 
 GBAN_ENFORCE_GROUP = 6
 
@@ -69,6 +79,7 @@ UNGBAN_ERRORS = {
 SPB_MODE = True
 client = SPBClient()
 
+
 @dev_plus
 def spbtoggle(update: Update, context: CallbackContext):
     global SPB_MODE
@@ -78,7 +89,10 @@ def spbtoggle(update: Update, context: CallbackContext):
     if len(args) > 1:
         if args[1] in ("yes", "on"):
             SPB_MODE = True
-            message.reply_animation("https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4", caption="SpamProtection API bans are now enabled.\nAll hail @Intellivoid.")
+            message.reply_animation(
+                "https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4",
+                caption="SpamProtection API bans are now enabled.\nAll hail @Intellivoid.",
+            )
         elif args[1] in ("no", "off"):
             SPB_MODE = False
             message.reply_text("SpamProtection API bans are now disabled.")
@@ -87,7 +101,6 @@ def spbtoggle(update: Update, context: CallbackContext):
             message.reply_text("SpamProtection API bans are currently enabled.")
         else:
             message.reply_text("SpamProtection API bans are currenty disabled.")
-
 
 
 @support_plus
@@ -439,18 +452,18 @@ def check_and_ban(update, user_id, should_message=True):
         try:
             status = client.raw_output(int(user_id))
             try:
-                bl_check = (status["results"]["attributes"]["is_blacklisted"])
+                bl_check = status["results"]["attributes"]["is_blacklisted"]
             except:
                 bl_check = False
 
             if bl_check is True:
-                bl_res = (status["results"]["attributes"]["blacklist_reason"])
+                bl_res = status["results"]["attributes"]["blacklist_reason"]
                 update.effective_chat.kick_member(user_id)
                 if should_message:
                     update.effective_message.reply_text(
-                    f"This person was blacklisted on @SpamProtectionBot and has been removed!\nReason: <code>{bl_res}</code>",
-                    parse_mode=ParseMode.HTML,
-                )
+                        f"This person was blacklisted on @SpamProtectionBot and has been removed!\nReason: <code>{bl_res}</code>",
+                        parse_mode=ParseMode.HTML,
+                    )
         except HostDownError:
             log.warning("Spam Protection API is unreachable.")
 
@@ -458,7 +471,14 @@ def check_and_ban(update, user_id, should_message=True):
         sw_ban = sw.get_ban(int(user_id))
     except AttributeError:
         sw_ban = None
-    except (SpamWatchError, Error, UnauthorizedError, NotFoundError, Forbidden, TooManyRequests) as e:
+    except (
+        SpamWatchError,
+        Error,
+        UnauthorizedError,
+        NotFoundError,
+        Forbidden,
+        TooManyRequests,
+    ) as e:
         log.warning(f" SpamWatch Error: {e}")
         sw_ban = None
 
@@ -562,7 +582,7 @@ def __user_info__(user_id):
     else:
         text = text.format("???")
     return text
-        
+
 
 def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
@@ -570,9 +590,9 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     return f"This chat is enforcing *gbans*: `{sql.does_chat_gban(chat_id)}`."
-    
-    
-__help__ =f"""
+
+
+__help__ = f"""
 *Admins only:*
 • `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
 Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect

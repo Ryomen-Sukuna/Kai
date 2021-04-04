@@ -11,13 +11,20 @@ from telethon import TelegramClient
 
 StartTime = time.time()
 
+
 def get_user_list(__init__, key):
     with open("{}/tg_bot/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
-        
+
+
 # enable logging
 FORMAT = "[KAI] %(message)s"
-logging.basicConfig(handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
+logging.basicConfig(
+    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    level=logging.INFO,
+    format=FORMAT,
+    datefmt="[%X]",
+)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
@@ -164,7 +171,7 @@ else:
     INFOPIC = Config.INFOPIC
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     CF_API_KEY = Config.CF_API_KEY
-    
+
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
@@ -188,7 +195,13 @@ updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient("kai", API_ID, API_HASH)
 dispatcher = updater.dispatcher
 
-kp = Client("KaiPyro", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
+kp = Client(
+    "KaiPyro",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=TOKEN,
+    workers=min(32, os.cpu_count() + 4),
+)
 apps = []
 apps.append(kp)
 
@@ -218,6 +231,7 @@ async def get_entity(client, entity):
                 entity = await kp.get_chat(entity)
                 entity_client = kp
     return entity, entity_client
+
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)

@@ -17,15 +17,10 @@ async def admin_check(message: Message) -> bool:
     chat_id = message.chat.id
     user_id = message.from_user.id
 
-    check_status = await client.get_chat_member(
-        chat_id=chat_id,
-        user_id=user_id
-    )
-    admin_strings = [
-        "creator",
-        "administrator"
-    ]
+    check_status = await client.get_chat_member(chat_id=chat_id, user_id=user_id)
+    admin_strings = ["creator", "administrator"]
     return check_status.status in admin_strings
+
 
 __mod_name__ = "NLP"
 __help__ = f"""
@@ -37,6 +32,7 @@ it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatro
 *Command:*
 • `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
 """
+
 
 @kp.on_message(filters.command("nlpstat"), group=8)
 async def nlp_mode(client, message):
@@ -64,7 +60,9 @@ async def nlp_mode(client, message):
                 "Your current setting is: {}\n"
                 "When True, any messsages will go through NLP and spammers will be banned.\n"
                 "When False, they won't, leaving you at the possible mercy of spammers\n"
-                "NLP powered by @Intellivoid.".format(sql.does_chat_nlp(message.chat.id))
+                "NLP powered by @Intellivoid.".format(
+                    sql.does_chat_nlp(message.chat.id)
+                )
             )
     else:
         await message.reply_text("You aren't an admin.")
@@ -79,39 +77,48 @@ async def detect_spam(client, message):
     chat_state = sql.does_chat_nlp(chat.id)
     if SPB_MODE and CF_API_KEY and chat_state == True:
         try:
-            payload = {'access_key': CF_API_KEY, 'input': msg}
+            payload = {"access_key": CF_API_KEY, "input": msg}
             data = await session.post(url, data=payload)
             res_json = await data.json()
-            if res_json['success']:
-                spam_check = res_json['results']['spam_prediction']['is_spam']
+            if res_json["success"]:
+                spam_check = res_json["results"]["spam_prediction"]["is_spam"]
                 if spam_check == True:
-                    pred = res_json['results']['spam_prediction']['prediction']
-                    await kp.restrict_chat_member(chat.id, user.id, ChatPermissions(can_send_messages=False))
+                    pred = res_json["results"]["spam_prediction"]["prediction"]
+                    await kp.restrict_chat_member(
+                        chat.id, user.id, ChatPermissions(can_send_messages=False)
+                    )
                     try:
                         await message.reply_text(
-                        f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}` was muted.",
-                        parse_mode="md",
-                    )
+                            f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}` was muted.",
+                            parse_mode="md",
+                        )
                     except BadRequest:
                         await message.reply_text(
-                        f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}`\nUser could not be restricted due to insufficient admin perms.",
-                        parse_mode="md",
-                    )
+                            f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}`\nUser could not be restricted due to insufficient admin perms.",
+                            parse_mode="md",
+                        )
 
-            elif res_json['error']['error_code'] == 21:
+            elif res_json["error"]["error_code"] == 21:
                 reduced_msg = msg[0:170]
-                payload = {'access_key': CF_API_KEY, 'input': reduced_msg}
+                payload = {"access_key": CF_API_KEY, "input": reduced_msg}
                 data = await session.post(url, data=payload)
                 res_json = await data.json()
-                spam_check = res_json['results']['spam_prediction']['is_spam']
+                spam_check = res_json["results"]["spam_prediction"]["is_spam"]
                 if spam_check is True:
-                    pred = res_json['results']['spam_prediction']['prediction']
-                    await kp.restrict_chat_member(chat.id, user.id, ChatPermissions(can_send_messages=False))
+                    pred = res_json["results"]["spam_prediction"]["prediction"]
+                    await kp.restrict_chat_member(
+                        chat.id, user.id, ChatPermissions(can_send_messages=False)
+                    )
                     try:
                         await message.reply_text(
-                            f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}` was muted.", parse_mode="markdown")
+                            f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}` was muted.",
+                            parse_mode="markdown",
+                        )
                     except BadRequest:
-                        await message.reply_text(f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}`\nUser could not be restricted due to insufficient admin perms.", parse_mode="markdown")
+                        await message.reply_text(
+                            f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}`\nUser could not be restricted due to insufficient admin perms.",
+                            parse_mode="markdown",
+                        )
         except (aiohttp.ClientConnectionError, asyncio.TimeoutError):
             log.warning("Can't reach SpamProtection API")
             await asyncio.sleep(0.5)

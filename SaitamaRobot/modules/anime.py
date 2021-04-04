@@ -7,7 +7,13 @@ import jikanpy
 import requests
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, Message
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    Update,
+    Message,
+)
 from telegram.ext import CallbackContext, run_async
 
 info_btn = "More Information"
@@ -157,6 +163,7 @@ query ($id: Int,$search: String) {
 
 url = "https://graphql.anilist.co"
 
+
 def extract_arg(message: Message):
     split = message.text.split(" ", 1)
     if len(split) > 1:
@@ -165,6 +172,7 @@ def extract_arg(message: Message):
     if reply is not None:
         return reply.text
     return None
+
 
 def airing(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -454,7 +462,7 @@ def upcoming(update: Update, context: CallbackContext):
 
     update.effective_message.reply_text(upcoming_message)
 
-    
+
 __help__ = """
 Get information about anime, manga or characters from [AniList](anilist.co).
 
