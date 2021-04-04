@@ -85,18 +85,21 @@ Hi {}, my name is {}!
 """
 
 HELP_STRINGS = """
- Hey there! My name is *{}*.
-I am an Anime themed group management bot. Have a look at the following for an idea of some of \
-the things I can help you with.
-
+Hey there! My name is *{}*.
+I'm an Anime themed group management Bot to help admins manage their groups! Have a look at the following for an idea of some of the things I can help you with.
 *Main* commands available:
  • /help: PM's you this message.
  • /help <module name>: PM's you info about that module.
  • /donate: information on how to donate!
  • /settings:
-   • in PM: will send you your settings for all supported modules.
-   • in a group: will redirect you to pm, with all that chat's settings.
-"""
+   - in PM: will send you your settings for all supported modules.
+   - in a group: will redirect you to pm, with all that chat's settings.
+{}
+And the following:
+""".format(
+    dispatcher.bot.first_name,
+    "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
+)
 
 KAI_IMG = "https://telegra.ph/file/805d67c52c6ee73003d1e.jpg"
 
