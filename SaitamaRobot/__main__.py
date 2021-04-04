@@ -85,14 +85,17 @@ Hi {}, my name is {}!
 """
 
 HELP_STRINGS = """
- *Main* commands available[:](https://telegra.ph/file/f17b58ca75b7b3357dcf1.jpg)
+ Hey there! My name is *{}*.
+I am an Anime themed group management bot. Have a look at the following for an idea of some of \
+the things I can help you with.
 
- -> /help: PM's you this message.
- -> /help <module name>: PM's you info about that module.
- -> /donate: information on how to donate!
- -> /settings:
-   × in PM: will send you your settings for all supported modules.
-   × in a group: will redirect you to pm, with all that chat's settings.
+*Main* commands available:
+ • /help: PM's you this message.
+ • /help <module name>: PM's you info about that module.
+ • /donate: information on how to donate!
+ • /settings:
+   • in PM: will send you your settings for all supported modules.
+   • in a group: will redirect you to pm, with all that chat's settings.
 """
 
 KAI_IMG = "https://telegra.ph/file/805d67c52c6ee73003d1e.jpg"
@@ -147,18 +150,14 @@ for module_name in ALL_MODULES:
 
 # do not async
 def send_help(chat_id, text, keyboard=None):
-    '''#TODO
-
-    Params:
-        chat_id  -
-        text     -
-        keyboard -
-    '''
-
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     dispatcher.bot.send_message(
-        chat_id=chat_id, text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard
+        chat_id=chat_id,
+        text=text,
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+        reply_markup=keyboard,
     )
 
 
