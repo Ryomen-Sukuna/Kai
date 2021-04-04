@@ -85,7 +85,7 @@ Hi {}, my name is {}!
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{dispatcher.bot.first_name}*.
+Hi {}, My name is {}! 
 I'm an Anime themed group management Bot to help admins manage their groups! Have a look at the following for an idea of some of the things I can help you with.
 
 *Main* commands available:
