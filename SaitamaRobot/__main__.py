@@ -77,11 +77,11 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 Hi {}, my name is {}! 
 
-×× I am an Anime themed group management bot ××
+㉨ I am an Anime themed group management bot ㉨
 ==========================
-`Maintained By` @Anomaliii
+`Maintained By` @lnalc
 ==========================
-×× Find the list of available commands with /help ××
+㉨ Find the list of available commands with /help ㉨
 """
 
 HELP_STRINGS = """
@@ -96,9 +96,9 @@ HELP_STRINGS = """
 """
 
 
-KAI_IMG = "https://telegra.ph/file/805d67c52c6ee73003d1e.jpg"
+KAI_IMG = "https://telegra.ph/file/d6a273922503043b597f4.jpg"
 
-DONATE_STRING = """× I'm Free for Everyone ×"""
+DONATE_STRING = """㉨ I'm Free for Everyone ㉨"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -211,7 +211,7 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Add to your group",
+                                text="Add Rei to your group",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
                                 ),
@@ -220,11 +220,11 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="Support Group",
-                                url=f"https://t.me/{SUPPORT_CHAT}",
+                                url=f"https://t.me/ReiAyanami_Support",
                             ),
                             InlineKeyboardButton(
-                                text="Source code",
-                                url="https://github.com/Ryomen-Sukuna/Kai",
+                                text="Wibu Otaku Grup chat",
+                                url="https://t.me/wibu007",
                             )
                         ],
                     ]
@@ -232,7 +232,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "Yo, I'm Here!\n<b>Alive since:</b> <code>{}</code>".format(
+            "Hello, I'm Here!\n<b>Alive since:</b> <code>{}</code>".format(
                 uptime
             ),
             parse_mode=ParseMode.HTML,
@@ -358,7 +358,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Please contact me in PM to get the list of possible commands.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -483,7 +483,7 @@ def settings_button(update: Update, context: CallbackContext):
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "Hello! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
@@ -496,7 +496,7 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                text="Hi there! There are quite a few settings for {} - go ahead and pick what "
+                text="Hello! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -637,7 +637,7 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info("Kai started, Using long polling.")
+        LOGGER.info("Rei started, Using long polling.")
         updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
     if len(argv) not in (1, 3, 4):
         telethn.disconnect()
