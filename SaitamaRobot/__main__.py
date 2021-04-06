@@ -77,11 +77,11 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 Hi {}, my name is {}! 
 
-×× I am an Anime themed group management bot ××
+㉨ I am an Anime themed group management bot ㉨
 ==========================
-`Maintained By` @Anomaliii
+`Maintained By` @lnalc
 ==========================
-×× Find the list of available commands with /help ××
+㉨ Find the list of available commands with /help ㉨
 """
 
 HELP_STRINGS = """
@@ -96,9 +96,9 @@ HELP_STRINGS = """
 """
 
 
-KAI_IMG = "https://telegra.ph/file/805d67c52c6ee73003d1e.jpg"
+KAI_IMG = "https://telegra.ph/file/e915d20318e8bf8c5ec71.jpg"
 
-DONATE_STRING = """× I'm Free for Everyone ×"""
+DONATE_STRING = """㉨ I'm Free for Everyone ㉨"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -211,7 +211,7 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Add to your group",
+                                text="Add Rei to your group",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
                                 ),
@@ -220,7 +220,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="Support Group",
-                                url=f"https://t.me/{SUPPORT_CHAT}",
+                                url=f"https://t.me/ReiAyanami_Support",
                             ),
                             InlineKeyboardButton(
                                 text="Source code",
@@ -232,7 +232,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "Yo, I'm Here!\n<b>Alive since:</b> <code>{}</code>".format(
+            "Hello, I'm Here!\n<b>Alive since:</b> <code>{}</code>".format(
                 uptime
             ),
             parse_mode=ParseMode.HTML,
@@ -282,7 +282,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
+                "Hello! here is the help for the *{}* module:\n".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
@@ -342,7 +342,7 @@ def get_help(update: Update, context: CallbackContext):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+                f"Hello! Contact me in PM to get help of {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
