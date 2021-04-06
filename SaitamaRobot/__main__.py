@@ -223,8 +223,8 @@ def start(update: Update, context: CallbackContext):
                                 url=f"https://t.me/ReiAyanami_Support",
                             ),
                             InlineKeyboardButton(
-                                text="Source code",
-                                url="https://github.com/Ryomen-Sukuna/Kai",
+                                text="Group Chat",
+                                url="https://t.me/nimeklove",
                             )
                         ],
                     ]
