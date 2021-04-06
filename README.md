@@ -2,7 +2,7 @@
   <img src="https://telegra.ph/file/e915d20318e8bf8c5ec71.jpg">
 </p>
 
-# Chisaki Kai
+# Rei Ayanami
 
 <p align="center">
 - x -|│  “	Just some code who is a bot for fun. ”  │| - x -
