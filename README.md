@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.ibb.co/GWmsDMm/2383b401afbd6081955179c9add41d5a.gif">
+  <img src="https://telegra.ph/file/e915d20318e8bf8c5ec71.jpg">
 </p>
 
 # Chisaki Kai
@@ -33,10 +33,10 @@
 <img src="https://app.codacy.com/project/badge/Grade/5c121a363d734496846820ee8006c527"/></a>
 </p>
 
-Originally [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot) fork. Kai is a simple solution to your group management needs 
+Originally [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot) fork. Rei is a simple solution to your group management needs 
 , purely weeab themed. 
 
-* Bot Link:  <a href="https://t.me/chisakikairobot" alt="Chisaki Kai"> <img src="https://img.shields.io/badge/%F0%9F%A4%96%20-Chisaki Kai-blue" /> </a>
+* Bot Link:  <a href="https://t.me/ReiAyanamiRobot" alt="Rei Ayanami"> <img src="https://telegra.ph/file/e915d20318e8bf8c5ec71.jpg" /> </a>
 
 Should you be forking this repo then do not forget to star it - <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ryomen-sukuna/kai?color=white&label=%F0%9F%8C%9F%20star">
 
