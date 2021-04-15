@@ -1,40 +1,29 @@
 import logging
 import os
-import sys, json
+import sys
 import time
 import spamwatch
 
 import telegram.ext as tg
-from pyrogram import Client, errors
-from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from telethon import TelegramClient
 
 StartTime = time.time()
 
-def get_user_list(__init__, key):
-    with open("{}/tg_bot/{}".format(os.getcwd(), __init__), "r") as json_file:
-        return json.load(json_file)[key]
-        
 # enable logging
-FORMAT = "[KAI] %(message)s"
-logging.basicConfig(handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    level=logging.INFO,
+)
 
 LOGGER = logging.getLogger(__name__)
-
-
-LOGGER.info("[KAI] Kai is starting. | An Zero Union Project. | Licensed under GPLv3.")
-
-LOGGER.info("[KAI] Not affiliated to Shie Hashaikai or Villain in any way whatsoever.")
-LOGGER.info("[KAI] Project maintained by: github.com/Ryomen-Sukuna (t.me/Anomaliii)")
-
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     LOGGER.error(
-        "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting."
+        "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting.",
     )
-    sys.exit(1)
+    quit(1)
 
 ENV = bool(os.environ.get("ENV", False))
 
@@ -94,8 +83,6 @@ if ENV:
     SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
     SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
-    LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
-    CF_API_KEY = os.environ.get("CF_API_KEY", None)
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -116,6 +103,7 @@ else:
 
     JOIN_LOGGER = Config.JOIN_LOGGER
     OWNER_USERNAME = Config.OWNER_USERNAME
+    ALLOW_CHATS = Config.ALLOW_CHATS
     try:
         DRAGONS = set(int(x) for x in Config.DRAGONS or [])
         DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
@@ -162,9 +150,7 @@ else:
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
     INFOPIC = Config.INFOPIC
-    LASTFM_API_KEY = Config.LASTFM_API_KEY
-    CF_API_KEY = Config.CF_API_KEY
-    
+
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
@@ -183,41 +169,9 @@ else:
         sw = None
         LOGGER.warning("Can't connect to SpamWatch!")
 
-
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
-telethn = TelegramClient("kai", API_ID, API_HASH)
+telethn = TelegramClient("saitama", API_ID, API_HASH)
 dispatcher = updater.dispatcher
-
-kp = Client("KaiPyro", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
-apps = []
-apps.append(kp)
-
-
-async def get_entity(client, entity):
-    entity_client = client
-    if not isinstance(entity, Chat):
-        try:
-            entity = int(entity)
-        except ValueError:
-            pass
-        except TypeError:
-            entity = entity.id
-        try:
-            entity = await client.get_chat(entity)
-        except (PeerIdInvalid, ChannelInvalid):
-            for kp in apps:
-                if kp != client:
-                    try:
-                        entity = await kp.get_chat(entity)
-                    except (PeerIdInvalid, ChannelInvalid):
-                        pass
-                    else:
-                        entity_client = kp
-                        break
-            else:
-                entity = await kp.get_chat(entity)
-                entity_client = kp
-    return entity, entity_client
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)

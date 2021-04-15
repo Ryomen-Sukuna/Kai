@@ -17,9 +17,9 @@ class Config(object):
     API_ID = 123456  # integer value, dont use ""
     API_HASH = "awoo"
     TOKEN = "BOT_TOKEN"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
-    OWNER_ID = 645739169  # If you dont know, run the bot and do /id in your private chat with it, also an integer
-    OWNER_USERNAME = "Anomaliii"
-    SUPPORT_CHAT = "ZeroBotSupport"  # Your own group for support, do not add the @
+    OWNER_ID = 792109647  # If you dont know, run the bot and do /id in your private chat with it, also an integer
+    OWNER_USERNAME = "Sawada"
+    SUPPORT_CHAT = "OnePunchSupport"  # Your own group for support, do not add the @
     JOIN_LOGGER = (
         -1001253661229
     )  # Prints any new group the bot is added to, prints just the name and ID.
@@ -64,8 +64,8 @@ class Config(object):
     WALL_API = (
         "awoo"  # For wallpapers, get one from https://wall.alphacoders.com/api.php
     )
+    AI_API_KEY = "awoo"  # For chatbot, get one from https://coffeehouse.intellivoid.net/dashboard
     BL_CHATS = []  # List of groups that you want blacklisted.
-    LASTFM_API_KEY = ""
     SPAMMERS = None
 
 
