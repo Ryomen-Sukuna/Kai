@@ -129,7 +129,8 @@ if is_module_loaded(FILENAME):
                     return False
                 else:
                     return True
-                    
+
+    @run_async
     @connection_status
     @user_admin
     def disable(update: Update, context: CallbackContext):
@@ -151,7 +152,8 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I disable?")
-            
+
+    @run_async
     @connection_status
     @user_admin
     def disable_module(update: Update, context: CallbackContext):
@@ -170,7 +172,7 @@ if is_module_loaded(FILENAME):
                 command_list = module.__command_list__
             except:
                 update.effective_message.reply_text(
-                    "Module does not contain command list!"
+                    "Module does not contain command list!",
                 )
                 return
 
@@ -203,7 +205,8 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I disable?")
-            
+
+    @run_async
     @connection_status
     @user_admin
     def enable(update: Update, context: CallbackContext):
@@ -216,14 +219,15 @@ if is_module_loaded(FILENAME):
 
             if sql.enable_command(chat.id, enable_cmd):
                 update.effective_message.reply_text(
-                    f"Enabled the use of `{enable_cmd}`", parse_mode=ParseMode.MARKDOWN
+                    f"Enabled the use of `{enable_cmd}`", parse_mode=ParseMode.MARKDOWN,
                 )
             else:
                 update.effective_message.reply_text("Is that even disabled?")
 
         else:
             update.effective_message.reply_text("What should I enable?")
-            
+
+    @run_async
     @connection_status
     @user_admin
     def enable_module(update: Update, context: CallbackContext):
@@ -243,7 +247,7 @@ if is_module_loaded(FILENAME):
                 command_list = module.__command_list__
             except:
                 update.effective_message.reply_text(
-                    "Module does not contain command list!"
+                    "Module does not contain command list!",
                 )
                 return
 
@@ -275,7 +279,8 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I enable?")
-            
+
+    @run_async
     @connection_status
     @user_admin
     def list_cmds(update: Update, context: CallbackContext):
@@ -300,12 +305,13 @@ if is_module_loaded(FILENAME):
         for cmd in disabled:
             result += " - `{}`\n".format(escape_markdown(cmd))
         return "The following commands are currently restricted:\n{}".format(result)
-        
+
+    @run_async
     @connection_status
     def commands(update: Update, context: CallbackContext):
         chat = update.effective_chat
         update.effective_message.reply_text(
-            build_curr_disabled(chat.id), parse_mode=ParseMode.MARKDOWN
+            build_curr_disabled(chat.id), parse_mode=ParseMode.MARKDOWN,
         )
 
     def __stats__():
@@ -342,7 +348,7 @@ if is_module_loaded(FILENAME):
     • `/listcmds`*:* list all possible toggleable commands
     """
 
-    __mod_name__ = "Disabling"
+    __mod_name__ = "Disable Module"
 
 else:
     DisableAbleCommandHandler = CommandHandler

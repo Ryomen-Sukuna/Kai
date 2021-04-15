@@ -7,7 +7,7 @@ from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 from telethon import events
 
-from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update
+from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update, MessageEntity
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
@@ -32,7 +32,7 @@ from SaitamaRobot.modules.sql.afk_sql import is_afk, check_afk_status
 from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot import telethn as KaiTelethonClient, TIGERS, DRAGONS, DEMONS
+from SaitamaRobot import telethn as SaitamaTelethonClient
 
 
 def no_by_per(totalhp, percentage):
@@ -117,6 +117,7 @@ def make_bar(per):
     return "■" * done + "□" * (10 - done)
 
 
+@run_async
 def get_id(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -150,31 +151,31 @@ def get_id(update: Update, context: CallbackContext):
 
         if chat.type == "private":
             msg.reply_text(
-                f"Your id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
+                f"Your id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
             )
 
         else:
             msg.reply_text(
-                f"This group's id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
+                f"This group's id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
             )
 
 
-@KaiTelethonClient.on(
+@SaitamaTelethonClient.on(
     events.NewMessage(
-        pattern="/ginfo ", from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])
-    )
+        pattern="/ginfo ", from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or []),
+    ),
 )
 async def group_info(event) -> None:
     chat = event.text.split(" ", 1)[1]
     try:
         entity = await event.client.get_entity(chat)
         totallist = await event.client.get_participants(
-            entity, filter=ChannelParticipantsAdmins
+            entity, filter=ChannelParticipantsAdmins,
         )
         ch_full = await event.client(GetFullChannelRequest(channel=entity))
     except:
         await event.reply(
-            "Can't for some reason, maybe it is a private one or that I am banned there."
+            "Can't for some reason, maybe it is a private one or that I am banned there.",
         )
         return
     msg = f"**ID**: `{entity.id}`"
@@ -197,6 +198,7 @@ async def group_info(event) -> None:
     await event.reply(msg)
 
 
+@run_async
 def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
@@ -208,6 +210,7 @@ def gifid(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Please reply to a gif to get its ID.")
 
 
+@run_async
 def info(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -304,14 +307,14 @@ def info(update: Update, context: CallbackContext):
 
     if disaster_level_present:
         text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
-            bot.username
+            bot.username,
         )
 
     try:
         user_member = chat.get_member(user.id)
         if user_member.status == "administrator":
             result = requests.post(
-                f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}"
+                f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}",
             )
             result = result.json()["result"]
             if "custom_title" in result.keys():
@@ -345,17 +348,18 @@ def info(update: Update, context: CallbackContext):
         # Incase user don't have profile pic, send normal text
         except IndexError:
             message.reply_text(
-                text, parse_mode=ParseMode.HTML, disable_web_page_preview=True
+                text, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
             )
 
     else:
         message.reply_text(
-            text, parse_mode=ParseMode.HTML, disable_web_page_preview=True
+            text, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
         )
 
     rep.delete()
 
 
+@run_async
 def about_me(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -377,12 +381,13 @@ def about_me(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't set an info message about themselves yet!"
+            f"{username} hasn't set an info message about themselves yet!",
         )
     else:
         update.effective_message.reply_text("There isnt one, use /setme to set one.")
 
 
+@run_async
 def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
@@ -409,11 +414,12 @@ def set_about_me(update: Update, context: CallbackContext):
         else:
             message.reply_text(
                 "The info needs to be under {} characters! You have {}.".format(
-                    MAX_MESSAGE_LENGTH // 4, len(info[1])
-                )
+                    MAX_MESSAGE_LENGTH // 4, len(info[1]),
+                ),
             )
 
 
+@run_async
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
     stats = "<b>📊 Current stats:</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
@@ -421,6 +427,7 @@ def stats(update: Update, context: CallbackContext):
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
 
+@run_async
 def about_bio(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -442,14 +449,15 @@ def about_bio(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't had a message set about themselves yet!\nSet one using /setbio"
+            f"{username} hasn't had a message set about themselves yet!\nSet one using /setbio",
         )
     else:
         update.effective_message.reply_text(
-            "You haven't had a bio set about yourself yet!"
+            "You haven't had a bio set about yourself yet!",
         )
 
 
+@run_async
 def set_about_bio(update: Update, context: CallbackContext):
     message = update.effective_message
     sender_id = update.effective_user.id
@@ -461,7 +469,7 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == message.from_user.id:
             message.reply_text(
-                "Ha, you can't set your own bio! You're at the mercy of others here..."
+                "Ha, you can't set your own bio! You're at the mercy of others here...",
             )
             return
 
@@ -471,26 +479,26 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == bot.id and sender_id not in DEV_USERS:
             message.reply_text(
-                "Erm... yeah, I only trust Heroes Association to set my bio."
+                "Erm... yeah, I only trust Heroes Association to set my bio.",
             )
             return
 
         text = message.text
         bio = text.split(
-            None, 1
+            None, 1,
         )  # use python's maxsplit to only remove the cmd, hence keeping newlines.
 
         if len(bio) == 2:
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
                 message.reply_text(
-                    "Updated {}'s bio!".format(repl_message.from_user.first_name)
+                    "Updated {}'s bio!".format(repl_message.from_user.first_name),
                 )
             else:
                 message.reply_text(
                     "Bio needs to be under {} characters! You tried to set {}.".format(
-                        MAX_MESSAGE_LENGTH // 4, len(bio[1])
-                    )
+                        MAX_MESSAGE_LENGTH // 4, len(bio[1]),
+                    ),
                 )
     else:
         message.reply_text("Reply to someone to set their bio!")
@@ -513,23 +521,23 @@ __help__ = """
  • `/id`*:* get the current group id. If used by replying to a message, gets that user's id.
  • `/gifid`*:* reply to a gif to me to tell you its file ID.
 
-*Self addded information:* 
+*Self addded information:*
  • `/setme <text>`*:* will set your info
  • `/me`*:* will get your or another user's info.
 Examples:
  `/setme I am a wolf.`
  `/me @username(defaults to yours if no user specified)`
 
-*Information others add on you:* 
+*Information others add on you:*
  • `/bio`*:* will get your or another user's bio. This cannot be set by yourself.
-• `/setbio <text>`*:* while replying, will save another user's bio 
+• `/setbio <text>`*:* while replying, will save another user's bio
 Examples:
  `/bio @username(defaults to yours if not specified).`
  `/setbio This user is a wolf` (reply to the user)
 
 *Overall Information about you:*
- • `/info`*:* get information about a user. 
- 
+ • `/info`*:* get information about a user.
+
 *What is that health thingy?*
  Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
 """
@@ -554,7 +562,7 @@ dispatcher.add_handler(GET_BIO_HANDLER)
 dispatcher.add_handler(SET_ABOUT_HANDLER)
 dispatcher.add_handler(GET_ABOUT_HANDLER)
 
-__mod_name__ = "Bios/Abouts"
+__mod_name__ = "Info"
 __command_list__ = ["setbio", "bio", "setme", "me", "info"]
 __handlers__ = [
     ID_HANDLER,

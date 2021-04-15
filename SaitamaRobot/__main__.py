@@ -154,6 +154,7 @@ def send_help(chat_id, text, keyboard=None):
         chat_id=chat_id,
         text=text,
         parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
         reply_markup=keyboard,
     )
 
@@ -233,7 +234,7 @@ def start(update: Update, context: CallbackContext):
     else:
         update.effective_message.reply_text(
             "Yo, I'm Here!\n<b>Alive since:</b> <code>{}</code>".format(
-                uptime
+                uptime,
             ),
             parse_mode=ParseMode.HTML,
         )
@@ -292,7 +293,7 @@ def help_button(update, context):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=False,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
+                    [[InlineKeyboardButton(text="Back", callback_data="help_back")]],
                 ),
             )
 

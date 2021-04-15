@@ -32,6 +32,7 @@ from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.log_channel import gloggable, loggable
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -68,15 +69,15 @@ def ban(update: Update, context: CallbackContext) -> str:
             message.reply_text("I can't act against our own.")
         elif user_id in DRAGONS:
             message.reply_text(
-                "Fighting this Dragon here will put civilian lives at risk."
+                "Fighting this Dragon here will put civilian lives at risk.",
             )
         elif user_id in DEMONS:
             message.reply_text(
-                "Bring an order from Heroes association to fight a Demon disaster."
+                "Bring an order from Heroes association to fight a Demon disaster.",
             )
         elif user_id in TIGERS:
             message.reply_text(
-                "Bring an order from Heroes association to fight a Tiger disaster."
+                "Bring an order from Heroes association to fight a Tiger disaster.",
             )
         elif user_id in WOLVES:
             message.reply_text("Wolf abilities make them ban immune!")
@@ -138,6 +139,7 @@ def ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -209,7 +211,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
         if excp.message == "Reply message not found":
             # Do not reply
             message.reply_text(
-                f"Banned! User will be banned for {time_val}.", quote=False
+                f"Banned! User will be banned for {time_val}.", quote=False,
             )
             return log
         else:
@@ -226,6 +228,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -285,6 +288,7 @@ def punch(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @bot_admin
 @can_restrict
 def punchme(update: Update, context: CallbackContext):
@@ -300,6 +304,7 @@ def punchme(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Huh? I can't :/")
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -348,6 +353,7 @@ def unban(update: Update, context: CallbackContext) -> str:
     return log
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_restrict

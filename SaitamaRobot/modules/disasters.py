@@ -52,6 +52,7 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
 ### Deep link example ends
 
 
+@run_async
 @dev_plus
 @gloggable
 def addsudo(update: Update, context: CallbackContext) -> str:
@@ -94,8 +95,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     update.effective_message.reply_text(
         rt
         + "\nSuccessfully set Disaster level of {} to Dragon!".format(
-            user_member.first_name
-        )
+            user_member.first_name,
+        ),
     )
 
     log_message = (
@@ -110,6 +111,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @sudo_plus
 @gloggable
 def addsupport(
@@ -153,7 +155,7 @@ def addsupport(
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\n{user_member.first_name} was added as a Demon Disaster!"
+        rt + f"\n{user_member.first_name} was added as a Demon Disaster!",
     )
 
     log_message = (
@@ -168,6 +170,7 @@ def addsupport(
     return log_message
 
 
+@run_async
 @sudo_plus
 @gloggable
 def addwhitelist(update: Update, context: CallbackContext) -> str:
@@ -208,7 +211,7 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!"
+        rt + f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!",
     )
 
     log_message = (
@@ -223,6 +226,7 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @sudo_plus
 @gloggable
 def addtiger(update: Update, context: CallbackContext) -> str:
@@ -268,7 +272,7 @@ def addtiger(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!"
+        rt + f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!",
     )
 
     log_message = (
@@ -283,6 +287,7 @@ def addtiger(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @dev_plus
 @gloggable
 def removesudo(update: Update, context: CallbackContext) -> str:
@@ -325,6 +330,7 @@ def removesudo(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @sudo_plus
 @gloggable
 def removesupport(update: Update, context: CallbackContext) -> str:
@@ -367,6 +373,7 @@ def removesupport(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @sudo_plus
 @gloggable
 def removewhitelist(update: Update, context: CallbackContext) -> str:
@@ -408,6 +415,7 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @sudo_plus
 @gloggable
 def removetiger(update: Update, context: CallbackContext) -> str:
@@ -449,11 +457,12 @@ def removetiger(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @whitelist_plus
 def whitelistlist(update: Update, context: CallbackContext):
     reply = "<b>Known Wolf Disasters 🐺:</b>\n"
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     bot = context.bot
     for each_user in WOLVES:
@@ -467,11 +476,12 @@ def whitelistlist(update: Update, context: CallbackContext):
     m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
+@run_async
 @whitelist_plus
 def tigerlist(update: Update, context: CallbackContext):
     reply = "<b>Known Tiger Disasters 🐯:</b>\n"
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     bot = context.bot
     for each_user in TIGERS:
@@ -484,11 +494,12 @@ def tigerlist(update: Update, context: CallbackContext):
     m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
+@run_async
 @whitelist_plus
 def supportlist(update: Update, context: CallbackContext):
     bot = context.bot
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     reply = "<b>Known Demon Disasters 👹:</b>\n"
     for each_user in DEMONS:
@@ -501,11 +512,12 @@ def supportlist(update: Update, context: CallbackContext):
     m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
+@run_async
 @whitelist_plus
 def sudolist(update: Update, context: CallbackContext):
     bot = context.bot
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     true_sudo = list(set(DRAGONS) - set(DEV_USERS))
     reply = "<b>Known Dragon Disasters 🐉:</b>\n"
@@ -519,11 +531,12 @@ def sudolist(update: Update, context: CallbackContext):
     m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
+@run_async
 @whitelist_plus
 def devlist(update: Update, context: CallbackContext):
     bot = context.bot
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
     reply = "<b>Hero Association Members ⚡️:</b>\n"
@@ -536,6 +549,98 @@ def devlist(update: Update, context: CallbackContext):
             pass
     m.edit_text(reply, parse_mode=ParseMode.HTML)
 
+
+__help__ = f"""
+*⚠️ Notice:*
+Commands listed here only work for users with special access and are mainly used for troubleshooting, debugging purposes.
+Group admins/group owners do not need these commands.
+
+ ╔ *List all special users:*
+ ╠ `/dragons`*:* Lists all Dragon disasters
+ ╠ `/demons`*:* Lists all Demon disasters
+ ╠ `/tigers`*:* Lists all Tigers disasters
+ ╠ `/wolves`*:* Lists all Wolf disasters
+ ╠ `/heroes`*:* Lists all Hero Association members
+ ╠ `/adddragon`*:* Adds a user to Dragon
+ ╠ `/adddemon`*:* Adds a user to Demon
+ ╠ `/addtiger`*:* Adds a user to Tiger
+ ╠ `/addwolf`*:* Adds a user to Wolf
+ ╚ `Add dev doesnt exist, devs should know how to add themselves`
+
+ ╔ *Ping:*
+ ╠ `/ping`*:* gets ping time of bot to telegram server
+ ╚ `/pingall`*:* gets all listed ping times
+
+ ╔ *Broadcast: (Bot owner only)*
+ ╠  *Note:* This supports basic markdown
+ ╠ `/broadcastall`*:* Broadcasts everywhere
+ ╠ `/broadcastusers`*:* Broadcasts too all users
+ ╚ `/broadcastgroups`*:* Broadcasts too all groups
+
+ ╔ *Groups Info:*
+ ╠ `/groups`*:* List the groups with Name, ID, members count as a txt
+ ╠ `/leave <ID>`*:* Leave the group, ID must have hyphen
+ ╠ `/stats`*:* Shows overall bot stats
+ ╠ `/getchats`*:* Gets a list of group names the user has been seen in. Bot owner only
+ ╚ `/ginfo username/link/ID`*:* Pulls info panel for entire group
+
+ ╔ *Access control:*
+ ╠ `/ignore`*:* Blacklists a user from
+ ╠  using the bot entirely
+ ╠ `/lockdown <off/on>`*:* Toggles bot adding to groups
+ ╠ `/notice`*:* Removes user from blacklist
+ ╚ `/ignoredlist`*:* Lists ignored users
+
+ ╔ *Module loading:*
+ ╠ `/listmodules`*:* Prints modules and their names
+ ╠ `/unload <name>`*:* Unloads module dynamically
+ ╚ `/load <name>`*:* Loads module
+
+ ╔ *Speedtest:*
+ ╚ `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output
+
+ ╔ *Global Bans:*
+ ╠ `/gban user reason`*:* Globally bans a user
+ ╚ `/ungban user reason`*:* Unbans the user from the global bans list
+
+ ╔ *Module loading:*
+ ╠ `/listmodules`*:* Lists names of all modules
+ ╠ `/load modulename`*:* Loads the said module to
+ ╠   memory without restarting.
+ ╠ `/unload modulename`*:* Loads the said module from
+ ╚   memory without restarting.memory without restarting the bot
+
+ ╔ *Remote commands:*
+ ╠ `/rban user group`*:* Remote ban
+ ╠ `/runban user group`*:* Remote un-ban
+ ╠ `/rpunch user group`*:* Remote punch
+ ╠ `/rmute user group`*:* Remote mute
+ ╚ `/runmute user group`*:* Remote un-mute
+
+ ╔ *Windows self hosted only:*
+ ╠ `/reboot`*:* Restarts the bots service
+ ╚ `/gitpull`*:* Pulls the repo and then restarts the bots service
+
+ ╔ *Chatbot:*
+ ╚ `/listaichats`*:* Lists the chats the chatmode is enabled in
+
+ ╔ *Debugging and Shell:*
+ ╠ `/debug <on/off>`*:* Logs commands to updates.txt
+ ╠ `/logs`*:* Run this in support group to get logs in pm
+ ╠ `/eval`*:* Self explanatory
+ ╠ `/sh`*:* Runs shell command
+ ╠ `/shell`*:* Runs shell command
+ ╠ `/clearlocals`*:* As the name goes
+ ╠ `/dbcleanup`*:* Removes deleted accs and groups from db
+ ╚ `/py`*:* Runs python code
+
+ ╔ *Global Bans:*
+ ╠ `/gban <id> <reason>`*:* Gbans the user, works by reply too
+ ╠ `/ungban`*:* Ungbans the user, same usage as gban
+ ╚ `/gbanlist`*:* Outputs a list of gbanned users
+
+Visit @{SUPPORT_CHAT} for more information.
+"""
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
 SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport)

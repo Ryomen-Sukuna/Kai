@@ -16,7 +16,10 @@ GIF_ID = "CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr
 
 @run_async
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
+    temp = random.choice(fun_strings.RUN_STRINGS)
+    if update.effective_user.id == 1170714920:
+        temp = "Run everyone, they just dropped a bomb 💣💣"
+    update.effective_message.reply_text(temp)
 
 
 @run_async
@@ -192,7 +195,7 @@ def bluetext(update: Update, context: CallbackContext):
         msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     )
     reply_text(
-        "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS"
+        "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS",
     )
 
 
@@ -324,16 +327,6 @@ def weebify(update: Update, context: CallbackContext):
         message.reply_text(string)
 
 
-@run_async
-def animequotes(update: Update, context: CallbackContext):
-    message = update.effective_message
-    name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
-    reply_photo = message.reply_to_message.reply_photo if message.reply_to_message else message.reply_photo
-    reply_photo(
-        random.choice(animequotes_strings.QUOTES_IMG))
-
-
-
 __help__ = """
  • `/runs`*:* reply a random string from an array of replies
  • `/slap`*:* slap a user, or get slapped if not a reply
@@ -348,8 +341,7 @@ __help__ = """
  • `/weebify <text>`*:* returns a weebified text
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
- • `/8ball`*:* predicts using 8ball method 
- • `/animequotes`*:* gives random anime quotes
+ • `/8ball`*:* predicts using 8ball method
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
@@ -366,8 +358,6 @@ EIGHTBALL_HANDLER = DisableAbleCommandHandler("8ball", eightball)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
 WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
-ANIMEQUOTES_HANDLER = DisableAbleCommandHandler("animequotes", animequotes)
-
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)
@@ -383,7 +373,6 @@ dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(EIGHTBALL_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
-dispatcher.add_handler(ANIMEQUOTES_HANDLER)
 
 __mod_name__ = "Fun"
 __command_list__ = [
@@ -401,7 +390,6 @@ __command_list__ = [
     "shout",
     "weebify",
     "8ball",
-    "animequotes",
 ]
 __handlers__ = [
     RUNS_HANDLER,
@@ -418,5 +406,4 @@ __handlers__ = [
     SHOUT_HANDLER,
     WEEBIFY_HANDLER,
     EIGHTBALL_HANDLER,
-    ANIMEQUOTES_HANDLER,
 ]

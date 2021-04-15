@@ -25,6 +25,7 @@ BLACKLISTWHITELIST = [OWNER_ID] + DEV_USERS + DRAGONS + WOLVES + DEMONS
 BLABLEUSERS = [OWNER_ID] + DEV_USERS
 
 
+@run_async
 @dev_plus
 @gloggable
 def bl_user(update: Update, context: CallbackContext) -> str:
@@ -67,6 +68,7 @@ def bl_user(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @dev_plus
 @gloggable
 def unbl_user(update: Update, context: CallbackContext) -> str:
@@ -109,6 +111,7 @@ def unbl_user(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @dev_plus
 def bl_users(update: Update, context: CallbackContext):
     users = []
@@ -119,7 +122,7 @@ def bl_users(update: Update, context: CallbackContext):
 
         if reason:
             users.append(
-                f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}"
+                f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}",
             )
         else:
             users.append(f"• {mention_html(user.id, html.escape(user.first_name))}")

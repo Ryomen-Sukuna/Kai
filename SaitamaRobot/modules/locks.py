@@ -95,7 +95,7 @@ REST_GROUP = 2
 
 # NOT ASYNC
 def restr_members(
-    bot, chat_id, members, messages=False, media=False, other=False, previews=False
+    bot, chat_id, members, messages=False, media=False, other=False, previews=False,
 ):
     for mem in members:
         if mem.user in DRAGONS:
@@ -115,7 +115,7 @@ def restr_members(
 
 # NOT ASYNC
 def unrestr_members(
-    bot, chat_id, members, messages=True, media=True, other=True, previews=True
+    bot, chat_id, members, messages=True, media=True, other=True, previews=True,
 ):
     for mem in members:
         try:
@@ -131,15 +131,17 @@ def unrestr_members(
             pass
 
 
+@run_async
 def locktypes(update, context):
     update.effective_message.reply_text(
         "\n • ".join(
             ["Locks available: "]
-            + sorted(list(LOCK_TYPES) + list(LOCK_CHAT_RESTRICTION))
-        )
+            + sorted(list(LOCK_TYPES) + list(LOCK_CHAT_RESTRICTION)),
+        ),
     )
 
 
+@run_async
 @user_admin
 @loggable
 @typing_action
@@ -195,7 +197,7 @@ def lock(update, context) -> str:
                     chat_id = conn
                     chat_name = chat.title
                     text = "Locked {} for all non-admins in {}!".format(
-                        ltype, chat_name
+                        ltype, chat_name,
                     )
                 else:
                     if update.effective_message.chat.type == "private":
@@ -247,6 +249,7 @@ def lock(update, context) -> str:
     return ""
 
 
+@run_async
 @user_admin
 @loggable
 @typing_action
@@ -352,6 +355,7 @@ def unlock(update, context) -> str:
     return ""
 
 
+@run_async
 @user_not_admin
 def del_lockables(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -491,6 +495,7 @@ def build_lock_message(chat_id):
     return res
 
 
+@run_async
 @user_admin
 @typing_action
 def list_locks(update, context):
@@ -563,12 +568,12 @@ The locks module allows you to lock away some common items in the \
 telegram world; the bot will automatically delete them!
 
  • `/locktypes`*:* Lists all possible locktypes
- 
+
 *Admins only:*
  • `/lock <type>`*:* Lock items of a certain type (not available in private)
  • `/unlock <type>`*:* Unlock items of a certain type (not available in private)
  • `/locks`*:* The current list of locks in this chat.
- 
+
 Locks can be used to restrict a group's users.
 eg:
 Locking urls will auto-delete all messages with urls, locking stickers will restrict all \
@@ -585,7 +590,7 @@ __mod_name__ = "Locks"
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
 LOCK_HANDLER = CommandHandler("lock", lock, pass_args=True)  # , filters=Filters.group)
 UNLOCK_HANDLER = CommandHandler(
-    "unlock", unlock, pass_args=True
+    "unlock", unlock, pass_args=True,
 )  # , filters=Filters.group)
 LOCKED_HANDLER = CommandHandler("locks", list_locks)  # , filters=Filters.group)
 
@@ -595,5 +600,5 @@ dispatcher.add_handler(LOCKTYPES_HANDLER)
 dispatcher.add_handler(LOCKED_HANDLER)
 
 dispatcher.add_handler(
-    MessageHandler(Filters.all & Filters.group, del_lockables), PERM_GROUP
+    MessageHandler(Filters.all & Filters.group, del_lockables), PERM_GROUP,
 )

@@ -1,9 +1,9 @@
 name: Format Python code
-on: 
-  push: 
-    branches: [dev]
+on:
+  push:
+    branches: [shiken]
   pull_request:
-    branches: [dev]
+    branches: [shiken]
 jobs:
   Autoyapf:
     runs-on: ubuntu-latest
@@ -19,5 +19,5 @@ jobs:
           title: Automated code formatting.
           body: This is an automated code formatting pull request.
           labels: Code Formatting
-          reviewers: Accipiter7 
+          reviewers: Accipiter7
           branch: autofix

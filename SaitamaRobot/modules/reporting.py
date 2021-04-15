@@ -1,9 +1,9 @@
 import html
 
-from SaitamaRobot  import LOGGER, DRAGONS, TIGERS, WOLVES, dispatcher
-from SaitamaRobot .modules.helper_funcs.chat_status import user_admin, user_not_admin
-from SaitamaRobot .modules.log_channel import loggable
-from SaitamaRobot .modules.sql import reporting_sql as sql
+from SaitamaRobot import LOGGER, DRAGONS, TIGERS, WOLVES, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
+from SaitamaRobot.modules.log_channel import loggable
+from SaitamaRobot.modules.sql import reporting_sql as sql
 from telegram import Chat, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (
@@ -20,6 +20,7 @@ REPORT_GROUP = 12
 REPORT_IMMUNE_USERS = DRAGONS + TIGERS + WOLVES
 
 
+@run_async
 @user_admin
 def report_setting(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -31,7 +32,7 @@ def report_setting(update: Update, context: CallbackContext):
             if args[0] in ("yes", "on"):
                 sql.set_user_setting(chat.id, True)
                 msg.reply_text(
-                    "Turned on reporting! You'll be notified whenever anyone reports something."
+                    "Turned on reporting! You'll be notified whenever anyone reports something.",
                 )
 
             elif args[0] in ("no", "off"):
@@ -49,13 +50,13 @@ def report_setting(update: Update, context: CallbackContext):
                 sql.set_chat_setting(chat.id, True)
                 msg.reply_text(
                     "Turned on reporting! Admins who have turned on reports will be notified when /report "
-                    "or @admin is called."
+                    "or @admin is called.",
                 )
 
             elif args[0] in ("no", "off"):
                 sql.set_chat_setting(chat.id, False)
                 msg.reply_text(
-                    "Turned off reporting! No admins will be notified on /report or @admin."
+                    "Turned off reporting! No admins will be notified on /report or @admin.",
                 )
         else:
             msg.reply_text(
@@ -64,6 +65,7 @@ def report_setting(update: Update, context: CallbackContext):
             )
 
 
+@run_async
 @user_not_admin
 @loggable
 def report(update: Update, context: CallbackContext) -> str:
@@ -111,7 +113,7 @@ def report(update: Update, context: CallbackContext) -> str:
                     InlineKeyboardButton(
                         "➡ Message",
                         url=f"https://t.me/{chat.username}/{message.reply_to_message.message_id}",
-                    )
+                    ),
                 ],
                 [
                     InlineKeyboardButton(
@@ -127,7 +129,7 @@ def report(update: Update, context: CallbackContext) -> str:
                     InlineKeyboardButton(
                         "❎ Delete Message",
                         callback_data=f"report_{chat.id}=delete={reported_user.id}={message.reply_to_message.message_id}",
-                    )
+                    ),
                 ],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -149,7 +151,7 @@ def report(update: Update, context: CallbackContext) -> str:
                 try:
                     if not chat.type == Chat.SUPERGROUP:
                         bot.send_message(
-                            admin.user.id, msg + link, parse_mode=ParseMode.HTML
+                            admin.user.id, msg + link, parse_mode=ParseMode.HTML,
                         )
 
                         if should_forward:
@@ -161,7 +163,7 @@ def report(update: Update, context: CallbackContext) -> str:
                                 message.forward(admin.user.id)
                     if not chat.username:
                         bot.send_message(
-                            admin.user.id, msg + link, parse_mode=ParseMode.HTML
+                            admin.user.id, msg + link, parse_mode=ParseMode.HTML,
                         )
 
                         if should_forward:

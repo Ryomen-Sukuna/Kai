@@ -71,7 +71,7 @@ def getsticker(update: Update, context: CallbackContext):
         os.remove("sticker.png")
     else:
         update.effective_message.reply_text(
-            "Please reply to a sticker for me to upload its PNG."
+            "Please reply to a sticker for me to upload its PNG.",
         )
 
 
@@ -425,10 +425,10 @@ def makepack_internal(
                     [
                         [
                             InlineKeyboardButton(
-                                text="Start", url=f"t.me/{context.bot.username}"
-                            )
-                        ]
-                    ]
+                                text="Start", url=f"t.me/{context.bot.username}",
+                            ),
+                        ],
+                    ],
                 ),
             )
         elif e.message == "Internal Server Error: created sticker set not found (500)":
@@ -448,6 +448,15 @@ def makepack_internal(
     else:
         msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
 
+
+__help__ = """
+• `/stickerid`*:* reply to a sticker to me to tell you its file ID.
+• `/getsticker`*:* reply to a sticker to me to upload its raw PNG file.
+• `/kang`*:* reply to a sticker to add it to your pack.
+• `/stickers`*:* Find stickers for given term on combot sticker catalogue
+"""
+
+__mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
 KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True)

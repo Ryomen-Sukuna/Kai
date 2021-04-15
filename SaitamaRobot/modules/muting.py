@@ -46,6 +46,7 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     return None
 
 
+@run_async
 @connection_status
 @bot_admin
 @user_admin
@@ -93,6 +94,7 @@ def mute(update: Update, context: CallbackContext) -> str:
     return ""
 
 
+@run_async
 @connection_status
 @bot_admin
 @user_admin
@@ -106,7 +108,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "You'll need to either give me a username to unmute, or reply to someone to be unmuted."
+            "You'll need to either give me a username to unmute, or reply to someone to be unmuted.",
         )
         return ""
 
@@ -149,12 +151,13 @@ def unmute(update: Update, context: CallbackContext) -> str:
     else:
         message.reply_text(
             "This user isn't even in the chat, unmuting them won't make them talk more than they "
-            "already do!"
+            "already do!",
         )
 
     return ""
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -206,7 +209,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
         if member.can_send_messages is None or member.can_send_messages:
             chat_permissions = ChatPermissions(can_send_messages=False)
             bot.restrict_chat_member(
-                chat.id, user_id, chat_permissions, until_date=mutetime
+                chat.id, user_id, chat_permissions, until_date=mutetime,
             )
             bot.sendMessage(
                 chat.id,

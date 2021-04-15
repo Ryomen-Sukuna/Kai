@@ -18,6 +18,7 @@ AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
+@run_async
 def afk(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
     user = update.effective_user
@@ -41,11 +42,13 @@ def afk(update: Update, context: CallbackContext):
     fname = update.effective_user.first_name
     try:
         update.effective_message.reply_text(
-            "{} is now away!{}".format(fname, notice))
+            "{} is now away!{}".format(fname, notice),
+        )
     except BadRequest:
         pass
 
 
+@run_async
 def no_longer_afk(update: Update, context: CallbackContext):
     user = update.effective_user
     message = update.effective_message
@@ -71,21 +74,23 @@ def no_longer_afk(update: Update, context: CallbackContext):
             ]
             chosen_option = random.choice(options)
             update.effective_message.reply_text(
-                chosen_option.format(firstname))
+                chosen_option.format(firstname),
+            )
         except:
             return
 
 
+@run_async
 def reply_afk(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
     userc = update.effective_user
     userc_id = userc.id
     if message.entities and message.parse_entities(
-        [MessageEntity.TEXT_MENTION, MessageEntity.MENTION]
+        [MessageEntity.TEXT_MENTION, MessageEntity.MENTION],
     ):
         entities = message.parse_entities(
-            [MessageEntity.TEXT_MENTION, MessageEntity.MENTION]
+            [MessageEntity.TEXT_MENTION, MessageEntity.MENTION],
         )
 
         chk_users = []
@@ -102,7 +107,8 @@ def reply_afk(update: Update, context: CallbackContext):
                 return
 
             user_id = get_user_id(
-                message.text[ent.offset: ent.offset + ent.length])
+                message.text[ent.offset: ent.offset + ent.length],
+            )
             if not user_id:
                 # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
                 return
@@ -136,16 +142,16 @@ def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: 
         time = humanize.naturaldelta(datetime.now() - user.time)
 
         if not user.reason:
-            res = "{} is afk.\nLast seen {} ago.".format(
+            res = "{} is afk.\n\nLast seen {} ago.".format(
                 fst_name,
-                time
+                time,
             )
             update.effective_message.reply_text(res)
         else:
-            res = "{} is AFK.\nReason: <code>{}</code>\nLast seen <code>{}</code> ago.".format(
+            res = "{} is afk.\nReason: <code>{}</code>\n\nLast seen {} ago.".format(
                 html.escape(fst_name),
                 html.escape(user.reason),
-                time
+                time,
             )
             update.effective_message.reply_text(res, parse_mode="html")
 
@@ -158,7 +164,7 @@ When marked as AFK, any mentions will be replied to with a message to say you're
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
 AFK_REGEX_HANDLER = DisableAbleMessageHandler(
-    Filters.regex(r"^(?i)brb(.*)$"), afk, friendly="afk"
+    Filters.regex(r"^(?i)brb(.*)$"), afk, friendly="afk",
 )
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
