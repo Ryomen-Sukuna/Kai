@@ -3,6 +3,7 @@ import time
 import re
 from sys import argv
 from typing import Optional
+from pyrogram import idle, Client
 
 from SaitamaRobot import (
     ALLOW_EXCL,
@@ -18,7 +19,9 @@ from SaitamaRobot import (
     dispatcher,
     StartTime,
     telethn,
-    updater)
+    updater,
+    kp
+)
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
@@ -641,7 +644,7 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info("Kai Using long polling.")
+        LOGGER.info("Kai started, Using long polling.")
         updater.start_polling(timeout=15, read_latency=4, clean=True)
 
     if len(argv) not in (1, 3, 4):
@@ -653,6 +656,8 @@ def main():
 
 
 if __name__ == "__main__":
+    kp.start()
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     main()
+    idle()
