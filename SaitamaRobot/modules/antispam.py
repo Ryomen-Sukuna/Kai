@@ -213,7 +213,7 @@ def gban(update: Update, context: CallbackContext):
         else:
             log_message += f"\n<b>Reason:</b> <code>{reason}</code>"
 
-    if GBAN_LOGS:
+    if EVENT_LOGS:
         try:
             log = bot.send_message(GBAN_LOGS, log_message, parse_mode=ParseMode.HTML)
         except BadRequest as excp:
@@ -264,7 +264,7 @@ def gban(update: Update, context: CallbackContext):
         except TelegramError:
             pass
 
-    if GBAN_LOGS:
+    if EVENT_LOGS:
         log.edit_text(
             log_message + f"\n<b>Chats affected:</b> <code>{gbanned_chats}</code>",
             parse_mode=ParseMode.HTML,
@@ -344,12 +344,12 @@ def ungban(update: Update, context: CallbackContext):
         f"<b>Event Stamp:</b> <code>{current_time}</code>"
     )
 
-    if GBAN_LOGS:
+    if EVENT_LOGS:
         try:
-            log = bot.send_message(GBAN_LOGS, log_message, parse_mode=ParseMode.HTML)
+            log = bot.send_message(EVENT_LOGS, log_message, parse_mode=ParseMode.HTML)
         except BadRequest as excp:
             log = bot.send_message(
-                GBAN_LOGS,
+                EVENT_LOGS,
                 log_message
                 + "\n\nFormatting has been disabled due to an unexpected error.",
             )
@@ -377,9 +377,9 @@ def ungban(update: Update, context: CallbackContext):
                 pass
             else:
                 message.reply_text(f"Could not un-gban due to: {excp.message}")
-                if GBAN_LOGS:
+                if EVENT_LOGS:
                     bot.send_message(
-                        GBAN_LOGS,
+                        EVENT_LOGS,
                         f"Could not un-gban due to: {excp.message}",
                         parse_mode=ParseMode.HTML,
                     )
@@ -393,7 +393,7 @@ def ungban(update: Update, context: CallbackContext):
 
     sql.ungban_user(user_id)
 
-    if GBAN_LOGS:
+    if EVENT_LOGS:
         log.edit_text(
             log_message + f"\n<b>Chats affected:</b> {ungbanned_chats}",
             parse_mode=ParseMode.HTML,
