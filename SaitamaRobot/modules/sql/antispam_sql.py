@@ -1,7 +1,8 @@
 import threading
 
+from sqlalchemy import Column, UnicodeText, Integer, String, Boolean
+
 from SaitamaRobot.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 
 
 class GloballyBannedUsers(BASE):
