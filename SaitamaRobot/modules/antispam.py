@@ -215,7 +215,7 @@ def gban(update: Update, context: CallbackContext):
 
     if EVENT_LOGS:
         try:
-            log = bot.send_message(GBAN_LOGS, log_message, parse_mode=ParseMode.HTML)
+            log = bot.send_message(EVENT_LOGS, log_message, parse_mode=ParseMode.HTML)
         except BadRequest as excp:
             log = bot.send_message(
                 GBAN_LOGS,
@@ -247,9 +247,9 @@ def gban(update: Update, context: CallbackContext):
                 pass
             else:
                 message.reply_text(f"Could not gban due to: {excp.message}")
-                if GBAN_LOGS:
+                if EVENT_LOGS:
                     bot.send_message(
-                        GBAN_LOGS,
+                        EVENT_LOGS,
                         f"Could not gban due to {excp.message}",
                         parse_mode=ParseMode.HTML,
                     )
