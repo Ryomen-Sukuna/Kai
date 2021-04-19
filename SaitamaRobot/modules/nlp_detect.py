@@ -1,10 +1,10 @@
 from pyrogram import filters
-from SaitamaRobot import kp, CF_API_KEY, EVENT_LOGS
+from SaitamaRobot import kp, CF_API_KEY, log
 from pyrogram.handlers import MessageHandler
 from pyrogram.types import ChatPermissions, Message
 from pyrogram.errors import BadRequest
 import aiohttp, json, asyncio
-from SaitamaRobot.modules.global_bans import SPB_MODE
+from SaitamaRobot.modules.antispam import SPB_MODE
 import SaitamaRobot.modules.sql.nlp_detect_sql as sql
 
 from pyrogram.types import Message
@@ -86,8 +86,8 @@ async def detect_spam(client, message):
                 spam_check = res_json['results']['spam_prediction']['is_spam']
                 if spam_check == True:
                     pred = res_json['results']['spam_prediction']['prediction']
-                    await kp.restrict_chat_member(chat.id, user.id, ChatPermissions(can_send_messages=False))
                     try:
+                        await kp.restrict_chat_member(chat.id, user.id, ChatPermissions(can_send_messages=False))
                         await message.reply_text(
                         f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}` was muted.",
                         parse_mode="md",
@@ -106,8 +106,8 @@ async def detect_spam(client, message):
                 spam_check = res_json['results']['spam_prediction']['is_spam']
                 if spam_check is True:
                     pred = res_json['results']['spam_prediction']['prediction']
-                    await kp.restrict_chat_member(chat.id, user.id, ChatPermissions(can_send_messages=False))
                     try:
+                        await kp.restrict_chat_member(chat.id, user.id, ChatPermissions(can_send_messages=False))
                         await message.reply_text(
                             f"**⚠ SPAM DETECTED!**\nSpam Prediction: `{pred}`\nUser: `{user.id}` was muted.", parse_mode="markdown")
                     except BadRequest:
