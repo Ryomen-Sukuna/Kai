@@ -13,11 +13,9 @@ from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
-def get_user_list(key):
-    # Import here to evade a circular import
-    from tg_bot.modules.sql import nation_sql
-    royals = nation_sql.get_royals(key)
-    return [a.user_id for a in royals]
+def get_user_list(__init__, key):
+    with open("{}/tg_bot/{}".format(os.getcwd(), __init__), "r") as json_file:
+        return json.load(json_file)[key]
 
         
 # enable logging
