@@ -6,6 +6,7 @@ from SaitamaRobot.modules.sql import BASE, SESSION
 
 
 
+
 class NLPSettings(BASE):
     __tablename__ = "chat_nlp_settings"
     chat_id = Column(String(14), primary_key=True)
