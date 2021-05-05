@@ -180,7 +180,7 @@ if spamwatch_api is None:
     log.warning("SpamWatch API key is missing! Recheck your config")
 else:
     try:
-        sw = spamwatch.Client(spamwatch_api)
+        sw = spamwatch.Client(SPAMWATCH_API)
     except:
         sw = None
         log.warning("Can't connect to SpamWatch!")
