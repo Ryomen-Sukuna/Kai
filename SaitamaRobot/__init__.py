@@ -174,16 +174,15 @@ else:
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
-# SpamWatch
-if spamwatch_api is None:
+if not SPAMWATCH_API:
     sw = None
-    log.warning("SpamWatch API key is missing! Recheck your config")
+    LOGGER.warning("SpamWatch API key missing! recheck your config.")
 else:
     try:
         sw = spamwatch.Client(SPAMWATCH_API)
     except:
         sw = None
-        log.warning("Can't connect to SpamWatch!")
+        LOGGER.warning("Can't connect to SpamWatch!")
 
 
 from SaitamaRobot.modules.sql import SESSION
