@@ -1,19 +1,24 @@
 import logging
 import os
-import sys
+import sys, json
 import time
 import spamwatch
-
 import telegram.ext as tg
+from telethon import TelegramClient
+from telethon.sessions import MemorySession
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
-from telethon import TelegramClient
+from pyrogram.types import Chat, User
+from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
-def get_user_list(__init__, key):
-    with open("{}/tg_bot/{}".format(os.getcwd(), __init__), "r") as json_file:
-        return json.load(json_file)[key]
+def get_user_list(key):
+    # Import here to evade a circular import
+    from tg_bot.modules.sql import nation_sql
+    royals = nation_sql.get_royals(key)
+    return [a.user_id for a in royals]
+
         
 # enable logging
 FORMAT = "[KAI] %(message)s"
@@ -171,21 +176,25 @@ else:
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
-if not SPAMWATCH_API:
+# SpamWatch
+if spamwatch_api is None:
     sw = None
-    LOGGER.warning("SpamWatch API key missing! recheck your config.")
+    log.warning("SpamWatch API key is missing! Recheck your config")
 else:
     try:
-        sw = spamwatch.Client(SPAMWATCH_API)
+        sw = spamwatch.Client(spamwatch_api)
     except:
         sw = None
-        LOGGER.warning("Can't connect to SpamWatch!")
+        log.warning("Can't connect to SpamWatch!")
 
-updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
-telethn = TelegramClient("kai", API_ID, API_HASH)
+
+from SaitamaRobot.modules.sql import SESSION
+
+updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10}, persistence=PostgresPersistence(SESSION))
+telethn = TelegramClient(MemorySession(), APP_ID, API_HASH)
 dispatcher = updater.dispatcher
 
-kp = Client("KaiPyro", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
+kp = Client(":memory:", api_id=APP_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
 apps = []
 apps.append(kp)
 
@@ -216,20 +225,17 @@ async def get_entity(client, entity):
                 entity_client = kp
     return entity, entity_client
 
-DRAGONS = list(DRAGONS) + list(DEV_USERS)
-DEV_USERS = list(DEV_USERS)
-WOLVES = list(WOLVES)
-DEMONS = list(DEMONS)
-TIGERS = list(TIGERS)
-
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import (
-    CustomCommandHandler,
-    CustomMessageHandler,
-    CustomRegexHandler,
-)
+from tg_bot.modules.helper_funcs.handlers import CustomCommandHandler
 
-# make sure the regex handler can take extra kwargs
-tg.RegexHandler = CustomRegexHandler
-tg.CommandHandler = CustomCommandHandler
-tg.MessageHandler = CustomMessageHandler
+if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
+    tg.CommandHandler = CustomCommandHandler
+
+
+def spamfilters(text, user_id, chat_id):
+    # print("{} | {} | {}".format(text, user_id, chat_id))
+    if int(user_id) in SPAMMERS:
+        print("This user is a spammer!")
+        return True
+    else:
+        return False
