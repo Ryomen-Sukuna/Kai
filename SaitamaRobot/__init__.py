@@ -97,6 +97,7 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
+    ALLOW_EXCL = os.environ.get("ALLOW_EXCL", None)
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -165,6 +166,7 @@ else:
     INFOPIC = Config.INFOPIC
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     CF_API_KEY = Config.CF_API_KEY
+    ALLOW_EXCL = Config.ALLOW_EXCL
 
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
