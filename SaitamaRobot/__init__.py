@@ -95,7 +95,6 @@ if ENV:
     SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
     SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
-    CUSTOM_CMD = os.environ.get("/", "!")
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
 
@@ -163,7 +162,6 @@ else:
     SUPPORT_CHAT = Config.SUPPORT_CHAT
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
-    CUSTOM_CMD = Config.CUSTOM_CMD
     INFOPIC = Config.INFOPIC
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     CF_API_KEY = Config.CF_API_KEY
