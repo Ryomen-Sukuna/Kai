@@ -590,7 +590,7 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGEE.info(f"Kai started, Using long polling. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(f"Kai started, Using long polling. | BOT: [@{dispatcher.bot.username}]")
         updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
     if len(argv) not in (1, 3, 4):
         telethn.disconnect()
