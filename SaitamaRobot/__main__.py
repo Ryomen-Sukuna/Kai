@@ -27,7 +27,7 @@ from SaitamaRobot import (
     CERT_PATH,
     PORT,
     URL,
-    logging,
+    LOGGING,
     ALLOW_EXCL,
     telethn,
     kp,
