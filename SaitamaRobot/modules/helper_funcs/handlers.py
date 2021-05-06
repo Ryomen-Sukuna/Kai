@@ -10,7 +10,7 @@ from pyrate_limiter import (
 )
 
 try:
-    from tg_bot import CUSTOM_CMD
+    from SaitamaRobot import CUSTOM_CMD
 except:
     CUSTOM_CMD = False
 
