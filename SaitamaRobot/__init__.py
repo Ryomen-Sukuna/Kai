@@ -188,10 +188,10 @@ else:
 from SaitamaRobot.modules.sql import SESSION
 
 updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10}, persistence=PostgresPersistence(SESSION))
-telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+telethn = TelegramClient(MemorySession(), APP_ID, API_HASH)
 dispatcher = updater.dispatcher
 
-kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
+kp = Client(":memory:", api_id=APP_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
 apps = []
 apps.append(kp)
 
@@ -222,20 +222,17 @@ async def get_entity(client, entity):
                 entity_client = kp
     return entity, entity_client
 
-DRAGONS = list(DRAGONS) + list(DEV_USERS)
-DEV_USERS = list(DEV_USERS)
-WOLVES = list(WOLVES)
-DEMONS = list(DEMONS)
-TIGERS = list(TIGERS)
-
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import (
-    CustomCommandHandler,
-    CustomMessageHandler,
-    CustomRegexHandler,
-)
+from SaitamaRobot.modules.helper_funcs.handlers import CustomCommandHandler
 
-# make sure the regex handler can take extra kwargs
-tg.RegexHandler = CustomRegexHandler
-tg.CommandHandler = CustomCommandHandler
-tg.MessageHandler = CustomMessageHandler
+if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
+    tg.CommandHandler = CustomCommandHandler
+
+
+def spamfilters(text, user_id, chat_id):
+    # print("{} | {} | {}".format(text, user_id, chat_id))
+    if int(user_id) in SPAMMERS:
+        print("This user is a spammer!")
+        return True
+    else:
+        return False
