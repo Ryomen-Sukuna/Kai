@@ -9,16 +9,10 @@ from pyrate_limiter import (
     MemoryListBucket,
 )
 
-try:
-    from SaitamaRobot import CUSTOM_CMD
-except:
-    CUSTOM_CMD = False
-
-if CUSTOM_CMD:
-    CMD_STARTERS = CUSTOM_CMD
-else:
+if ALLOW_EXCL:
     CMD_STARTERS = ("/", "!")
-
+else:
+    CMD_STARTERS = ("/",)
 
 class AntiSpam:
     def __init__(self):
