@@ -1,5 +1,5 @@
 from pyrogram import filters
-from SaitamaRobot import kp, CF_API_KEY, logging
+from SaitamaRobot import kp, CF_API_KEY, logging, dispatcher
 from pyrogram.handlers import MessageHandler
 from pyrogram.types import ChatPermissions, Message
 from pyrogram.errors import BadRequest
@@ -37,6 +37,7 @@ it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatro
 *Command:*
 • `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
 """
+
 
 @kp.on_message(filters.command("nlpstat"), group=8)
 async def nlp_mode(client, message):
@@ -76,6 +77,9 @@ async def detect_spam(client, message):
     user = message.from_user
     chat = message.chat
     msg = message.text
+    if user.id == dispatcher.bot.id:
+        return
+    
     chat_state = sql.does_chat_nlp(chat.id)
     if SPB_MODE and CF_API_KEY and chat_state == True:
         try:
