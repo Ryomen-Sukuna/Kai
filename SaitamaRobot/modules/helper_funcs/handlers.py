@@ -1,6 +1,6 @@
 import telegram.ext as tg
 from telegram import Update
-from tg_bot import DEV_USERS, DRAGONS, DEMONS, TIGERS, WOLVES
+from SaitamaRobot import DEV_USERS, DRAGONS, DEMONS, TIGERS, WOLVES
 from pyrate_limiter import (
     BucketFullException,
     Duration,
