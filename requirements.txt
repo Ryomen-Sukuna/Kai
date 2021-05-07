@@ -35,6 +35,7 @@ wikipedia
 zalgo-text
 Intellivoid-SPB
 pytz
+wget
 hachoir
 pybase64
 pretty_errors
