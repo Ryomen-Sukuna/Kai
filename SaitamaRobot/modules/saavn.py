@@ -1,11 +1,10 @@
 # Thanks to @infinity_bots - Williambutcherbot
 import os
-
 import requests
 import wget
 from pyrogram import filters
 
-from SaitamaRobot import pbot as Kai
+from SaitamaRobot import kp as Kai
 from SaitamaRobot.pyrogramee.dark import get_arg
 
 
