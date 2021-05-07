@@ -97,7 +97,6 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
-    ALLOW_EXCL = bool(os.environ.get("ALLOW_EXCL", False))
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -166,7 +165,6 @@ else:
     INFOPIC = Config.INFOPIC
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     CF_API_KEY = Config.CF_API_KEY
-    ALLOW_EXCL = Config.ALLOW_EXCL
 
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
@@ -178,7 +176,7 @@ DEV_USERS.add(OWNER_ID)
 
 if not SPAMWATCH_API:
     sw = None
-    LOGGER.warning("SpamWatch API key missing! recheck your config.")
+    LOGGER.warning("SpamWatch API key missing! recheck your config")
 else:
     try:
         sw = spamwatch.Client(SPAMWATCH_API)
@@ -224,17 +222,20 @@ async def get_entity(client, entity):
                 entity_client = kp
     return entity, entity_client
 
+DRAGONS = list(DRAGONS) + list(DEV_USERS)
+DEV_USERS = list(DEV_USERS)
+WOLVES = list(WOLVES)
+DEMONS = list(DEMONS)
+TIGERS = list(TIGERS)
+
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import CustomCommandHandler
+from SaitamaRobot.modules.helper_funcs.handlers import (
+    CustomCommandHandler,
+    CustomMessageHandler,
+    CustomRegexHandler,
+)
 
-if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
-    tg.CommandHandler = CustomCommandHandler
-
-
-def spamfilters(text, user_id, chat_id):
-    # print("{} | {} | {}".format(text, user_id, chat_id))
-    if int(user_id) in SPAMMERS:
-        print("This user is a spammer!")
-        return True
-    else:
-        return False
+# make sure the regex handler can take extra kwargs
+tg.RegexHandler = CustomRegexHandler
+tg.CommandHandler = CustomCommandHandler
+tg.MessageHandler = CustomMessageHandler
