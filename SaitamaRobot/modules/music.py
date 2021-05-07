@@ -74,5 +74,9 @@ def song(client, message):
     except Exception as e:
         print(e)
 
-
+__help__ = """
+*You can either enter just the song name or both the artist and song name. *
+• /song <song name>: Uploads the song in it's best quality available.
+• /saavn <song name>: To Download Music From Saavn.
+"""
 __mod_name__ = "music"
