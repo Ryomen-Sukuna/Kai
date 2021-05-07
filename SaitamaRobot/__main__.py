@@ -571,7 +571,7 @@ def main():
         settings_button, pattern=r"stngs_", run_async=True
     )
 
-    donate_handler = DisableAbleCommandHandler("donate", donate, run_async=True)
+    donate_handler = CommandHandler("donate", donate)
     migrate_handler = MessageHandler(
         Filters.status_update.migrate, migrate_chats, run_async=True
     )
