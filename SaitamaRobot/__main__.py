@@ -7,7 +7,7 @@ from sys import argv
 from typing import Optional
 from pyrogram import idle, Client
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, LOGGER, OWNER_ID, PORT, SUPPORT_CHAT, 
-                          TOKEN, URL, WEBHOOK, SUPPORT_CHAT, dispatcher, StartTime, telethn, updater)
+                          TOKEN, URL, WEBHOOK, SUPPORT_CHAT, dispatcher, StartTime, telethn, updater, kp)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
