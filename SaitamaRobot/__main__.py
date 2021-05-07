@@ -1,46 +1,26 @@
 import importlib
-import re
 import time
 import json
 import traceback
-from typing import Optional, List
+import re
 from sys import argv
-import requests
+from typing import Optional
 from pyrogram import idle, Client
-from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.error import (TelegramError, Unauthorized, BadRequest,
-                            TimedOut, ChatMigrated, NetworkError)
-from telegram.ext import (
-    CallbackContext,
-    CommandHandler,
-    MessageHandler,
-    CallbackQueryHandler,
-    Filters
-)
-from telegram.ext.dispatcher import DispatcherHandlerStop
-from telegram.utils.helpers import escape_markdown
-from SaitamaRobot import (
-    ALLOW_EXCL,
-    CERT_PATH,
-    LOGGER,
-    OWNER_ID,
-    PORT,
-    TOKEN,
-    URL,
-    WEBHOOK,
-    StartTime,
-    dispatcher,
-    telethn,
-    updater,
-    kp,
-)
-
+from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, LOGGER, OWNER_ID, PORT, SUPPORT_CHAT, 
+                          TOKEN, URL, WEBHOOK, SUPPORT_CHAT, dispatcher, StartTime, telethn, updater)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.misc import paginate_modules
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
+                      Update)
+from telegram.error import (BadRequest, ChatMigrated, NetworkError,
+                            TelegramError, TimedOut, Unauthorized)
+from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
+                          Filters, MessageHandler)
+from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
+from telegram.utils.helpers import escape_markdown
 
 
 def get_readable_time(seconds: int) -> str:
@@ -219,7 +199,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="Support Group",
-                                url=f"https://t.me/zerounions",
+                                url=f"https://t.me/{SUPPORT_CHAT}",
                             ),
                             InlineKeyboardButton(
                                 text="Source code",
