@@ -58,7 +58,9 @@ def _calc_emoji_offset(to_calc) -> int:
 
 
 def markdown_parser(
-    txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0,
+    txt: str,
+    entities: Dict[MessageEntity, str] = None,
+    offset: int = 0,
 ) -> str:
     """
     Parse a string, escaping all invalid markdown entities.
@@ -116,7 +118,8 @@ def markdown_parser(
             # handle markdown/html links
             elif ent.type == "text_link":
                 res += _selective_escape(txt[prev:start]) + "[{}]({})".format(
-                    ent_text, ent.url,
+                    ent_text,
+                    ent.url,
                 )
 
             end += 1
@@ -132,7 +135,9 @@ def markdown_parser(
 
 
 def button_markdown_parser(
-    txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0,
+    txt: str,
+    entities: Dict[MessageEntity, str] = None,
+    offset: int = 0,
 ) -> (str, List):
     markdown_note = markdown_parser(txt, entities, offset)
     prev = 0
@@ -285,5 +290,7 @@ def markdown_to_html(text):
     text = text.replace("~", "~~")
     _html = markdown2.markdown(text, extras=["strike", "underline"])
     return bleach.clean(
-        _html, tags=["strong", "em", "a", "code", "pre", "strike", "u"], strip=True,
+        _html,
+        tags=["strong", "em", "a", "code", "pre", "strike", "u"],
+        strip=True,
     )[:-1]
