@@ -79,4 +79,4 @@ __help__ = """
 • /song <song name>: Uploads the song in it's best quality available.
 • /saavn <song name>: To Download Music From Saavn.
 """
-__mod_name__ = "music"
+__mod_name__ = "Music"
