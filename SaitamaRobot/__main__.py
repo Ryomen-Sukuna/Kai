@@ -6,19 +6,38 @@ import re
 from sys import argv
 from typing import Optional
 from pyrogram import idle, Client
-from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, LOGGER, OWNER_ID, PORT, SUPPORT_CHAT, 
-                          TOKEN, URL, WEBHOOK, SUPPORT_CHAT, dispatcher, StartTime, telethn, updater, kp)
+from SaitamaRobot import (
+    ALLOW_EXCL, 
+    CERT_PATH, 
+    LOGGER, 
+    OWNER_ID, 
+    PORT, 
+    SUPPORT_CHAT, 
+    TOKEN,
+    URL, 
+    WEBHOOK, 
+    SUPPORT_CHAT, 
+    dispatcher, 
+    StartTime, 
+    telethn, 
+    updater, 
+    kp,
+)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.misc import paginate_modules
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
-                      Update)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import (BadRequest, ChatMigrated, NetworkError,
                             TelegramError, TimedOut, Unauthorized)
-from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
-                          Filters, MessageHandler)
+from telegram.ext import (
+    CallbackContext, 
+    CallbackQueryHandler, 
+    CommandHandler,
+    Filters, 
+    MessageHandler
+)
 from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
 
