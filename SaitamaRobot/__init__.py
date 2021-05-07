@@ -97,9 +97,9 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
-    ALLOW_EXCL = bool(os.environ.get("ALLOW_EXCL", None)
+    ALLOW_EXCL = bool(os.environ.get("ALLOW_EXCL", False))
 
-    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", False))
+    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
     try:
         BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
