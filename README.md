@@ -42,7 +42,8 @@ Should you be forking this repo then do not forget to star it - <img alt="GitHub
 
 
 ## Credits 📍
-+ [TsunayoshiSawada](https://github.com/SawadaTsunayoshi) for base this bot
++ [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot) for base this bot
++ [TsunayoshiSawada](https://github.com/SawadaTsunayoshi) for make awesome bot like saitama
 + [Dank-Del](https://github.com/Dank-del) for SPB & NLP module & others
 + [Userbotindo](https://github.com/userbotindo) for misc
 + Well, it's all in the commit history 
