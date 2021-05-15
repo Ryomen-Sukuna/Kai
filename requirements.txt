@@ -33,7 +33,6 @@ telethon==1.16.4
 ujson
 wikipedia
 zalgo-text
-Intellivoid-SPB
 pytz
 ujson
 wget
