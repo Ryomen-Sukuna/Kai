@@ -9,187 +9,138 @@ from telethon.sessions import MemorySession
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
+from configparser import ConfigParser
+from rich.logging import RichHandler
 from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
-def get_user_list(__init__, key):
-    with open("{}/tg_bot/{}".format(os.getcwd(), __init__), "r") as json_file:
-        return json.load(json_file)[key]
+def get_user_list(key):
+    # Import here to evade a circular import
+    from SaitamaRobot.modules.sql import disaster_sql
+    royals = nation_sql.get_dragons(key)
+    return [a.user_id for a in dragons]
 
-        
 # enable logging
-FORMAT = "[KAI] %(message)s"
-logging.basicConfig(handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
+FORMAT = "[VILLAIN] %(message)s"
+logging.basicConfig(handlers=[RichHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+log = logging.getLogger("rich")
 
-LOGGER = logging.getLogger(__name__)
+log.info("[KAI] Kai is starting. | An Zero Unions Project. | Licensed under GPLv3.")
 
-
-LOGGER.info("[KAI] Kai is starting. | An Zero Union Project. | Licensed under GPLv3.")
-
-LOGGER.info("[KAI] Not affiliated to Shie Hashaikai or Villain in any way whatsoever.")
-LOGGER.info("[KAI] Project maintained by: github.com/Ryomen-Sukuna (t.me/Anomaliii)")
+log.info("[KAI] Not affiliated to Shie Hashaikai or Villain in any way whatsoever.")
+log.info("[KAI] Project maintained by: github.com/Anomaliii (t.me/Anomaliii)")
 
 # if version < 3.6, stop bot.
-if sys.version_info[0] < 3 or sys.version_info[1] < 6:
-    LOGGER.error(
-        "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting.",
+if sys.version_info[0] < 3 or sys.version_info[1] < 7:
+    log.error(
+        "[KAI] You MUST have a python version of at least 3.7! Multiple features depend on this. Bot quitting."
     )
-    sys_exit(1)
+    quit(1)
 
-ENV = bool(os.environ.get("ENV", False))
+parser = ConfigParser()
+parser.read("config.ini")
+kaiconfig = parser["kaiconfig"]
 
-if ENV:
-    TOKEN = os.environ.get("TOKEN", None)
+class KaiINIT:
+    def __init__(self, parser):
+        self.parser = parser
+        self.SYS_ADMIN = self.parser.getint('SYS_ADMIN', 0)
+        self.OWNER_ID = self.parser.getint('OWNER_ID')
+        self.OWNER_USERNAME = self.parser.get('OWNER_USERNAME', None)
+        self.APP_ID = self.parser.getint("APP_ID")
+        self.API_HASH = self.parser.get("API_HASH")
+        self.WEBHOOK = self.parser.getboolean('WEBHOOK', False)
+        self.URL = self.parser.get('URL', None)
+        self.CERT_PATH = self.parser.get('CERT_PATH', None)
+        self.PORT = self.parser.getint('PORT', None)
+        self.INFOPIC = self.parser.getboolean('INFOPIC', False)
+        self.DEL_CMDS = self.parser.getboolean("DEL_CMDS", False)
+        self.STRICT_GBAN = self.parser.getboolean("STRICT_GBAN", False)
+        self.ALLOW_EXCL = self.parser.getboolean("ALLOW_EXCL", False)
+        self.CUSTOM_CMD = ['/', '!']
+        self.BAN_STICKER = self.parser.get("BAN_STICKER", None)
+        self.TOKEN = self.parser.get("TOKEN")
+        self.DB_URI = self.parser.get("SQLALCHEMY_DATABASE_URI")
+        self.LOAD = self.parser.get("LOAD").split()
+        self.LOAD = list(map(str, self.LOAD))
+        self.MESSAGE_DUMP = self.parser.getint('MESSAGE_DUMP', None)
+        self.GBAN_LOGS = self.parser.getint('GBAN_LOGS', None)
+        self.NO_LOAD = self.parser.get("NO_LOAD").split()
+        self.NO_LOAD = list(map(str, self.NO_LOAD))
+        self.spamwatch_api = self.parser.get('spamwatch_api', None)
+        self.CASH_API_KEY = self.parser.get('CASH_API_KEY', None)
+        self.TIME_API_KEY = self.parser.get('TIME_API_KEY', None)
+        self.WALL_API = self.parser.get('WALL_API', None)
+        self.LASTFM_API_KEY = self.parser.get('LASTFM_API_KEY', None)
+        self.CF_API_KEY =  self.parser.get("CF_API_KEY", None)
+        self.bot_id = 0 #placeholder
+        self.bot_name = "Kai" #placeholder
+        self.bot_username = "KaiRobot" #placeholder
 
-    try:
-        OWNER_ID = int(os.environ.get("OWNER_ID", None))
-    except ValueError:
-        raise Exception("Your OWNER_ID env variable is not a valid integer.")
 
-    JOIN_LOGGER = os.environ.get("JOIN_LOGGER", None)
-    OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
+    def init_sw(self):
+        if self.spamwatch_api is None:
+            log.warning("SpamWatch API key is missing! Check your config.ini")
+            return None
+        else:
+            try:
+                sw = spamwatch.Client(spamwatch_api)
+                return sw
+            except:
+                sw = None
+                log.warning("Can't connect to SpamWatch!")
+                return sw
 
-    try:
-        DRAGONS = set(int(x) for x in os.environ.get("DRAGONS", "").split())
-        DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
-    except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
 
-    try:
-        DEMONS = set(int(x) for x in os.environ.get("DEMONS", "").split())
-    except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
+KInit = KaiINIT(parser=kaiconfig)
 
-    try:
-        WOLVES = set(int(x) for x in os.environ.get("WOLVES", "").split())
-    except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
+SYS_ADMIN = KInit.SYS_ADMIN
+OWNER_ID = KInit.OWNER_ID
+OWNER_USERNAME = KInit.OWNER_USERNAME
+APP_ID = KInit.APP_ID
+API_HASH = KInit.API_HASH
+WEBHOOK = KInit.WEBHOOK
+URL = KInit.URL
+CERT_PATH = KInit.CERT_PATH
+PORT = KInit.PORT
+INFOPIC = KInit.INFOPIC
+DEL_CMDS = KInit.DEL_CMDS
+ALLOW_EXCL = KInit.ALLOW_EXCL
+CUSTOM_CMD = KInit.CUSTOM_CMD
+BAN_STICKER = KInit.BAN_STICKER
+TOKEN = KInit.TOKEN
+DB_URI = KInit.DB_URI
+LOAD = KInit.LOAD
+MESSAGE_DUMP = KInit.MESSAGE_DUMP
+GBAN_LOGS = KInit.GBAN_LOGS
+NO_LOAD = KInit.NO_LOAD
+SUDO_USERS = [OWNER_ID] + get_user_list("sudos")
+DEV_USERS = [OWNER_ID] + get_user_list("devs")
+SUPPORT_USERS = get_user_list("supports")
+SARDEGNA_USERS = get_user_list("sardegnas")
+WHITELIST_USERS = get_user_list("whitelists")
+SPAMMERS = get_user_list("spammers")
+spamwatch_api = KInit.spamwatch_api
+CASH_API_KEY = KInit.CASH_API_KEY
+TIME_API_KEY = KInit.TIME_API_KEY
+WALL_API = KInit.WALL_API
+LASTFM_API_KEY = KInit.LASTFM_API_KEY
+CF_API_KEY = KInit.CF_API_KEY
 
-    try:
-        TIGERS = set(int(x) for x in os.environ.get("TIGERS", "").split())
-    except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
+SPB_MODE = kigconfig.getboolean('SPB_MODE', False)
 
-    INFOPIC = bool(os.environ.get("INFOPIC", False))
-    EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
-    WEBHOOK = bool(os.environ.get("WEBHOOK", False))
-    URL = os.environ.get("URL", "")  # Does not contain token
-    PORT = int(os.environ.get("PORT", 5000))
-    CERT_PATH = os.environ.get("CERT_PATH")
-    API_ID = os.environ.get("API_ID", None)
-    API_HASH = os.environ.get("API_HASH", None)
-    DB_URI = os.environ.get("DATABASE_URL")
-    DONATION_LINK = os.environ.get("DONATION_LINK")
-    LOAD = os.environ.get("LOAD", "").split()
-    NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
-    DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
-    STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
-    WORKERS = int(os.environ.get("WORKERS", 8))
-    BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
-    ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)
-    CASH_API_KEY = os.environ.get("CASH_API_KEY", None)
-    TIME_API_KEY = os.environ.get("TIME_API_KEY", None)
-    WALL_API = os.environ.get("WALL_API", None)
-    SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
-    SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
-    SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
-    LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
-
-    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
-
-    try:
-        BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
-    except ValueError:
-        raise Exception("Your blacklisted chats list does not contain valid integers.")
-
-else:
-    from SaitamaRobot.config import Development as Config
-
-    TOKEN = Config.TOKEN
-
-    try:
-        OWNER_ID = int(Config.OWNER_ID)
-    except ValueError:
-        raise Exception("Your OWNER_ID variable is not a valid integer.")
-
-    JOIN_LOGGER = Config.JOIN_LOGGER
-    OWNER_USERNAME = Config.OWNER_USERNAME
-    ALLOW_CHATS = Config.ALLOW_CHATS
-    try:
-        DRAGONS = set(int(x) for x in Config.DRAGONS or [])
-        DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
-    except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
-
-    try:
-        DEMONS = set(int(x) for x in Config.DEMONS or [])
-    except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
-
-    try:
-        WOLVES = set(int(x) for x in Config.WOLVES or [])
-    except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
-
-    try:
-        TIGERS = set(int(x) for x in Config.TIGERS or [])
-    except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
-
-    EVENT_LOGS = Config.EVENT_LOGS
-    WEBHOOK = Config.WEBHOOK
-    URL = Config.URL
-    PORT = Config.PORT
-    CERT_PATH = Config.CERT_PATH
-    API_ID = Config.API_ID
-    API_HASH = Config.API_HASH
-
-    DB_URI = Config.SQLALCHEMY_DATABASE_URI
-    DONATION_LINK = Config.DONATION_LINK
-    LOAD = Config.LOAD
-    NO_LOAD = Config.NO_LOAD
-    DEL_CMDS = Config.DEL_CMDS
-    STRICT_GBAN = Config.STRICT_GBAN
-    WORKERS = Config.WORKERS
-    BAN_STICKER = Config.BAN_STICKER
-    ALLOW_EXCL = Config.ALLOW_EXCL
-    CASH_API_KEY = Config.CASH_API_KEY
-    TIME_API_KEY = Config.TIME_API_KEY
-    WALL_API = Config.WALL_API
-    SUPPORT_CHAT = Config.SUPPORT_CHAT
-    SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
-    SPAMWATCH_API = Config.SPAMWATCH_API
-    INFOPIC = Config.INFOPIC
-    LASTFM_API_KEY = Config.LASTFM_API_KEY
-
-    try:
-        BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
-    except ValueError:
-        raise Exception("Your blacklisted chats list does not contain valid integers.")
-
-DRAGONS.add(OWNER_ID)
-DEV_USERS.add(OWNER_ID)
-
-if not SPAMWATCH_API:
-    sw = None
-    LOGGER.warning("SpamWatch API key missing! recheck your config")
-else:
-    try:
-        sw = spamwatch.Client(SPAMWATCH_API)
-    except:
-        sw = None
-        LOGGER.warning("Can't connect to SpamWatch!")
-
+# SpamWatch
+sw = KInit.init_sw()
 
 from SaitamaRobot.modules.sql import SESSION
 
 updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10}, persistence=PostgresPersistence(SESSION))
-telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+telethn = TelegramClient(MemorySession(), APP_ID, API_HASH)
 dispatcher = updater.dispatcher
 
-kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
+kp = Client(":memory:", api_id=APP_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
 apps = []
 apps.append(kp)
 
@@ -220,20 +171,17 @@ async def get_entity(client, entity):
                 entity_client = kp
     return entity, entity_client
 
-DRAGONS = list(DRAGONS) + list(DEV_USERS)
-DEV_USERS = list(DEV_USERS)
-WOLVES = list(WOLVES)
-DEMONS = list(DEMONS)
-TIGERS = list(TIGERS)
-
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import (
-    CustomCommandHandler,
-    CustomMessageHandler,
-    CustomRegexHandler,
-)
+from tg_bot.modules.helper_funcs.handlers import CustomCommandHandler
 
-# make sure the regex handler can take extra kwargs
-tg.RegexHandler = CustomRegexHandler
-tg.CommandHandler = CustomCommandHandler
-tg.MessageHandler = CustomMessageHandler
+if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
+    tg.CommandHandler = CustomCommandHandler
+
+
+def spamfilters(text, user_id, chat_id):
+    # print("{} | {} | {}".format(text, user_id, chat_id))
+    if int(user_id) in SPAMMERS:
+        print("This user is a spammer!")
+        return True
+    else:
+        return False
