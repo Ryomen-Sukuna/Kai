@@ -43,3 +43,4 @@ humanize
 git+https://github.com/python-telegram-bot/ptbcontrib.git
 youtube-dl
 youtube_search
+multicolorcaptcha
