@@ -47,5 +47,5 @@ Should you be forking this repo then do not forget to star it - <img alt="GitHub
 + [Dank-Del](https://github.com/Dank-del) for SPB & NLP module & others
 + [Userbotindo](https://github.com/userbotindo) for misc
 + [HeLLxGodLike](https://github.com/HeLLxGodLike) for fix stickers search
-Well, it's all in the commit history 
++ Well, it's all in the commit history 
 Feel free to open pull requests should any be missing.
