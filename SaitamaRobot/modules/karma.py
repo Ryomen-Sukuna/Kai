@@ -5,6 +5,7 @@ import asyncio
 from pyrogram import filters
 
 from SaitamaRobot import kp
+from SaitamaRobot.pyroutils.permissions import adminsOnly
 from SaitamaRobot.pyroutils.errors import capture_err
 from SaitamaRobot.utils.dbfunctions import (alpha_to_int, get_karma, get_karmas,
                                    int_to_alpha, is_karma_on, karma_off,
@@ -14,6 +15,7 @@ from SaitamaRobot.utils.filter_groups import karma_negative_group, karma_positiv
 __MODULE__ = "Karma"
 __HELP__ = """[UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
 [DOWNVOTE] - Use downvote keywords like "-", "-1", etc to downvote a message.
+/karma_toggle [ENABLE|DISABLE] - Enable or Disable Karma System In Your Chat.
 Reply to a message with /karma to check a user's karma
 Send /karma without replying to any message to chek karma list of top 10 users"""
 
@@ -153,3 +155,21 @@ async def karma(_, message):
         else:
             karma = 0
             await message.reply_text(f"**Total Points**: __{karma}__")
+
+@kp.on_message(filters.command("karma_toggle") & ~filters.private)
+@adminsOnly("can_change_info")
+async def captcha_state(_, message):
+    usage = "**Usage:**\n/karma_toggle [ENABLE|DISABLE]"
+    if len(message.command) != 2:
+        return await message.reply_text(usage)
+    chat_id = message.chat.id
+    state = message.text.split(None, 1)[1].strip()
+    state = state.lower()
+    if state == "enable":
+        await karma_on(chat_id)
+        await message.reply_text("Enabled karma system.")
+    elif state == "disable":
+        await karma_off(chat_id)
+        await message.reply_text("Disabled karma system.")
+    else:
+        await message.reply_text(usage)
