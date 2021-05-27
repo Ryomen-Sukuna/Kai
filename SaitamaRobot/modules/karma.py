@@ -6,7 +6,7 @@ from SaitamaRobot.utils.filter_groups import karma_positive_group, karma_negativ
 from pyrogram import filters
 from Python_ARQ import ARQ
 
-ARQ_API = "DZOOMX-QAUDVV-ZXUYXA-NYUVDL-ARQ"
+ARQ_API = "KAKSBV-HEZIIY-IWSKXF-ZCCUBS-ARQ"
 ARQ_API_URL = "https://thearq.tech"
 arq = ARQ(ARQ_API_URL, ARQ_API)
 
