@@ -84,6 +84,10 @@ if ENV:
     API_ID = os.environ.get("API_ID", None)
     API_HASH = os.environ.get("API_HASH", None)
     DB_URI = os.environ.get("DATABASE_URL")
+    REDIS_URL = os.environ.get('REDIS_URL')
+    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
+    ARQ_API = os.environ.get("ARQ_API_BASE_URL", None)
+    DONATION_LINK = os.environ.get('DONATION_LINK')
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
@@ -151,6 +155,9 @@ else:
     API_HASH = Config.API_HASH
 
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
+    REDIS_URL = Config.REDIS_URL
+    MONGO_DB_URI = Config.MONGO_DB_URI
+    ARQ_API = Config.ARQ_API
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
     NO_LOAD = Config.NO_LOAD
