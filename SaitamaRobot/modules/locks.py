@@ -4,7 +4,6 @@ from telegram import Message, Chat, ParseMode, MessageEntity
 from telegram import TelegramError, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters
-from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html
 
 from alphabet_detector import AlphabetDetector
@@ -89,8 +88,8 @@ UNLOCK_CHAT_RESTRICTION = {
     "pin": {"can_pin_messages": True},
 }
 
-PERM_GROUP = 1
-REST_GROUP = 2
+PERM_GROUP = -8
+REST_GROUP = -12
 
 
 # NOT ASYNC
@@ -131,7 +130,6 @@ def unrestr_members(
             pass
 
 
-@run_async
 def locktypes(update, context):
     update.effective_message.reply_text(
         "\n • ".join(
@@ -141,7 +139,6 @@ def locktypes(update, context):
     )
 
 
-@run_async
 @user_admin
 @loggable
 @typing_action
@@ -249,7 +246,6 @@ def lock(update, context) -> str:
     return ""
 
 
-@run_async
 @user_admin
 @loggable
 @typing_action
@@ -355,7 +351,6 @@ def unlock(update, context) -> str:
     return ""
 
 
-@run_async
 @user_not_admin
 def del_lockables(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -495,7 +490,6 @@ def build_lock_message(chat_id):
     return res
 
 
-@run_async
 @user_admin
 @typing_action
 def list_locks(update, context):
@@ -588,11 +582,11 @@ Locking bots will stop non-admins from adding bots to the chat.
 __mod_name__ = "Locks"
 
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
-LOCK_HANDLER = CommandHandler("lock", lock, pass_args=True)  # , filters=Filters.group)
+LOCK_HANDLER = CommandHandler("lock", lock, pass_args=True)  # , filters=Filters.chat_type.group)
 UNLOCK_HANDLER = CommandHandler(
     "unlock", unlock, pass_args=True,
-)  # , filters=Filters.group)
-LOCKED_HANDLER = CommandHandler("locks", list_locks)  # , filters=Filters.group)
+)  # , filters=Filters.chat_type.group)
+LOCKED_HANDLER = CommandHandler("locks", list_locks)  # , filters=Filters.chat_type.group)
 
 dispatcher.add_handler(LOCK_HANDLER)
 dispatcher.add_handler(UNLOCK_HANDLER)
@@ -600,5 +594,5 @@ dispatcher.add_handler(LOCKTYPES_HANDLER)
 dispatcher.add_handler(LOCKED_HANDLER)
 
 dispatcher.add_handler(
-    MessageHandler(Filters.all & Filters.group, del_lockables), PERM_GROUP,
+    MessageHandler(Filters.all & Filters.chat_type.group, del_lockables), PERM_GROUP,
 )
