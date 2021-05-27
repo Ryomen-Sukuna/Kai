@@ -1,4 +1,4 @@
-import time
+Pimport time
 import os
 import codecs
 from typing import List
@@ -32,7 +32,7 @@ from SaitamaRobot.modules.helper_funcs.alternate import send_action, typing_acti
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 MARKDOWN_HELP = f"""
-Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
+Markdown is a very powerful formatting tool supported by telegram. Kai has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
 
 • <code>_italic_</code>: wrapping text with '_' will produce italic text
@@ -79,7 +79,6 @@ def ping(update: Update, _):
     ping_time = round((end_time - start_time) * 1000, 3)
     message.edit_text(
         "*PONG!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
-
     )
 
 def markdown_help_sender(update: Update):
