@@ -107,16 +107,16 @@
          "value": ""
       },
       "ENV": {
-         "description": "Setting this to ANYTHING will enable environment variables. Leave it as it is",
+         "description": "Setting this to ANYTHING will enable environment variables. Leave it as it is.",
          "value": "ANYTHING"
       },
       "WEBHOOK": {
-         "description": "Setting this to ANYTHING will enable webhooks. If you dont know how this works leave it as it is",
+         "description": "Setting this to ANYTHING will enable webhooks. If you dont know how this works leave it as it is.",
          "required": false,
          "value": ""
       },
       "PORT": {
-         "description": "Port to use for your webhooks. Better leave this as it is on heroku",
+         "description": "Port to use for your webhooks. Better leave this as it is on heroku.",
          "required": false,
          "value": ""
       },
