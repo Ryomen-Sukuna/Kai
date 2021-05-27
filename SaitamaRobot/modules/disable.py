@@ -15,6 +15,8 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import escape_markdown
 
+CMD_STARTERS = tuple(CMD_STARTERS)
+
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 # If module is due to be loaded, then setup all the magical handlers
@@ -26,7 +28,6 @@ if is_module_loaded(FILENAME):
         user_admin,
     )
     from SaitamaRobot.modules.sql import disable_sql as sql
-    from telegram.ext.dispatcher import run_async
 
     DISABLE_CMDS = []
     DISABLE_OTHER = []
@@ -130,7 +131,6 @@ if is_module_loaded(FILENAME):
                 else:
                     return True
 
-    @run_async
     @connection_status
     @user_admin
     def disable(update: Update, context: CallbackContext):
@@ -153,7 +153,6 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I disable?")
 
-    @run_async
     @connection_status
     @user_admin
     def disable_module(update: Update, context: CallbackContext):
@@ -206,7 +205,6 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I disable?")
 
-    @run_async
     @connection_status
     @user_admin
     def enable(update: Update, context: CallbackContext):
@@ -227,7 +225,6 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I enable?")
 
-    @run_async
     @connection_status
     @user_admin
     def enable_module(update: Update, context: CallbackContext):
@@ -280,7 +277,6 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I enable?")
 
-    @run_async
     @connection_status
     @user_admin
     def list_cmds(update: Update, context: CallbackContext):
@@ -306,7 +302,6 @@ if is_module_loaded(FILENAME):
             result += " - `{}`\n".format(escape_markdown(cmd))
         return "The following commands are currently restricted:\n{}".format(result)
 
-    @run_async
     @connection_status
     def commands(update: Update, context: CallbackContext):
         chat = update.effective_chat
@@ -338,18 +333,17 @@ if is_module_loaded(FILENAME):
     dispatcher.add_handler(TOGGLE_HANDLER)
 
     __help__ = """
-    • `/cmds`*:* check the current status of disabled commands
+• `/cmds`*:* check the current status of disabled commands
 
-    *Admins only:*
-    • `/enable <cmd name>`*:* enable that command
-    • `/disable <cmd name>`*:* disable that command
-    • `/enablemodule <module name>`*:* enable all commands in that module
-    • `/disablemodule <module name>`*:* disable all commands in that module
-    • `/listcmds`*:* list all possible toggleable commands
-    """
-
+*Admins only:*
+• `/enable <cmd name>`*:* enable that command
+• `/disable <cmd name>`*:* disable that command
+• `/enablemodule <module name>`*:* enable all commands in that module
+• `/disablemodule <module name>`*:* disable all commands in that module
+• `/listcmds`*:* list all possible toggleable commands
+"""
     __mod_name__ = "Disabling"
-
+    
 else:
     DisableAbleCommandHandler = CommandHandler
     DisableAbleRegexHandler = RegexHandler

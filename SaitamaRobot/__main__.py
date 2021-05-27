@@ -8,8 +8,14 @@ from sys import argv
 import requests
 from pyrogram import idle, Client
 from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.error import (TelegramError, Unauthorized, BadRequest,
-                            TimedOut, ChatMigrated, NetworkError)
+from telegram.error import (
+    TelegramError, 
+    Unauthorized, 
+    BadRequest,
+    TimedOut, 
+    ChatMigrated, 
+    NetworkError
+)
 from telegram.ext import (
     CallbackContext,
     CommandHandler,

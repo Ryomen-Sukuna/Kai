@@ -4,12 +4,11 @@ import requests as r
 from SaitamaRobot import SUPPORT_CHAT, WALL_API, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import Update
-from telegram.ext import CallbackContext, run_async
+from telegram.ext import CallbackContext
 
 # Wallpapers module by @TheRealPhoenix using wall.alphacoders.com
 
 
-@run_async
 def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message

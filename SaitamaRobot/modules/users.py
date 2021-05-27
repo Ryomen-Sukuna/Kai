@@ -8,7 +8,6 @@ from telegram.ext import (
     CommandHandler,
     Filters,
     MessageHandler,
-    run_async,
 )
 
 import SaitamaRobot.modules.sql.users_sql as sql
@@ -53,7 +52,6 @@ def get_user_id(username):
     return None
 
 
-@run_async
 @dev_plus
 def broadcast(update: Update, context: CallbackContext):
     to_send = update.effective_message.text.split(None, 1)
@@ -100,7 +98,6 @@ def broadcast(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
@@ -119,7 +116,6 @@ def log_user(update: Update, context: CallbackContext):
         sql.update_user(msg.forward_from.id, msg.forward_from.username)
 
 
-@run_async
 @sudo_plus
 def chats(update: Update, context: CallbackContext):
     all_chats = sql.get_all_chats() or []
@@ -146,7 +142,6 @@ def chats(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 def chat_checker(update: Update, context: CallbackContext):
     bot = context.bot
     try:
@@ -178,8 +173,8 @@ __help__ = ""  # no help string
 BROADCAST_HANDLER = CommandHandler(
     ["broadcastall", "broadcastusers", "broadcastgroups"], broadcast,
 )
-USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
-CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group, chat_checker)
+USER_HANDLER = MessageHandler(Filters.all & Filters.chat_type.group, log_user)
+CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.chat_type.group, chat_checker)
 CHATLIST_HANDLER = CommandHandler("groups", chats)
 
 dispatcher.add_handler(USER_HANDLER, USERS_GROUP)

@@ -10,7 +10,6 @@ from telegram.ext import (
     MessageHandler,
     DispatcherHandlerStop,
     CallbackQueryHandler,
-    run_async,
     Filters,
 )
 from telegram.utils.helpers import mention_html, escape_markdown
@@ -50,7 +49,6 @@ ENUM_FUNC_MAP = {
 }
 
 
-@run_async
 @typing_action
 def list_handlers(update, context):
     chat = update.effective_chat
@@ -269,7 +267,6 @@ def stop_filter(update, context):
     )
 
 
-@run_async
 def reply_filter(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -464,7 +461,6 @@ def reply_filter(update, context):
                 break
 
 
-@run_async
 def rmall_filters(update, context):
     chat = update.effective_chat
     user = update.effective_user
@@ -491,7 +487,6 @@ def rmall_filters(update, context):
         )
 
 
-@run_async
 def rmall_callback(update, context):
     query = update.callback_query
     chat = update.effective_chat
@@ -607,7 +602,7 @@ __mod_name__ = "Filters"
 FILTER_HANDLER = CommandHandler("filter", filters)
 STOP_HANDLER = CommandHandler("stop", stop_filter)
 RMALLFILTER_HANDLER = CommandHandler(
-    "removeallfilters", rmall_filters, filters=Filters.group,
+    "removeallfilters", rmall_filters, filters=Filters.chat_type.group,
 )
 RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
 LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)

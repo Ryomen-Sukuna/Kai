@@ -2,8 +2,8 @@ import html
 
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
-from telegram.utils.helpers import mention_html
+from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.utils.helpers import mention_html, mention_markdown
 
 from SaitamaRobot import DRAGONS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -24,7 +24,6 @@ from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -83,6 +82,7 @@ def promote(update: Update, context: CallbackContext) -> str:
             # can_promote_members=bot_member.can_promote_members,
             can_restrict_members=bot_member.can_restrict_members,
             can_pin_messages=bot_member.can_pin_messages,
+            can_manage_voice_chats=bot_member.can_manage_voice_chats,
         )
     except BadRequest as err:
         if err.message == "User_not_mutual_contact":
@@ -107,7 +107,6 @@ def promote(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -157,6 +156,7 @@ def demote(update: Update, context: CallbackContext) -> str:
             can_restrict_members=False,
             can_pin_messages=False,
             can_promote_members=False,
+            can_manage_voice_chats=False,
         )
 
         bot.sendMessage(
@@ -180,19 +180,11 @@ def demote(update: Update, context: CallbackContext) -> str:
         )
         return
 
-
-@run_async
 @user_admin
 def refresh_admin(update, _):
-    try:
-        ADMIN_CACHE.pop(update.effective_chat.id)
-    except KeyError:
-        pass
-
+    ADMIN_CACHE.pop(update.effective_chat.id)
     update.effective_message.reply_text("Admins cache refreshed!")
 
-
-@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -257,7 +249,6 @@ def set_title(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 @bot_admin
 @can_pin
 @user_admin
@@ -299,7 +290,6 @@ def pin(update: Update, context: CallbackContext) -> str:
         return log_message
 
 
-@run_async
 @bot_admin
 @can_pin
 @user_admin
@@ -326,7 +316,6 @@ def unpin(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @bot_admin
 @user_admin
 @connection_status
@@ -351,7 +340,6 @@ def invite(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 @connection_status
 def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat] -> unused variable
@@ -470,11 +458,10 @@ __help__ = """
  • `/title <title here>`*:* sets a custom title for an admin that the bot promoted
  • `/admincache`*:* force refresh the admins list
 """
-
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
 
-PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
+PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.chat_type.group)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.group)
 
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
@@ -482,9 +469,6 @@ PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
 SET_TITLE_HANDLER = CommandHandler("title", set_title)
-ADMIN_REFRESH_HANDLER = CommandHandler(
-    "admincache", refresh_admin, filters=Filters.group,
-)
 
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(PIN_HANDLER)
@@ -493,24 +477,11 @@ dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
-dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
+
 
 __mod_name__ = "Admin"
-__command_list__ = [
-    "adminlist",
-    "admins",
-    "invitelink",
-    "promote",
-    "demote",
-    "admincache",
-]
+__command_list__ = ["adminlist", "admins", "invitelink", "promote", "demote"]
 __handlers__ = [
-    ADMINLIST_HANDLER,
-    PIN_HANDLER,
-    UNPIN_HANDLER,
-    INVITE_HANDLER,
-    PROMOTE_HANDLER,
-    DEMOTE_HANDLER,
-    SET_TITLE_HANDLER,
-    ADMIN_REFRESH_HANDLER,
+    ADMINLIST_HANDLER, PIN_HANDLER, UNPIN_HANDLER, INVITE_HANDLER,
+    PROMOTE_HANDLER, DEMOTE_HANDLER, SET_TITLE_HANDLER
 ]
