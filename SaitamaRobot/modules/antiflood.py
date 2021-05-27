@@ -20,7 +20,6 @@ from telegram.ext import (
     CommandHandler,
     Filters,
     MessageHandler,
-    run_async,
 )
 from telegram.utils.helpers import mention_html
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
