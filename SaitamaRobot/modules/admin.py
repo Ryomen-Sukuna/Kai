@@ -2,7 +2,7 @@ import html
 
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, Filters
+from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.utils.helpers import mention_html, mention_markdown
 
 from SaitamaRobot import DRAGONS, dispatcher
