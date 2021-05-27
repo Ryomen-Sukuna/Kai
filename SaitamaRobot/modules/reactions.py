@@ -3,7 +3,7 @@ import random
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import Update
-from telegram.ext import CallbackContext, run_async
+from telegram.ext import CallbackContext
 
 reactions = [
     "( ͡° ͜ʖ ͡°)",
@@ -211,7 +211,6 @@ reactions = [
 ]
 
 
-@run_async
 def react(update: Update, context: CallbackContext):
     message = update.effective_message
     react = random.choice(reactions)
