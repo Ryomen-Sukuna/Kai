@@ -30,6 +30,7 @@ from telegram.ext import (
     Filters,
     MessageHandler,
 )
+from telegram.ext.dispatcher import run_async
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 STICKER_MATCHER = re.compile(r"^###sticker(!photo)?###:")
