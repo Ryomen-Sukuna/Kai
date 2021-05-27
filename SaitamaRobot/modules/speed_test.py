@@ -11,7 +11,6 @@ def convert(speed):
 
 
 @dev_plus
-@run_async
 def speedtestxyz(update: Update, context: CallbackContext):
     buttons = [
         [
@@ -24,7 +23,6 @@ def speedtestxyz(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 def speedtestxyz_callback(update: Update, context: CallbackContext):
     query = update.callback_query
 
