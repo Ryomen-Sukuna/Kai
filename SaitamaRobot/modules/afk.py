@@ -12,7 +12,7 @@ from SaitamaRobot.modules.sql import afk_sql as sql
 from SaitamaRobot.modules.users import get_user_id
 from telegram import MessageEntity, Update
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, Filters, MessageHandler, run_async
+from telegram.ext import CallbackContext, Filters, MessageHandler
 
 AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
@@ -78,7 +78,6 @@ def no_longer_afk(update: Update, context: CallbackContext):
             return
 
 
-@run_async
 def reply_afk(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
