@@ -4,6 +4,9 @@ import sys, json
 import time
 import spamwatch
 import telegram.ext as tg
+from redis import StrictRedis
+from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
+from Python_ARQ import ARQ
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 from pyrogram import Client, errors
@@ -174,6 +177,24 @@ else:
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
+REDIS = StrictRedis.from_url(REDIS_URL,decode_responses=True)
+
+try:
+
+    REDIS.ping()
+
+    LOGGER.info("Your redis server is now alive!")
+
+except BaseException:
+
+    raise Exception("Your redis server is not alive, please check again.")
+
+finally:
+
+   REDIS.ping()
+
+   LOGGER.info("Your redis server is now alive!")
+
 if not SPAMWATCH_API:
     sw = None
     LOGGER.warning("SpamWatch API key missing! recheck your config")
@@ -189,6 +210,8 @@ from SaitamaRobot.modules.sql import SESSION
 
 updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10}, persistence=PostgresPersistence(SESSION))
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+mongo_client = MongoClient(MONGO_DB_URI)
+db = mongo_client.SaitamaRobot
 dispatcher = updater.dispatcher
 
 kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
