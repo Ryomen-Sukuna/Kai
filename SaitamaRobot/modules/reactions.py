@@ -3,7 +3,7 @@ import random
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext, run_async
 
 reactions = [
     "( ͡° ͜ʖ ͡°)",
