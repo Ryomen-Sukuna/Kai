@@ -1,4 +1,4 @@
-Pimport time
+import time
 import os
 import codecs
 from typing import List
@@ -8,7 +8,6 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import (
     dispatcher,
     WALL_API,
-    StartTime,
 )
 import requests as r
 import wikipedia
@@ -26,7 +25,9 @@ from telegram import (
     TelegramError,
 )
 from telegram.error import BadRequest
+from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
+from SaitamaRobot import StartTime, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.alternate import send_action, typing_action
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -79,6 +80,7 @@ def ping(update: Update, _):
     ping_time = round((end_time - start_time) * 1000, 3)
     message.edit_text(
         "*PONG!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN    
+
     )
 
 def markdown_help_sender(update: Update):
