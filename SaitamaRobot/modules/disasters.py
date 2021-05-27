@@ -1,7 +1,7 @@
 import html
 import json
 import os
-from typing import List, Optional
+from typing import Optional
 
 from SaitamaRobot import (
     DEV_USERS,
