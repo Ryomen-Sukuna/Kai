@@ -468,4 +468,30 @@ __help__ = """
  • `/title <title here>`*:* sets a custom title for an admin that the bot promoted
  • `/admincache`*:* force refresh the admins list
 """
+ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
+
+PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.chat_type.group)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.group)
+
+INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
+
+PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
+DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
+
+SET_TITLE_HANDLER = CommandHandler("title", set_title)
+
+dispatcher.add_handler(ADMINLIST_HANDLER)
+dispatcher.add_handler(PIN_HANDLER)
+dispatcher.add_handler(UNPIN_HANDLER)
+dispatcher.add_handler(INVITE_HANDLER)
+dispatcher.add_handler(PROMOTE_HANDLER)
+dispatcher.add_handler(DEMOTE_HANDLER)
+dispatcher.add_handler(SET_TITLE_HANDLER)
+
+
 __mod_name__ = "Admin"
+__command_list__ = ["adminlist", "admins", "invitelink", "promote", "demote"]
+__handlers__ = [
+    ADMINLIST_HANDLER, PIN_HANDLER, UNPIN_HANDLER, INVITE_HANDLER,
+    PROMOTE_HANDLER, DEMOTE_HANDLER, SET_TITLE_HANDLER
+]
