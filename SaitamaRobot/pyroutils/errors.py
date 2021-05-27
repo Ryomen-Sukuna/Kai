@@ -41,7 +41,7 @@ def capture_err(func):
                 ),
             )
             for x in error_feedback:
-                await pbot.send_message(
+                await kp.send_message(
                     SUPPORT_CHAT,
                     x
                 )
