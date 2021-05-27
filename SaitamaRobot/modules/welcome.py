@@ -1065,14 +1065,14 @@ user joined chat, user left chat.
 NEW_MEM_HANDLER = MessageHandler(Filters.status_update.new_chat_members, new_member)
 LEFT_MEM_HANDLER = MessageHandler(Filters.status_update.left_chat_member, left_member)
 WELC_PREF_HANDLER = CommandHandler("welcome", welcome, filters=Filters.chat_type.group)
-GOODBYE_PREF_HANDLER = CommandHandler("goodbye", goodbye, filters=Filters.chat_typegroup)
+GOODBYE_PREF_HANDLER = CommandHandler("goodbye", goodbye, filters=Filters.chat_type.group)
 SET_WELCOME = CommandHandler("setwelcome", set_welcome, filters=Filters.chat_type.group)
 SET_GOODBYE = CommandHandler("setgoodbye", set_goodbye, filters=Filters.chat_type.group)
 RESET_WELCOME = CommandHandler("resetwelcome", reset_welcome, filters=Filters.chat_type.group)
 RESET_GOODBYE = CommandHandler("resetgoodbye", reset_goodbye, filters=Filters.chat_type.group)
 WELCOMEMUTE_HANDLER = CommandHandler("welcomemute", welcomemute, filters=Filters.chat_type.group)
 CLEAN_SERVICE_HANDLER = CommandHandler(
-    "cleanservice", cleanservice, filters=Filters.group
+    "cleanservice", cleanservice, filters=Filters.chat_type.group
 )
 CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, filters=Filters.chat_type.group)
 WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
