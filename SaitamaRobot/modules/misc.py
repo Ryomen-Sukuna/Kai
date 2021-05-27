@@ -8,6 +8,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import (
     dispatcher,
     WALL_API,
+    StartTime,
 )
 import requests as r
 import wikipedia
@@ -26,7 +27,6 @@ from telegram import (
 )
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, Filters, CommandHandler
-from SaitamaRobot import StartTime, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.alternate import send_action, typing_action
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
