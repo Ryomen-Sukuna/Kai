@@ -6,6 +6,7 @@ from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import mention_html, mention_markdown
 
 from SaitamaRobot import DRAGONS, dispatcher
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     can_pin,
@@ -21,12 +22,8 @@ from SaitamaRobot.modules.helper_funcs.extraction import (
 )
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
-from SaitamaRobot import kp, get_entity
-from pyrogram import Client, filters
-from pyrogram.types import Chat, User.
-from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
-@kaicmd(command="promote", can_disable=False) 
+
 @connection_status
 @bot_admin
 @can_promote
@@ -110,7 +107,6 @@ def promote(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@kaicmd(command=demote, can_disable=false)
 @connection_status
 @bot_admin
 @can_promote
@@ -184,13 +180,11 @@ def demote(update: Update, context: CallbackContext) -> str:
         )
         return
 
-@kigcmd(command="admincache", can_disable=False)
 @user_admin
 def refresh_admin(update, _):
     ADMIN_CACHE.pop(update.effective_chat.id)
     update.effective_message.reply_text("Admins cache refreshed!")
 
-@kigcmd(command="title", can_disable=False)
 @connection_status
 @bot_admin
 @can_promote
@@ -255,7 +249,6 @@ def set_title(update: Update, context: CallbackContext):
     )
 
 
-@kaicmd(command="pin", can_disable=False)
 @bot_admin
 @can_pin
 @user_admin
@@ -297,7 +290,6 @@ def pin(update: Update, context: CallbackContext) -> str:
         return log_message
 
 
-@kaicmd(command="unpin", can_disable=False)
 @bot_admin
 @can_pin
 @user_admin
@@ -324,7 +316,6 @@ def unpin(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@kaicmd(command="invitelink", can_disable=False)
 @bot_admin
 @user_admin
 @connection_status
@@ -349,7 +340,6 @@ def invite(update: Update, context: CallbackContext):
         )
 
 
-@kaicmd(command="admins", can_disable=False)
 @connection_status
 def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat] -> unused variable
