@@ -5,7 +5,7 @@ import asyncio
 from pyrogram import filters
 
 from SaitamaRobot import kp
-from SaitamaRobot.pyroutils import capture_err
+from SaitamaRobot.pyroutils.errors import capture_err
 from SaitamaRobot.utils.dbfunctions import (alpha_to_int, get_karma, get_karmas,
                                    int_to_alpha, is_karma_on, karma_off,
                                    karma_on, update_karma)
