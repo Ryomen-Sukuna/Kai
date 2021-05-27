@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup as bs
 
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram import TelegramError, Update
-from telegram.ext import run_async, CallbackContext
+from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
 
 from SaitamaRobot import dispatcher
@@ -19,7 +19,6 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
 
-@run_async
 def stickerid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
@@ -40,7 +39,6 @@ def stickerid(update: Update, context: CallbackContext):
 
 
 
-@run_async
 def kang(update, context):
     msg = update.effective_message
     user = update.effective_user
@@ -516,7 +514,6 @@ def makepack_internal(
     else:
         msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
 
-@run_async
 def getsticker(update, context):
     msg = update.effective_message
     chat_id = update.effective_chat.id
@@ -548,7 +545,6 @@ def getsticker(update, context):
 
 
 
-@run_async
 def cb_sticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     split = msg.text.split(' ', 1)
@@ -584,7 +580,6 @@ def getsticker(update: Update, context: CallbackContext):
         update.effective_message.reply_text(
             "Please reply to a sticker for me to upload its PNG.")
 
-@run_async
 def delsticker(update, context):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
