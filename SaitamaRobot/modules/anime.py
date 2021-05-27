@@ -8,7 +8,7 @@ import requests
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, Message
-from telegram.ext import CallbackContext, run_async
+from telegram.ext import CallbackContext
 
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
@@ -168,7 +168,6 @@ def extract_arg(message: Message):
         return reply.text
     return None
 
-@run_async
 def airing(update: Update, context: CallbackContext):
     message = update.effective_message
     search_str = extract_arg(message)
@@ -191,7 +190,6 @@ def airing(update: Update, context: CallbackContext):
     update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
-@run_async
 def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -263,7 +261,6 @@ def anime(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 def character(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -297,7 +294,6 @@ def character(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -363,7 +359,6 @@ def manga(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 def user(update: Update, context: CallbackContext):
     message = update.effective_message
     search_query = extract_arg(message)
@@ -447,7 +442,6 @@ def user(update: Update, context: CallbackContext):
     progress_message.delete()
 
 
-@run_async
 def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
     upcomin = jikan.top("anime", page=1, subtype="upcoming")
@@ -521,12 +515,10 @@ def site_search(update: Update, context: CallbackContext, site: str):
         )
 
 
-@run_async
 def kaizoku(update: Update, context: CallbackContext):
     site_search(update, context, "kaizoku")
 
 
-@run_async
 def kayo(update: Update, context: CallbackContext):
     site_search(update, context, "kayo")
 
