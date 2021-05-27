@@ -25,7 +25,6 @@ from telegram import (
     TelegramError,
 )
 from telegram.error import BadRequest
-from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
 from SaitamaRobot import StartTime, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
@@ -260,7 +259,7 @@ __help__ = """
  Output: `1.0 USD = 75.505 INR`
 """
 
-ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
+ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.chat_type.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True, run_async=True)
