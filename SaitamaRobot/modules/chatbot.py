@@ -4,7 +4,7 @@ from SaitamaRobot import kp, DRAGONS
 from SaitamaRobot.utils.errors import capture_err
 from SaitamaRobot.utils.filter_groups import chatbot_group
 from pyrogram import filters
-from SaitamaRobot.modules.karmasex import arq
+from SaitamaRobot.modules.karma import arq
 
 BOT_ID = 1412878118
 
