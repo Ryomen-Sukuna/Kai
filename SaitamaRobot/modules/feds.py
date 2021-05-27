@@ -2322,7 +2322,6 @@ def get_chat(chat_id, chat_data):
         return {"status": False, "value": False}
 
 
-@run_async
 def fed_owner_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
         """*👑 Fed Owner Only:*
@@ -2341,7 +2340,6 @@ def fed_owner_help(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 def fed_admin_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
         """*🔱 Fed Admins:*
@@ -2359,7 +2357,6 @@ def fed_admin_help(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 def fed_user_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
         """*🎩 Any user:*
