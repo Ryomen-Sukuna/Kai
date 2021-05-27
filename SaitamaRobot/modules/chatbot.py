@@ -1,7 +1,7 @@
 #modules taken from IGRIS_BOT <https://github.com/HeLLxGodLike/IGRIS_BOT>
 
 from SaitamaRobot import kp, DRAGONS
-from SaitamaRobot.utils.errors import capture_err
+from SaitamaRobot.pyroutils.errors import capture_err
 from SaitamaRobot.utils.filter_groups import chatbot_group
 from pyrogram import filters
 from SaitamaRobot.modules.karma import arq
