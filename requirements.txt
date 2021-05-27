@@ -44,4 +44,10 @@ humanize
 git+https://github.com/python-telegram-bot/ptbcontrib.git
 youtube-dl
 youtube_search
-cloudscraper
+python-arq
+motor
+redis 
+dnspython
+cryptography
+pymongo
+pykeyboard
