@@ -87,7 +87,7 @@ async def downvote(_, message):
     )
 
 
-@kp.on_message(filters.command("karma") & filters.group)
+@kp.on_message(filters.command("karma") & filters.chat_type.group)
 
 async def karma(_, message):
     chat_id = message.chat.id
