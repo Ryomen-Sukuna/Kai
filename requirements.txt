@@ -36,6 +36,7 @@ zalgo-text
 Intellivoid-SPB
 pytz
 ujson
+asyncio
 wget
 hachoir
 pybase64
