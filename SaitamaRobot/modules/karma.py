@@ -1,4 +1,7 @@
 #taken from IGRIS_BOT: <https://github.com/HeLLxGodLike/IGRIS_BOT>
+
+import asyncio
+
 from SaitamaRobot import kp
 from SaitamaRobot.utils.dbfunctions import (update_karma, get_karma, get_karmas,
                                    int_to_alpha, alpha_to_int)
