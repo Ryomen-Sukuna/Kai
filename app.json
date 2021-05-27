@@ -157,11 +157,10 @@
          "description": "Required for wallpaper. Get your's from https://wall.alphacoders.com/",
          "required": false,
          "value": ""
-      }
+      },
       "LASTFM_API_KEY": {
          "description": "Required for Lastfm, get your's from https://www.lastfm.com/",
-         "required": false
-         "value": ""
-      
+         "required": false,
+         "value": ""      
    }
 }
