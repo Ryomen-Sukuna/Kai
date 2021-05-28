@@ -105,6 +105,7 @@ if ENV:
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
     BOT_ID = 1820343887
+    ARQ_API = YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -176,7 +177,7 @@ else:
     INFOPIC = Config.INFOPIC
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     CF_API_KEY = Config.CF_API_KEY
-
+    
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
