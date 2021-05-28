@@ -105,7 +105,6 @@ if ENV:
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
     BOT_ID = 1820343887
-    ARQ_API = YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -221,7 +220,6 @@ updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs=
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client.SaitamaRobot
-arq = ARQ(ARQ_API)
 dispatcher = updater.dispatcher
 
 kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
