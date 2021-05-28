@@ -220,6 +220,7 @@ updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs=
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client.SaitamaRobot
+arq = ARQ(ARQ_API)
 dispatcher = updater.dispatcher
 
 kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
