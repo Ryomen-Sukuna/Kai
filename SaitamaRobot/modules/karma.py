@@ -5,7 +5,7 @@ from pyrogram import filters
 from SaitamaRobot import kp as app
 from SaitamaRobot.utils.errors import capture_err
 from SaitamaRobot.utils.permissions import adminsOnly
-from SaitamaRobot.modules.admin import member_permissions
+from SaitamaRobot.utils.admin import member_permissions
 from SaitamaRobot.utils.dbfunctions import (alpha_to_int, get_karma, get_karmas,
                                    int_to_alpha, is_karma_on, karma_off,
                                    karma_on, update_karma)
