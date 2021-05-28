@@ -632,8 +632,7 @@ def main():
     updater.idle()
 
 if __name__ == "__main__":
-    kp.start()
     LOGGER.info("[KAI] Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
+    kp.start()
     main()
-    idle()

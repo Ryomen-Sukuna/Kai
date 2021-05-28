@@ -1,4 +1,4 @@
-aiohttp>=2.2.5
+aiohttp
 alphabet_detector
 beautifulsoup4
 bleach
@@ -36,12 +36,20 @@ zalgo-text
 Intellivoid-SPB
 pytz
 ujson
+asyncio
 wget
 hachoir
 pybase64
 pretty_errors
+cloudscraper
 humanize
 git+https://github.com/python-telegram-bot/ptbcontrib.git
 youtube-dl
 youtube_search
-cloudscraper
+python-arq
+motor
+redis 
+dnspython
+cryptography
+pymongo
+pykeyboard

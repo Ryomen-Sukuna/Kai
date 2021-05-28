@@ -40,9 +40,6 @@ Originally [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot) fork. Kai is 
 
 Should you be forking this repo then do not forget to star it - <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/ryomen-sukuna/kai?color=white&label=%F0%9F%8C%9F%20star">
 
-## Deploy To Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Ryomen-Sukuna/Kai) 
-
 ## Credits 📍
 + [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot) for base this bot
 + [TsunayoshiSawada](https://github.com/SawadaTsunayoshi) for make awesome bot like saitama
