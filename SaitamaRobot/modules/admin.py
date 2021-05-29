@@ -175,7 +175,7 @@ def fullpromote(update: Update, context: CallbackContext) -> str:
 
     bot.sendMessage(
         chat.id
-        f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b> with full permissions rights!",
+        f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b>with full permissions rights!",
         parse_mode=ParseMode.HTML,
     )
 
