@@ -252,9 +252,9 @@ def bot_admin(func):
         message_chat_title = update.effective_message.chat.title
 
         if update_chat_title == message_chat_title:
-            not_admin = "I'm not admin! - REEEEEE"
+            not_admin = "I'm not admin!"
         else:
-            not_admin = f"I'm not admin in <b>{update_chat_title}</b>! - REEEEEE"
+            not_admin = f"I'm not admin in <b>{update_chat_title}</b>!"
 
         if is_bot_admin(chat, bot.id):
             return func(update, context, *args, **kwargs)
