@@ -5,9 +5,9 @@ from SaitamaRobot.utils.filter_groups import karma_positive_group, karma_negativ
 from pyrogram import filters
 from Python_ARQ import ARQ
 
-ARQ_API = "YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ"
+ARQ_API_KEY= "YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ"
 ARQ_API_URL = "https://thearq.tech"
-arq = ARQ(ARQ_API_URL, ARQ_API)
+arq = ARQ(ARQ_API_URL, ARQ_API_KEY)
 
 __MODULE__ = "Karma"
 __HELP__ = """[UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
