@@ -1,5 +1,5 @@
 import html
-import os
+
 from typing import Optional
 
 from telegram import ParseMode ,Update
@@ -16,13 +16,8 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     can_promote,
     connection_status,
     user_admin,
-    ADMIN_CACHE,
-)
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
-from SaitamaRobot.modules.helper_funcs.admin_rights import (
-    user_can_pin,
-    user_can_promote,
     user_can_changeinfo,
+    ADMIN_CACHE,
 )
 from SaitamaRobot.modules.helper_funcs.alternate import typing_action
 from SaitamaRobot.modules.connection import connected
