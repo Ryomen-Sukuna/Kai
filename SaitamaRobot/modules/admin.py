@@ -5,22 +5,18 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.utils.helpers import mention_html, escape_markdown, mention_markdown
 
-from SaitamaRobot import DRAGONS, dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot import DRAGONS, dispatcher from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     can_pin,
     can_promote,
     connection_status,
     user_admin,
-    user_can_changeinfo,
     ADMIN_CACHE,
 )
 
-from SaitamaRobot.modules.helper_funcs.extraction import (
-    extract_user,
-    extract_user_and_text,
-)
+from tg_bot.modules.helper_funcs.admin_rights import user_can_changeinfo
+from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,extract_user_and_text)
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
