@@ -16,7 +16,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     ADMIN_CACHE,
 )
 
-from tg_bot.modules.helper_funcs.admin_rights import user_can_changeinfo
+from SaitamaRobot.modules.helper_funcs.admin_rights import user_can_changeinfo
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,extract_user_and_text)
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
