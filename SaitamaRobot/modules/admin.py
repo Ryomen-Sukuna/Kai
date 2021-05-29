@@ -545,8 +545,8 @@ INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
 FULLPROMOTE_HANDLER = DisableAbleCommandHandler("fullpromote", fullpromote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
-
 SET_TITLE_HANDLER = CommandHandler("title", set_title)
+ADMIN_REFRESH_HANDLER = CommandHandler("admincache", refresh_admin, filters=Filters.chat_type.group)
 
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(PIN_HANDLER)
@@ -556,6 +556,7 @@ dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(FULLPROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
+dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
 
 
 __mod_name__ = "Admin"
@@ -566,6 +567,7 @@ __command_list__ = [
     "promote",
     "fullpromote",
     "demote",
+    "admincache",
 ]
 __handlers__ = [
     ADMINLIST_HANDLER, 
@@ -576,4 +578,5 @@ __handlers__ = [
     FULLPROMOTE_HANDLER, 
     DEMOTE_HANDLER, 
     SET_TITLE_HANDLER,
+    ADMINC_REFRESH_HANDLER,
 ]
