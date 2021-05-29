@@ -427,7 +427,7 @@ def invite(update: Update, context: CallbackContext):
 
        
 @connection_status
-def adminlist(update, context):
+def adminlist(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     args = context.args
@@ -532,7 +532,7 @@ def adminlist(update, context):
 @can_promote
 @user_admin
 @typing_action
-def set_title(update, context):
+def set_title(update: Update, context: CallbackContext):
     args = context.args
     chat = update.effective_chat
     message = update.effective_message
@@ -591,7 +591,7 @@ def set_title(update, context):
 @bot_admin
 @user_admin
 @typing_action
-def setchatpic(update, context):
+def setchatpic(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     user = update.effective_user
@@ -629,7 +629,7 @@ def setchatpic(update, context):
 @bot_admin
 @user_admin
 @typing_action
-def rmchatpic(update, context):
+def rmchatpic(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     user = update.effective_user
@@ -649,7 +649,7 @@ def rmchatpic(update, context):
 @bot_admin
 @user_admin
 @typing_action
-def setchat_title(update, context):
+def setchat_title(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     user = update.effective_user
@@ -679,7 +679,7 @@ def setchat_title(update, context):
 @bot_admin
 @user_admin
 @typing_action
-def set_sticker(update, context):
+def set_sticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -710,7 +710,7 @@ def set_sticker(update, context):
 @bot_admin
 @user_admin
 @typing_action
-def set_desc(update, context):
+def set_desc(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
