@@ -1,3 +1,4 @@
+from aiohttp import ClientSession
 from SaitamaRobot import kp
 from SaitamaRobot.utils.dbfunctions import (update_karma, get_karma, get_karmas,
                                    int_to_alpha, alpha_to_int)
@@ -5,9 +6,10 @@ from SaitamaRobot.utils.filter_groups import karma_positive_group, karma_negativ
 from pyrogram import filters
 from Python_ARQ import ARQ
 
+aiohttpsession = ClientSession()
 ARQ_API_KEY= "YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ"
 ARQ_API_URL = "https://thearq.tech"
-arq = ARQ(ARQ_API_URL, ARQ_API_KEY)
+arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
 __MODULE__ = "Karma"
 __HELP__ = """[UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
