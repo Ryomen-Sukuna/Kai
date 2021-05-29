@@ -175,7 +175,7 @@ def fullpromote(update: Update, context: CallbackContext) -> str:
 
     bot.sendMessage(
         chat.id
-        f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b> With Full Permissions Rights!",
+        f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b> with full Permissions rights!",
         parse_mode=ParseMode.HTML,
     )
 
@@ -555,6 +555,7 @@ UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.group)
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
+FULLPROMOTE_HANDLER =DisableAbleCommandHandler ("fullpromote", fullpromote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
 SET_TITLE_HANDLER = CommandHandler("title", set_title)
@@ -567,6 +568,7 @@ dispatcher.add_handler(PIN_HANDLER)
 dispatcher.add_handler(UNPIN_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
+dispatcher.add_handler(FULLPROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
 dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
@@ -577,6 +579,7 @@ __command_list__ = [
     "admins",
     "invitelink",
     "promote",
+    "fullpromote",
     "demote",
     "admincache",
 ]
@@ -586,6 +589,7 @@ __handlers__ = [
     UNPIN_HANDLER,
     INVITE_HANDLER,
     PROMOTE_HANDLER,
+    FULLPROMOTE_HANDLER,
     DEMOTE_HANDLER,
     SET_TITLE_HANDLER,
     ADMIN_REFRESH_HANDLER,
