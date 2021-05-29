@@ -73,8 +73,8 @@ def is_bot_admin(chat: Chat, bot_id: int, bot_member: ChatMember = None) -> bool
 def can_delete(chat: Chat, bot_id: int) -> bool:
     return chat.get_member(bot_id).can_delete_messages
 
-def user_can_changeinfo(chat: Chat, user: User, bot_id: int) -> bool:
-    return chat.get_member(user.id).can_change_info
+def user_can_changeinfo(chat: Chat, user_id: int, bot_id: int) -> bool:
+    return chat.get_member(user_id).can_change_info
 
 def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (
