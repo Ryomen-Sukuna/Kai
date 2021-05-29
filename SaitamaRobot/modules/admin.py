@@ -1,14 +1,11 @@
 import html
 
-from typing import Optional
-
-from telegram import ParseMode ,Update
+from telegram import ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, CallbackContext
-from telegram.ext.dispatcher import run_async
+from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.utils.helpers import mention_html, escape_markdown, mention_markdown
 
-from SaitamaRobot import dispatcher
+from SaitamaRobot import DRAGONS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
@@ -19,9 +16,14 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     user_can_changeinfo,
     ADMIN_CACHE,
 )
-from SaitamaRobot.modules.helper_funcs.alternate import typing_action
-from SaitamaRobot.modules.connection import connected
+
+from SaitamaRobot.modules.helper_funcs.extraction import (
+    extract_user,
+    extract_user_and_text,
+)
 from SaitamaRobot.modules.log_channel import loggable
+from SaitamaRobot.modules.helper_funcs.alternate import send_message
+
 
 @connection_status
 @bot_admin
