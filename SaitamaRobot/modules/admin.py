@@ -163,11 +163,10 @@ def fullpromote(update: Update, context: CallbackContext) -> str:
             can_edit_messages=bot_member.can_edit_messages,
             can_delete_messages=bot_member.can_delete_messages,
             can_invite_users=bot_member.can_invite_users,
-            # can_promote_members=bot_member.can_promote_members,
+            can_promote_members=bot_member.can_promote_members,
             can_restrict_members=bot_member.can_restrict_members,
             can_pin_messages=bot_member.can_pin_messages,
-            can_manage_voice_chats=bot_member.can_manage_voice_chat,
-            can_promote_members=bot_member.can_promote_members,
+            can_manage_voice_chats=bot_member.can_manage_voice_chats,
         )
     except BadRequest as err:
         if err.message == "User_not_mutual_contact":
@@ -773,35 +772,40 @@ An example of promoting someone to admins:
 
 __mod_name__ = "Admin"
 
-PIN_HANDLER = CommandHandler("pin", pin, pass_args=True, filters=Filters.chat_type.groups)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.groups)
+PIN_HANDLER = CommandHandler("pin", pin, pass_args=True, filters=Filters.chat_type.group)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.group)
 
 INVITE_HANDLER = CommandHandler(["invitelink"], invite)
-CHAT_PIC_HANDLER = CommandHandler("setgpic", setchatpic, filters=Filters.chat_type.groups)
-DEL_CHAT_PIC_HANDLER = CommandHandler("delgpic", rmchatpic, filters=Filters.chat_type.groups)
+CHAT_PIC_HANDLER = CommandHandler("setgpic", setchatpic, filters=Filters.chat_type.group)
+DEL_CHAT_PIC_HANDLER = CommandHandler("delgpic", rmchatpic, filters=Filters.chat_type.group)
 SETCHAT_TITLE_HANDLER = CommandHandler(
     "setgtitle", setchat_title, filters=Filters.chat_type.group
 )
-SETSTICKET_HANDLER = CommandHandler("setsticker", set_sticker, filters=Filters.chat_type.groups)
-SETDESC_HANDLER = CommandHandler(["setdescription", "setdes"], set_desc, filters=Filters.chat_type.groups)
+SETSTICKET_HANDLER = CommandHandler("setsticker", set_sticker, filters=Filters.chat_type.group)
+SETDESC_HANDLER = CommandHandler(["setdescription", "setdes"], set_desc, filters=Filters.chat_type.group)
 
 PROMOTE_HANDLER = CommandHandler(
-    "promote", promote, pass_args=True, filters=Filters.chat_type.groups
+    "promote", promote, pass_args=True, filters=Filters.chat_type.group
 )
-DEMOTE_HANDLER = CommandHandler("demote", demote, pass_args=True, filters=Filters.chat_type.groups)
+
+FULLPROMOTE_HANDLER = CommandHandler (
+    "fullpromote", fullpromote, pass_args=True, filters=Filters.chat_type.group
+)
+DEMOTE_HANDLER = CommandHandler("demote", demote, pass_args=True, filters=Filters.chat_type.group)
 
 SET_TITLE_HANDLER = DisableAbleCommandHandler("settitle", set_title, pass_args=True)
 ADMINLIST_HANDLER = DisableAbleCommandHandler(
-    ["adminlist", "admins"], adminlist, filters=Filters.chat_type.groups
+    ["adminlist", "admins"], adminlist, filters=Filters.chat_type.group
 )
 
 ADMIN_REFRESH_HANDLER = CommandHandler(
-    "admincache", refresh_admin, filters=Filters.chat_type.groups)
+    "admincache", refresh_admin, filters=Filters.chat_type.group)
 
 dispatcher.add_handler(PIN_HANDLER)
 dispatcher.add_handler(UNPIN_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
+dispatcher.add_handler(FULLPROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
