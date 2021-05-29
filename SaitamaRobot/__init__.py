@@ -88,7 +88,7 @@ if ENV:
     DB_URI = os.environ.get("DATABASE_URL")
     REDIS_URL = os.environ.get('REDIS_URL')
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
-    ARQ_API = os.environ.get("ARQ_API_BASE_URL", None)
+    ARQ_API_KEY = os.environ.get("ARQ_API_KEY", None)
     ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
     DONATION_LINK = os.environ.get('DONATION_LINK')
     DONATION_LINK = os.environ.get("DONATION_LINK")
@@ -160,7 +160,7 @@ else:
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
     REDIS_URL = Config.REDIS_URL
     MONGO_DB_URI = Config.MONGO_DB_URI
-    ARQ_API = Config.ARQ_API
+    ARQ_API = Config.ARQ_API_KEY
     ARQ_API_URL = Config.ARQ_API_URL
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
