@@ -6,7 +6,6 @@ import time
 import spamwatch
 import telegram.ext as tg
 from redis import StrictRedis
-from SaitamaRobot import SUDO
 from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from Python_ARQ import ARQ
