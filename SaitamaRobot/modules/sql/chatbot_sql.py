@@ -1,5 +1,6 @@
-from SaitamaRobot import MONGO_DB_URI 
+from SaitamaRobot import MONGO_DB_URI as db_x
 
+lydia = db_x["CAHTBOT"]
 
 def add_chat(chat_id):
     stark = lydia.find_one({"chat_id": chat_id})
