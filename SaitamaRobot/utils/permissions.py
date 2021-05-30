@@ -1,12 +1,15 @@
 from functools import wraps
-
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from pyrogram.types import Message
-
-from SaitamaRobot import SUDO, kp as app
+from SaitamaRobot import (
+    DRAGONS,
+    DEV_USERS, 
+    WOLVES, 
+    DEMONS, 
+    TIGERS 
+    kp as app,
+)
 from SaitamaRobot.utils.adminperms import member_permissions
-
-SUDO = DRAGONS, TIGERS, WOLVES
 
 async def authorised(func, subFunc2, client, message, *args, **kwargs):
     chatID = message.chat.id
