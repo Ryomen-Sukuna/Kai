@@ -4,9 +4,9 @@ from SaitamaRobot.utils.filter_groups import chatbot_group
 from pyrogram import filters
 from SaitamaRobot.modules.karma import arq
 
-BOT_ID = 1412878118
+BOT_ID = 1820343887
 
-__mod_name__ = "ChatBot"
+__mod_name__ = "Chatbot"
 __help__ = """
 /chatbot [ON|OFF] To Enable Or Disable Chatbot In Your Chat.
 """
