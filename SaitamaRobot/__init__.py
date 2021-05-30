@@ -7,10 +7,7 @@ import spamwatch
 import telegram.ext as tg
 from redis import StrictRedis
 from aiohttp import ClientSession
-from motor import motor_asyncio
-from odmantic import AIOEngine
-from pymongo import MongoClient
-from pymongo.errors import ServerSelectionTimeoutError
+from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from Python_ARQ import ARQ
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
@@ -90,8 +87,9 @@ if ENV:
     API_HASH = os.environ.get("API_HASH", None)
     DB_URI = os.environ.get("DATABASE_URL")
     REDIS_URL = os.environ.get('REDIS_URL')
-    MONGO_URI = os.environ.get("MONGO_DB_URI", None)
-    MONGO_DB = os.environ.get("MONGO_DB", None)
+    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
+    ARQ_API_KEY = os.environ.get("ARQ_API_KEY", None)
+    ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
     DONATION_LINK = os.environ.get('DONATION_LINK')
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
@@ -109,8 +107,6 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
-    ARQ_API_URL =  "https://thearq.tech"
-    ARQ_API_KEY = ARQ_API
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -225,14 +221,9 @@ from SaitamaRobot.modules.sql import SESSION
 
 updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10}, persistence=PostgresPersistence(SESSION))
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
-mongodb = MongoClient(MONGO_URI, MONGO_PORT)[MONGO_DB]
-motor = motor_asyncio.AsyncIOMotorClient(MONGO_URI)
-db = motor[MONGO_DB]
-engine = AIOEngine(motor, MONGO_DB)
-print("[INFO]: INITIALZING AIOHTTP SESSION")
+mongo_client = MongoClient(MONGO_DB_URI)
+db = mongo_client.SaitamaRobot
 aiohttpsession = ClientSession()
-# ARQ Client
-print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 dispatcher = updater.dispatcher
 
