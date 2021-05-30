@@ -6,6 +6,7 @@ import time
 import spamwatch
 import telegram.ext as tg
 from redis import StrictRedis
+from SaitamaRobot import SUDO
 from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from Python_ARQ import ARQ
@@ -225,6 +226,7 @@ mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client.SaitamaRobot
 aiohttpsession = ClientSession()
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
+SUDO = DRAGONS, DEV_USERS, WOLVES, DEMONS, TIGERS
 dispatcher = updater.dispatcher
 
 kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
