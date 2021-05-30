@@ -16,7 +16,7 @@ from SaitamaRobot.utils.dbfunctions import (
    karma_on, 
    update_karma
 )
-from SaitamaRobot utils..filter_groups import karma_negative_group, karma_positive_group
+from SaitamaRobot.utils.filter_groups import karma_negative_group, karma_positive_group
 
 aiohttpsession = ClientSession()
 ARQ_API_KEY= "YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ"
