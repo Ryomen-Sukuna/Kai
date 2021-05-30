@@ -22,8 +22,6 @@ from SaitamaRobot import (
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
     user_admin,
-    ChatMemberUpdated,
-    ChatMember,
 )
 from SaitamaRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from SaitamaRobot.modules.helper_funcs.msg_types import get_welcome_type
@@ -39,6 +37,8 @@ from telegram import (
     InlineKeyboardMarkup,
     ParseMode,
     Update,
+    ChatMemberUpdated,
+    ChatMember,
 )
 from telegram.error import BadRequest
 from telegram.ext import (
