@@ -7,7 +7,6 @@ from SaitamaRobot import (
     WOLVES, 
     DEMONS, 
     TIGERS 
-    kp,
 )
 from SaitamaRobot.utils.adminperms import member_permissions
 
