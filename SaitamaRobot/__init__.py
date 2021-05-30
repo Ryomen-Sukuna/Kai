@@ -7,7 +7,10 @@ import spamwatch
 import telegram.ext as tg
 from redis import StrictRedis
 from aiohttp import ClientSession
-from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
+from motor import motor_asyncio
+from odmantic import AIOEngine
+from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
 from Python_ARQ import ARQ
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
@@ -87,9 +90,9 @@ if ENV:
     API_HASH = os.environ.get("API_HASH", None)
     DB_URI = os.environ.get("DATABASE_URL")
     REDIS_URL = os.environ.get('REDIS_URL')
-    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
-    ARQ_API_KEY = os.environ.get("ARQ_API_KEY", None)
-    ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
+    MONGO_URI = os.environ.get("MONGO_DB_URI", None)
+    MONGO_PORT = int(os.environ.get("MONGO_PORT", None))
+    MONGO_DB = os.environ.get("MONGO_DB", None)
     DONATION_LINK = os.environ.get('DONATION_LINK')
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
@@ -107,10 +110,10 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
-    IBM_WATSON_CRED_URL = os.environ.get("IBM_WATSON_CRED_URL", None)
-    IBM_WATSON_CRED_PASSWORD = os.environ.get("IBM_WATSON_CRED_PASSWORD", None)
+    BOT_ID = int(os.environ.get("BOT_ID", None)
+    ARQ_API_URL =  "https://thearq.tech"
+    ARQ_API_KEY = ARQ_API
 
-    BOT_ID = 1820343887
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
     try:
@@ -224,11 +227,15 @@ from SaitamaRobot.modules.sql import SESSION
 
 updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10}, persistence=PostgresPersistence(SESSION))
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
-mongo_client = MongoClient(MONGO_DB_URI)
-db = mongo_client.SaitamaRobot
+mongodb = MongoClient(MONGO_URI, MONGO_PORT)[MONGO_DB]
+motor = motor_asyncio.AsyncIOMotorClient(MONGO_URI)
+db = motor[MONGO_DB]
+engine = AIOEngine(motor, MONGO_DB)
+print("[INFO]: INITIALZING AIOHTTP SESSION")
 aiohttpsession = ClientSession()
+# ARQ Client
+print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
-SUDO = DRAGONS, DEV_USERS, WOLVES, DEMONS, TIGERS
 dispatcher = updater.dispatcher
 
 kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
