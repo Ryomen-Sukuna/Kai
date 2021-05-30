@@ -222,7 +222,6 @@ def new_member(update: Update, context: CallbackContext):
                     f"#USER_JOINED\n"
                     f"Bot Owner just joined the chat"
                 )
-                continue
 
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
@@ -230,7 +229,6 @@ def new_member(update: Update, context: CallbackContext):
                     "Whoa! A member of the Zero Union just joined!",
                     reply_to_message_id=reply,
                 )
-                continue
 
             # Welcome Sudos
             elif new_mem.id in DRAGONS:
@@ -238,7 +236,6 @@ def new_member(update: Update, context: CallbackContext):
                     "Huh! A Dragons level just joined! Stay Alert!",
                     reply_to_message_id=reply,
                 )
-                continue
 
             # Welcome Support
             elif new_mem.id in TIGERS:
@@ -246,21 +243,18 @@ def new_member(update: Update, context: CallbackContext):
                     "Huh! Someone with a Tiger level just joined!",
                     reply_to_message_id=reply,
                 )
-                continue
 
             # Welcome Whitelisted
             elif new_mem.id in DEMONS:
                 update.effective_chat.send_message(
                     "Oof! A Demon level just joined!", reply_to_message_id=reply
                 )
-                continue
 
             # Welcome Wolves
             elif new_mem.id in WOLVES:
                 update.effective_chat.send_message(
                     "Oof! A Wolves level just joined!", reply_to_message_id=reply
                 )
-                continue
 
             # Welcome yourself
             elif new_mem.id == bot.id:
@@ -278,7 +272,6 @@ def new_member(update: Update, context: CallbackContext):
                         ),
                         parse_mode=ParseMode.HTML,
                 )
-                continue
 
             else:
                 buttons = sql.get_welc_buttons(chat.id)
