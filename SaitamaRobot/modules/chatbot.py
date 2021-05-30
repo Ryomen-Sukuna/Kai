@@ -7,7 +7,7 @@ from google_trans_new import google_translator
 from pyrogram import filters
 
 from SaitamaRobot import BOT_ID
-from SaitamaRobot.modules.sql.chatbot_sql import add_chat, get_session, remove_chat
+from SaitamaRobot.modules.chatbot.chatbotdb import add_chat, get_session, remove_chat
 from SaitamaRobot.utils.permissions import adminsOnly, edit_or_reply
 from SaitamaRobot.modules.karma import arq
 from SaitamaRobot import kp as eugen
