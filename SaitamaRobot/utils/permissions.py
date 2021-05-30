@@ -3,7 +3,7 @@ from functools import wraps
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from pyrogram.types import Message
 
-from SaitamaRobot import SUDO, app
+from SaitamaRobot import SUDO, kp as app
 from SaitamaRobot.utils.adminperms import member_permissions
 
 SUDO = DRAGONS, TIGERS, WOLVES
