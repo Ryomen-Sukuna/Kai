@@ -1,5 +1,5 @@
 """ WRITTEN BY @pokurt, https://github.com/pokurt"""
-
+#credits goes to William, https://github.com/WilliamButcherBot
 import sys
 import traceback
 from functools import wraps
@@ -52,7 +52,7 @@ def capture_err(func):
                 ),
             )
             for x in error_feedback:
-                await app.send_message(LOG_GROUP_ID, x)
+                await app.send_message(LOGGER, x)
             raise err
 
     return capture
