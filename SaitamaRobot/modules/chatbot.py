@@ -1,3 +1,4 @@
+#Credts to @DaisyX <https://github.com/TeamDaisyX/DaisyX>
 import re
 
 import emoji
@@ -85,7 +86,7 @@ async def hmm(client, message):
 )
 @adminsOnly
 async def hmm(_, message):
-    global daisy_chats
+    global eugen_chats
     if len(message.command) != 2:
         await message.reply_text(
             "I only recognize `/chatbot on` and /chatbot `off only`"
@@ -162,7 +163,7 @@ async def hmm(client, message):
 
         pro = response
         try:
-            await daisyx.send_chat_action(message.chat.id, "typing")
+            await eugen.send_chat_action(message.chat.id, "typing")
             await message.reply_text(pro)
         except CFError:
             return
@@ -222,7 +223,7 @@ async def hmm(client, message):
             except:
                 return
         try:
-            await daisyx.send_chat_action(message.chat.id, "typing")
+            await eugen.send_chat_action(message.chat.id, "typing")
             await message.reply_text(pro)
         except CFError:
             return
@@ -288,7 +289,7 @@ async def inuka(client, message):
     if not "en" in lan and not lan == "":
         pro = translator.translate(pro, lang_tgt=lan[0])
     try:
-        await daisyx.send_chat_action(message.chat.id, "typing")
+        await eugen.send_chat_action(message.chat.id, "typing")
         await message.reply_text(pro)
     except CFError:
         return
