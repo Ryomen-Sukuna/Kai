@@ -14,7 +14,7 @@ from SaitamaRobot.utils.dbfunctions import (
    is_karma_on,
    karma_off,
    karma_on, 
-   update_karma
+   update_karma,
 )
 from SaitamaRobot.utils.filter_groups import karma_negative_group, karma_positive_group
 
