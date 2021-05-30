@@ -91,7 +91,6 @@ if ENV:
     DB_URI = os.environ.get("DATABASE_URL")
     REDIS_URL = os.environ.get('REDIS_URL')
     MONGO_URI = os.environ.get("MONGO_DB_URI", None)
-    MONGO_PORT = int(os.environ.get("MONGO_PORT", None))
     MONGO_DB = os.environ.get("MONGO_DB", None)
     DONATION_LINK = os.environ.get('DONATION_LINK')
     DONATION_LINK = os.environ.get("DONATION_LINK")
