@@ -293,7 +293,7 @@ async def inuka(client, message):
 
 
 @eugen.on_message(
-    filters.regex("Eugen|eugen|EugeN|EUGEN")
+    filters.regex("Eugen|eugen|EugeN|EUGEN|prinzeugen|PrinzEugen|Prinz|prinz")
     & ~filters.bot
     & ~filters.via_bot
     & ~filters.forwarded
@@ -367,16 +367,10 @@ async def inuka(client, message):
 
 __help__ = """
 <b> Chatbot </b>
-DAISY AI 3.0 IS THE ONLY AI SYSTEM WHICH CAN DETECT & REPLY UPTO 200 LANGUAGES
+AI SYSTEM WHICH CAN DETECT & REPLY UPTO 200 LANGUAGES
 
  - /chatbot [ON/OFF]: Enables and disables AI Chat mode (EXCLUSIVE)
  - /chatbot EN : Enables English only chatbot
- 
- 
-<b> Assistant </b>
- - /ask [question]: Ask question from daisy
- - /ask [reply to voice note]: Get voice reply
- 
 """
 
 __mod_name__ = "AI Assistant"
