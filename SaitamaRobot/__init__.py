@@ -107,7 +107,7 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
-
+    BOT_ID = int(.os.envirom.get("BOT_ID", None))
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
     try:
