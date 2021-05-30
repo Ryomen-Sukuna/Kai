@@ -1,6 +1,4 @@
-from SaitamaRobot import MONGO_DB_URI as eugen
-
-lydia = eugen["Chatbot"]
+from SaitamaRobot import MONGO_DB_URI 
 
 
 def add_chat(chat_id):
