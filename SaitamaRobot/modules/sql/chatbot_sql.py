@@ -1,4 +1,4 @@
-from SaitamaRobot import MONGO_DB_URI as db_x
+from SaitamaRobot import mongodb as db_x
 
 lydia = db_x["CAHTBOT"]
 
