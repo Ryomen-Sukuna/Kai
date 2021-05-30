@@ -11,10 +11,10 @@ import aiohttp
 from google_trans_new import google_translator
 from pyrogram import filters
 
-from PythonARQ import arq
 from SaitamaRobot import BOT_ID
 from SaitamaRobot.db.mongo_helpers.aichat import add_chat, get_session, remove_chat
 from SaitamaRobot.function.pluginhelpers import admins_only, edit_or_reply
+from SaitamaRobot.modules.karma import arq
 from SaitamaRobot import kp as eugen
 
 translator = google_translator()
