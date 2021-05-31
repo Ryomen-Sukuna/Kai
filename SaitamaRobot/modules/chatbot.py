@@ -50,7 +50,7 @@ en_chats = []
     filters.voice & filters.reply & ~filters.bot & ~filters.via_bot & ~filters.forwarded,
     group=2,
 )
-async def hmm(client, message):
+async def chatbot_function(client, message):
     if not get_session(int(message.chat.id)):
         message.continue_propagation()
     if message.reply_to_message.from_user.id != BOT_ID:
@@ -83,7 +83,7 @@ async def hmm(client, message):
 )
 @adminsOnly
 async def chatbot_status(_, message):
-    global eugen_chats
+    global active_chats_bot
     if len(message.command) != 2:
         await message.reply_text(
             "I only recognize `/chatbot on` and /chatbot `off only`"
