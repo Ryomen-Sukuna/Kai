@@ -554,10 +554,6 @@ Group admins/group owners do not need these commands.
  ╠ `/addwolf`*:* Adds a user to Wolf
  ╚ `Add dev doesnt exist, devs should know how to add themselves`
 
- ╔ *Ping:*
- ╠ `/ping`*:* gets ping time of bot to telegram server
- ╚ `/pingall`*:* gets all listed ping times
-
  ╔ *Broadcast: (Bot owner only)*
  ╠  *Note:* This supports basic markdown
  ╠ `/broadcastall`*:* Broadcasts everywhere
@@ -596,13 +592,6 @@ Group admins/group owners do not need these commands.
  ╠   memory without restarting.
  ╠ `/unload modulename`*:* Loads the said module from
  ╚   memory without restarting.memory without restarting the bot
-
- ╔ *Remote commands:*
- ╠ `/rban user group`*:* Remote ban
- ╠ `/runban user group`*:* Remote un-ban
- ╠ `/rpunch user group`*:* Remote punch
- ╠ `/rmute user group`*:* Remote mute
- ╚ `/runmute user group`*:* Remote un-mute
 
  ╔ *Windows self hosted only:*
  ╠ `/reboot`*:* Restarts the bots service
