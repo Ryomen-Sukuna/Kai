@@ -133,7 +133,7 @@ async def chatbot_status(_, message):
     & ~filters.forwarded,
     group=2,
 )
-async def chatbot_function(client, message):
+async def chatbot_talk(client, message):
     if not get_session(int(message.chat.id)):
         return
     if not message.reply_to_message:
