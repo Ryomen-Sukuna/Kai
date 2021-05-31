@@ -337,19 +337,18 @@ def info(update: Update, context: CallbackContext):
                 document=open(f"{user.id}.png", "rb"),
                 caption=(text),
                 parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True,
             )
 
             os.remove(f"{user.id}.png")
         # Incase user don't have profile pic, send normal text
         except IndexError:
             message.reply_text(
-                text, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
+                text, parse_mode=ParseMode.HTML,
             )
 
     else:
         message.reply_text(
-            text, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
+            text, parse_mode=ParseMode.HTML,
         )
 
     rep.delete()
@@ -371,7 +370,6 @@ def about_me(update: Update, context: CallbackContext):
         update.effective_message.reply_text(
             f"*{user.first_name}*:\n{escape_markdown(info)}",
             parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
         )
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
@@ -436,7 +434,6 @@ def about_bio(update: Update, context: CallbackContext):
         update.effective_message.reply_text(
             "*{}*:\n{}".format(user.first_name, escape_markdown(info)),
             parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
         )
     elif message.reply_to_message:
         username = user.first_name
@@ -520,7 +517,7 @@ Examples:
  `/me @username(defaults to yours if no user specified)`
 
 *Information others add on you:*
- • `/bio`*:* will get your or another user's bio. This cannot be set by yourself.
+• `/bio`*:* will get your or another user's bio. This cannot be set by yourself.
 • `/setbio <text>`*:* while replying, will save another user's bio
 Examples:
  `/bio @username(defaults to yours if not specified).`

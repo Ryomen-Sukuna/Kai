@@ -17,7 +17,6 @@ from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
-from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.helper_funcs.string_handling import split_quotes
 from SaitamaRobot.modules.log_channel import loggable
@@ -520,9 +519,7 @@ RM_WARN_HANDLER = CommandHandler(
 LIST_WARN_HANDLER = DisableAbleCommandHandler(
     ["warnlist", "warnfilters"], list_warn_filters, filters=Filters.chat_type.group, admin_ok=True,
 )
-WARN_FILTER_HANDLER = MessageHandler(
-    CustomFilters.has_text & Filters.chat_type.group, reply_filter,
-)
+WARN_FILTER_HANDLER = MessageHandler(Filters.text & Filters.chat_type.group, reply_filter)
 WARN_LIMIT_HANDLER = CommandHandler("warnlimit", set_warn_limit, filters=Filters.chat_type.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
     "strongwarn", set_warn_strength, filters=Filters.chat_type.group,

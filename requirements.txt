@@ -48,8 +48,10 @@ youtube-dl
 youtube_search
 python-arq
 motor
+odmantic
 redis 
 dnspython
 cryptography
 pymongo
 pykeyboard
+google_trans_new
