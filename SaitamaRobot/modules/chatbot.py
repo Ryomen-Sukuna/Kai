@@ -8,6 +8,7 @@ from pyrogram import filters
 
 from SaitamaRobot import BOT_ID
 from SaitamaRobot.chatbot.chatbotdb import add_chat, get_session, remove_chat
+from SaitamaRobot.utils.filter_groups import chatbot_group
 from SaitamaRobot.utils.permissions import adminsOnly, edit_or_reply
 from SaitamaRobot.modules.karma import arq
 from SaitamaRobot import kp as eugen
