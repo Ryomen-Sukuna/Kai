@@ -82,7 +82,7 @@ async def hmm(client, message):
     filters.command("chatbot") & ~filters.edited & ~filters.bot & ~filters.private
 )
 @adminsOnly
-async def hmm(_, message):
+async def chatbot_status(_, message):
     global eugen_chats
     if len(message.command) != 2:
         await message.reply_text(
@@ -133,7 +133,7 @@ async def hmm(_, message):
     & ~filters.forwarded,
     group=2,
 )
-async def hmm(client, message):
+async def chatbot_function(client, message):
     if not get_session(int(message.chat.id)):
         return
     if not message.reply_to_message:
@@ -150,13 +150,13 @@ async def hmm(client, message):
         message.continue_propagation()
     if chat_id in en_chats:
         test = msg
-        test = test.replace("daisy", "Aco")
-        test = test.replace("Daisy", "Aco")
+        test = test.replace("eugen", "Aco")
+        test = test.replace("Eugen", "Aco")
         response = await lunaQuery(
             test, message.from_user.id if message.from_user else 0
         )
-        response = response.replace("Aco", "Daisy")
-        response = response.replace("aco", "Daisy")
+        response = response.replace("Aco", "Eugen")
+        response = response.replace("aco", "Eugen")
 
         pro = response
         try:
@@ -206,13 +206,13 @@ async def hmm(client, message):
                 return
         # test = emoji.demojize(test.strip())
 
-        test = test.replace("daisy", "Aco")
-        test = test.replace("Daisy", "Aco")
+        test = test.replace("eugen", "Aco")
+        test = test.replace("Eugen", "Aco")
         response = await lunaQuery(
             test, message.from_user.id if message.from_user else 0
         )
-        response = response.replace("Aco", "Daisy")
-        response = response.replace("aco", "Daisy")
+        response = response.replace("Aco", "Eugen")
+        response = response.replace("aco", "Eugen")
         pro = response
         if not "en" in lan and not lan == "":
             try:
@@ -229,7 +229,7 @@ async def hmm(client, message):
 @eugen.on_message(
     filters.text & filters.private & ~filters.edited & filters.reply & ~filters.bot
 )
-async def inuka(client, message):
+async def zero(client, message):
     msg = message.text
     if msg.startswith("/") or msg.startswith("@"):
         message.continue_propagation()
@@ -301,7 +301,7 @@ async def inuka(client, message):
     & ~filters.channel
     & ~filters.edited
 )
-async def inuka(client, message):
+async def zero(client, message):
     msg = message.text
     if msg.startswith("/") or msg.startswith("@"):
         message.continue_propagation()
