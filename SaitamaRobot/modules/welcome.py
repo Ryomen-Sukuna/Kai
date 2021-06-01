@@ -147,7 +147,6 @@ def send(update, message, keyboard, backup_message):
     return msg
 
 
-@run_async
 @loggable
 def new_member(update: Update, context: CallbackContext):
     bot, job_queue = context.bot, context.job_queue
