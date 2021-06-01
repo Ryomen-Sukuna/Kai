@@ -45,7 +45,6 @@ from telegram.ext import (
     CommandHandler,
     Filters,
     MessageHandler,
-    run_async,
 )
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
 
@@ -1051,13 +1050,11 @@ WELC_MUTE_HELP_TXT = (
 )
 
 
-@run_async
 @user_admin
 def welcome_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
-@run_async
 @user_admin
 def welcome_mute_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
