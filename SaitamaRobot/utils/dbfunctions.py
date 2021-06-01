@@ -3,6 +3,7 @@ from typing import Dict, List, Union
 
 karmadb = db.karma
 
+
 async def int_to_alpha(user_id: int) -> str:
     alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
     text = ""

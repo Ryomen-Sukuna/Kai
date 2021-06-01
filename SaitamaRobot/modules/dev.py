@@ -13,6 +13,7 @@ from telegram import TelegramError, Update
 from telegram.error import Unauthorized
 from telegram.ext import CallbackContext, CommandHandler
 
+
 @dev_plus
 def allow_groups(update: Update, context: CallbackContext):
     args = context.args
@@ -28,6 +29,7 @@ def allow_groups(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Format: /lockdown Yes/No or Off/On")
         return
     update.effective_message.reply_text("Done! Lockdown value toggled.")
+
 
 @dev_plus
 def leave(update: Update, context: CallbackContext):

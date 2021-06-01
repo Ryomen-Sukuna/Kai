@@ -145,12 +145,14 @@ def unapproveall(update: Update, context: CallbackContext):
             [
                 [
                     InlineKeyboardButton(
-                        text="Unapprove all users", callback_data="unapproveall_user",
+                        text="Unapprove all users",
+                        callback_data="unapproveall_user",
                     ),
                 ],
                 [
                     InlineKeyboardButton(
-                        text="Cancel", callback_data="unapproveall_cancel",
+                        text="Cancel",
+                        callback_data="unapproveall_cancel",
                     ),
                 ],
             ],
@@ -172,7 +174,7 @@ def unapproveall_btn(update: Update, context: CallbackContext):
             approved_users = sql.list_approved(chat.id)
             users = [int(i.user_id) for i in approved_users]
             for user_id in users:
-                sql.disapprove(chat.id, user_id)      
+                sql.disapprove(chat.id, user_id)
             message.edit_text("Successfully Unapproved all user in this Chat.")
             return
 
@@ -222,4 +224,3 @@ dispatcher.add_handler(UNAPPROVEALL_BTN)
 __mod_name__ = "Approvals"
 __command_list__ = ["approve", "unapprove", "approved", "approval"]
 __handlers__ = [APPROVE, DISAPPROVE, APPROVED, APPROVAL]
-

@@ -127,7 +127,10 @@ def chats(update: Update, context: CallbackContext):
             bot_member = curr_chat.get_member(context.bot.id)
             chat_members = curr_chat.get_members_count(context.bot.id)
             chatfile += "{}. {} | {} | {}\n".format(
-                P, chat.chat_name, chat.chat_id, chat_members,
+                P,
+                chat.chat_name,
+                chat.chat_id,
+                chat_members,
             )
             P = P + 1
         except:
@@ -171,10 +174,13 @@ def __migrate__(old_chat_id, new_chat_id):
 __help__ = ""  # no help string
 
 BROADCAST_HANDLER = CommandHandler(
-    ["broadcastall", "broadcastusers", "broadcastgroups"], broadcast,
+    ["broadcastall", "broadcastusers", "broadcastgroups"],
+    broadcast,
 )
 USER_HANDLER = MessageHandler(Filters.all & Filters.chat_type.group, log_user)
-CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.chat_type.group, chat_checker)
+CHAT_CHECKER_HANDLER = MessageHandler(
+    Filters.all & Filters.chat_type.group, chat_checker
+)
 CHATLIST_HANDLER = CommandHandler("groups", chats)
 
 dispatcher.add_handler(USER_HANDLER, USERS_GROUP)
