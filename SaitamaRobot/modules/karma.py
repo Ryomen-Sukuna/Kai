@@ -7,19 +7,19 @@ from SaitamaRobot.utils.errors import capture_err
 from SaitamaRobot.utils.permissions import adminsOnly
 from SaitamaRobot.utils.adminperms import member_permissions
 from SaitamaRobot.utils.dbfunctions import (
-   alpha_to_int, 
-   get_karma, 
-   get_karmas,
-   int_to_alpha, 
-   is_karma_on,
-   karma_off,
-   karma_on, 
-   update_karma,
+    alpha_to_int,
+    get_karma,
+    get_karmas,
+    int_to_alpha,
+    is_karma_on,
+    karma_off,
+    karma_on,
+    update_karma,
 )
 from SaitamaRobot.utils.filter_groups import karma_negative_group, karma_positive_group
 
 aiohttpsession = ClientSession()
-ARQ_API_KEY= "YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ"
+ARQ_API_KEY = "YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ"
 ARQ_API_URL = "https://thearq.tech"
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
@@ -33,9 +33,7 @@ Send /karma without replying to any message to chek karma list of top 10 users
 """
 
 
-regex_upvote = (
-    r"^((?i)\+|\+\+|\+1|thx|tnx|ty|thank you|thanx|thanks|pro|cool|good|👍)$"
-)
+regex_upvote = r"^((?i)\+|\+\+|\+1|thx|tnx|ty|thank you|thanx|thanks|pro|cool|good|👍)$"
 regex_downvote = r"^(\-|\-\-|\-1|👎)$"
 
 
@@ -136,9 +134,7 @@ async def karma(_, message):
             user_karma = karma[i]["karma"]
             karma_dicc[str(user_id)] = user_karma
             karma_arranged = dict(
-                sorted(
-                    karma_dicc.items(), key=lambda item: item[1], reverse=True
-                )
+                sorted(karma_dicc.items(), key=lambda item: item[1], reverse=True)
             )
         if not karma_dicc:
             await m.edit("No karma in DB for this chat.")
