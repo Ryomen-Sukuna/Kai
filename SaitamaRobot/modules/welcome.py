@@ -147,6 +147,7 @@ def send(update, message, keyboard, backup_message):
     return msg
 
 
+@run_async
 @loggable
 def new_member(update: Update, context: CallbackContext):
     bot, job_queue = context.bot, context.job_queue
@@ -524,6 +525,7 @@ def check_not_bot(member, chat_id, message_id, context):
             pass
 
 
+@run_async
 def left_member(update: Update, context: CallbackContext):
     bot = context.bot
     chat = update.effective_chat
@@ -632,6 +634,7 @@ def left_member(update: Update, context: CallbackContext):
             )
 
 
+@run_async
 @user_admin
 def welcome(update: Update, context: CallbackContext):
     args = context.args
@@ -694,6 +697,7 @@ def welcome(update: Update, context: CallbackContext):
             )
 
 
+@run_async
 @user_admin
 def goodbye(update: Update, context: CallbackContext):
     args = context.args
@@ -745,6 +749,7 @@ def goodbye(update: Update, context: CallbackContext):
             )
 
 
+@run_async
 @user_admin
 @loggable
 def set_welcome(update: Update, context: CallbackContext) -> str:
@@ -769,6 +774,7 @@ def set_welcome(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def reset_welcome(update: Update, context: CallbackContext) -> str:
@@ -788,6 +794,7 @@ def reset_welcome(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def set_goodbye(update: Update, context: CallbackContext) -> str:
@@ -810,6 +817,7 @@ def set_goodbye(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def reset_goodbye(update: Update, context: CallbackContext) -> str:
@@ -829,6 +837,7 @@ def reset_goodbye(update: Update, context: CallbackContext) -> str:
     )
 
 
+@run_async
 @user_admin
 @loggable
 def welcomemute(update: Update, context: CallbackContext) -> str:
@@ -885,6 +894,7 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @user_admin
 @loggable
 def clean_welcome(update: Update, context: CallbackContext) -> str:
@@ -927,6 +937,7 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@run_async
 @user_admin
 def cleanservice(update: Update, context: CallbackContext) -> str:
     args = context.args
@@ -961,6 +972,7 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
             )
 
 
+@run_async
 def user_button(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
@@ -1061,11 +1073,13 @@ WELC_MUTE_HELP_TXT = (
 )
 
 
+@run_async
 @user_admin
 def welcome_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
+@run_async
 @user_admin
 def welcome_mute_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
