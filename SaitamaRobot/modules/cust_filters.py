@@ -623,7 +623,7 @@ RMALLFILTER_HANDLER = CommandHandler(
 RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
 LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(
-    Filters.text & ~Filters.update.edited_message, reply_filter
+    Filters.text & ~Filters.update.edited_message | Filters.entity(MENTION), reply_filter
 )
 
 dispatcher.add_handler(FILTER_HANDLER)
