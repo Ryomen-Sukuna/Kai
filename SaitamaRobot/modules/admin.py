@@ -331,7 +331,9 @@ def set_title(update: Update, context: CallbackContext):
     try:
         bot.setChatAdministratorCustomTitle(chat.id, user_id, title)
     except BadRequest:
-        message.reply_text("Either they aren't promoted by me or you set a title text that is impossible to set.")
+        message.reply_text(
+            "Either they aren't promoted by me or you set a title text that is impossible to set."
+        )
         return
 
     bot.sendMessage(
@@ -368,7 +370,9 @@ def pin(update: Update, context: CallbackContext) -> str:
     if prev_message and is_group:
         try:
             bot.pinChatMessage(
-                chat.id, prev_message.message_id, disable_notification=is_silent,
+                chat.id,
+                prev_message.message_id,
+                disable_notification=is_silent,
             )
         except BadRequest as excp:
             if excp.message == "Chat_not_modified":
@@ -441,7 +445,7 @@ def invite(update: Update, context: CallbackContext):
 def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat] -> unused variable
     user = update.effective_user  # type: Optional[User]
-    args = context.args # -> unused variable
+    args = context.args  # -> unused variable
     bot = context.bot
 
     if update.effective_message.chat.type == "private":
@@ -450,15 +454,18 @@ def adminlist(update, context):
 
     chat = update.effective_chat
     chat_id = update.effective_chat.id
-    chat_name = update.effective_message.chat.title # -> unused variable
+    chat_name = update.effective_message.chat.title  # -> unused variable
 
     try:
         msg = update.effective_message.reply_text(
-            "Fetching group admins...", parse_mode=ParseMode.HTML,
+            "Fetching group admins...",
+            parse_mode=ParseMode.HTML,
         )
     except BadRequest:
         msg = update.effective_message.reply_text(
-            "Fetching group admins...", quote=False, parse_mode=ParseMode.HTML,
+            "Fetching group admins...",
+            quote=False,
+            parse_mode=ParseMode.HTML,
         )
 
     administrators = bot.getChatAdministrators(chat_id)
@@ -474,7 +481,8 @@ def adminlist(update, context):
         else:
             name = "{}".format(
                 mention_html(
-                    user.id, html.escape(user.first_name + " " + (user.last_name or "")),
+                    user.id,
+                    html.escape(user.first_name + " " + (user.last_name or "")),
                 ),
             )
 
@@ -506,7 +514,8 @@ def adminlist(update, context):
         else:
             name = "{}".format(
                 mention_html(
-                    user.id, html.escape(user.first_name + " " + (user.last_name or "")),
+                    user.id,
+                    html.escape(user.first_name + " " + (user.last_name or "")),
                 ),
             )
         # if user.username:
@@ -526,7 +535,8 @@ def adminlist(update, context):
     for admin_group in custom_admin_list.copy():
         if len(custom_admin_list[admin_group]) == 1:
             text += "\n<code> • </code>{} | <code>{}</code>".format(
-                custom_admin_list[admin_group][0], html.escape(admin_group),
+                custom_admin_list[admin_group][0],
+                html.escape(admin_group),
             )
             custom_admin_list.pop(admin_group)
 
@@ -564,12 +574,14 @@ UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
-FULLPROMOTE_HANDLER = DisableAbleCommandHandler ("fullpromote", fullpromote)
+FULLPROMOTE_HANDLER = DisableAbleCommandHandler("fullpromote", fullpromote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
 SET_TITLE_HANDLER = CommandHandler("title", set_title)
 ADMIN_REFRESH_HANDLER = CommandHandler(
-    "admincache", refresh_admin, filters=Filters.group,
+    "admincache",
+    refresh_admin,
+    filters=Filters.group,
 )
 
 dispatcher.add_handler(ADMINLIST_HANDLER)
