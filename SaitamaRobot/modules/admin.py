@@ -24,6 +24,7 @@ from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -74,11 +75,12 @@ def promote(update: Update, context: CallbackContext) -> str:
         bot.promoteChatMember(
             chat.id,
             user_id,
+            can_change_info=bot_member.can_change_info,
             can_post_messages=bot_member.can_post_messages,
             can_edit_messages=bot_member.can_edit_messages,
             can_delete_messages=bot_member.can_delete_messages,
             can_invite_users=bot_member.can_invite_users,
-            can_promote_members=bot_member.can_promote_members,
+            # can_promote_members=bot_member.can_promote_members,
             can_restrict_members=bot_member.can_restrict_members,
             can_pin_messages=bot_member.can_pin_messages,
         )
@@ -105,89 +107,7 @@ def promote(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@connection_status
-@bot_admin
-@can_promote
-@user_admin
-@loggable
-def fullpromote(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
-    message = update.effective_message
-    chat = update.effective_chat
-    user = update.effective_user
-
-    promoter = chat.get_member(user.id)
-
-    if (
-        not (promoter.can_promote_members or promoter.status == "creator")
-        and user.id not in DRAGONS
-    ):
-        message.reply_text("You don't have the necessary rights to do that!")
-        return
-
-    user_id = extract_user(message, args)
-
-    if not user_id:
-        message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
-        )
-        return
-
-    try:
-        user_member = chat.get_member(user_id)
-    except:
-        return
-
-    if user_member.status == "administrator" or user_member.status == "creator":
-        message.reply_text("How am I meant to promote someone that's already an admin?")
-        return
-
-    if user_id == bot.id:
-        message.reply_text("I can't promote myself! Get an admin to do it for me.")
-        return
-
-    # set same perms as bot - bot can't assign higher perms than itself!
-    bot_member = chat.get_member(bot.id)
-
-    try:
-        bot.promoteChatMember(
-            chat.id,
-            user_id,
-            can_change_info=bot_member.can_change_info,
-            can_post_messages=bot_member.can_post_messages,
-            can_edit_messages=bot_member.can_edit_messages,
-            can_delete_messages=bot_member.can_delete_messages,
-            can_invite_users=bot_member.can_invite_users,
-            can_promote_members=bot_member.can_promote_members,
-            can_restrict_members=bot_member.can_restrict_members,
-            can_pin_messages=bot_member.can_pin_messages,
-            can_manage_voice_chat=bot_member.can_manage_voice_chat,
-        )
-    except BadRequest as err:
-        if err.message == "User_not_mutual_contact":
-            message.reply_text("I can't promote someone who isn't in the group.")
-        else:
-            message.reply_text("An error occured while promoting.")
-        return
-
-    bot.sendMessage(
-        chat.id,
-        f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b> with full rights!",
-        parse_mode=ParseMode.HTML,
-    )
-
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#PROMOTED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
-    )
-
-    return log_message
-
-
+@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -237,7 +157,6 @@ def demote(update: Update, context: CallbackContext) -> str:
             can_restrict_members=False,
             can_pin_messages=False,
             can_promote_members=False,
-            can_manage_voice_chat=False,
         )
 
         bot.sendMessage(
@@ -262,6 +181,7 @@ def demote(update: Update, context: CallbackContext) -> str:
         return
 
 
+@run_async
 @user_admin
 def refresh_admin(update, _):
     try:
@@ -272,6 +192,7 @@ def refresh_admin(update, _):
     update.effective_message.reply_text("Admins cache refreshed!")
 
 
+@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -336,6 +257,7 @@ def set_title(update: Update, context: CallbackContext):
     )
 
 
+@run_async
 @bot_admin
 @can_pin
 @user_admin
@@ -377,6 +299,7 @@ def pin(update: Update, context: CallbackContext) -> str:
         return log_message
 
 
+@run_async
 @bot_admin
 @can_pin
 @user_admin
@@ -403,6 +326,7 @@ def unpin(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@run_async
 @bot_admin
 @user_admin
 @connection_status
@@ -427,6 +351,7 @@ def invite(update: Update, context: CallbackContext):
         )
 
 
+@run_async
 @connection_status
 def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat] -> unused variable
@@ -548,8 +473,8 @@ __help__ = """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
 
-PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.chat_type.group)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.group)
+PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
@@ -559,7 +484,7 @@ DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
 SET_TITLE_HANDLER = CommandHandler("title", set_title)
 ADMIN_REFRESH_HANDLER = CommandHandler(
-    "admincache", refresh_admin, filters=Filters.chat_type.group,
+    "admincache", refresh_admin, filters=Filters.group,
 )
 
 dispatcher.add_handler(ADMINLIST_HANDLER)
@@ -567,10 +492,10 @@ dispatcher.add_handler(PIN_HANDLER)
 dispatcher.add_handler(UNPIN_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
-dispatcher.add_handler(FULLPROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
 dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
+dispatcher.add_handler(FULLPROMOTE_HANDLER)
 
 __mod_name__ = "Admin"
 __command_list__ = [
@@ -578,9 +503,9 @@ __command_list__ = [
     "admins",
     "invitelink",
     "promote",
-    "fullpromote",
     "demote",
     "admincache",
+    "fullpromote",
 ]
 __handlers__ = [
     ADMINLIST_HANDLER,
@@ -588,8 +513,8 @@ __handlers__ = [
     UNPIN_HANDLER,
     INVITE_HANDLER,
     PROMOTE_HANDLER,
-    FULLPROMOTE_HANDLER,
     DEMOTE_HANDLER,
     SET_TITLE_HANDLER,
     ADMIN_REFRESH_HANDLER,
+    FULLPROMOTE_HANDLER,
 ]
