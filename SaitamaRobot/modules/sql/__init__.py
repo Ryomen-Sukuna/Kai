@@ -14,7 +14,8 @@ def start() -> scoped_session:
 
 BASE = declarative_base()
 try:
-	SESSION = start()
+    SESSION = start()
 except NoSuchModuleError:
-	raise Exception("Your database config seems wrong, or bot can't connect to database!")
-
+    raise Exception(
+        "Your database config seems wrong, or bot can't connect to database!"
+    )

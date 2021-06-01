@@ -53,12 +53,14 @@ async def translate(_, message: Message) -> None:
     except IndexError:
         source = await trans.detect(to_translate)
         dest = "en"
-    translation = await trans(to_translate,
-                              sourcelang=source, targetlang=dest)
-    reply = f"<b>Translated from {source} to {dest}</b>:\n" \
+    translation = await trans(to_translate, sourcelang=source, targetlang=dest)
+    reply = (
+        f"<b>Translated from {source} to {dest}</b>:\n"
         f"<code>{translation.text}</code>"
+    )
 
     await message.reply_text(reply, parse_mode="html")
+
 
 def languages(update: Update, context: CallbackContext) -> None:
     update.effective_message.reply_text(
@@ -68,13 +70,13 @@ def languages(update: Update, context: CallbackContext) -> None:
                 [
                     InlineKeyboardButton(
                         text="Language codes",
-                        url="https://telegra.ph/Lang-Codes-03-19-3"
-                        ),
+                        url="https://telegra.ph/Lang-Codes-03-19-3",
+                    ),
                 ],
             ],
-        disable_web_page_preview=True
+            disable_web_page_preview=True,
+        ),
     )
-        )
 
 
 LANG_HANDLER = DisableAbleCommandHandler("langs", languages, run_async=True)

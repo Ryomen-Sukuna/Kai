@@ -18,14 +18,20 @@ from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
+
 def get_user_list(__init__, key):
     with open("{}/SaitamaRobot/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
 
-        
+
 # enable logging
 FORMAT = "[KAI] %(message)s"
-logging.basicConfig(handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()], level=logging.INFO, format=FORMAT, datefmt="[%X]")
+logging.basicConfig(
+    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    level=logging.INFO,
+    format=FORMAT,
+    datefmt="[%X]",
+)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
@@ -86,11 +92,11 @@ if ENV:
     API_ID = os.environ.get("API_ID", None)
     API_HASH = os.environ.get("API_HASH", None)
     DB_URI = os.environ.get("DATABASE_URL")
-    REDIS_URL = os.environ.get('REDIS_URL')
+    REDIS_URL = os.environ.get("REDIS_URL")
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     ARQ_API_KEY = os.environ.get("ARQ_API_KEY", None)
     ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
-    DONATION_LINK = os.environ.get('DONATION_LINK')
+    DONATION_LINK = os.environ.get("DONATION_LINK")
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
@@ -110,7 +116,7 @@ if ENV:
     BOT_ID = 1820343887
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
-   
+
     try:
         BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
     except ValueError:
@@ -180,7 +186,7 @@ else:
     INFOPIC = Config.INFOPIC
     LASTFM_API_KEY = Config.LASTFM_API_KEY
     CF_API_KEY = Config.CF_API_KEY
-    
+
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
@@ -189,7 +195,7 @@ else:
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
-REDIS = StrictRedis.from_url(REDIS_URL,decode_responses=True)
+REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 
 try:
 
@@ -203,9 +209,9 @@ except BaseException:
 
 finally:
 
-   REDIS.ping()
+    REDIS.ping()
 
-   LOGGER.info("Your redis server is now alive!")
+    LOGGER.info("Your redis server is now alive!")
 
 if not SPAMWATCH_API:
     sw = None
@@ -220,7 +226,12 @@ else:
 
 from SaitamaRobot.modules.sql import SESSION
 
-updater = tg.Updater(TOKEN, workers=min(32, os.cpu_count() + 4), request_kwargs={"read_timeout": 10, "connect_timeout": 10}, persistence=PostgresPersistence(SESSION))
+updater = tg.Updater(
+    TOKEN,
+    workers=min(32, os.cpu_count() + 4),
+    request_kwargs={"read_timeout": 10, "connect_timeout": 10},
+    persistence=PostgresPersistence(SESSION),
+)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client.SaitamaRobot
@@ -228,7 +239,13 @@ aiohttpsession = ClientSession()
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 dispatcher = updater.dispatcher
 
-kp = Client(":memory:", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, workers=min(32, os.cpu_count() + 4))
+kp = Client(
+    ":memory:",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=TOKEN,
+    workers=min(32, os.cpu_count() + 4),
+)
 apps = []
 apps.append(kp)
 
@@ -258,6 +275,7 @@ async def get_entity(client, entity):
                 entity = await kp.get_chat(entity)
                 entity_client = kp
     return entity, entity_client
+
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)

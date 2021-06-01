@@ -1,4 +1,4 @@
-#Credts to @DaisyX <https://github.com/TeamDaisyX/DaisyX>
+# Credts to @DaisyX <https://github.com/TeamDaisyX/DaisyX>
 import re
 import emoji
 import aiohttp
@@ -18,6 +18,7 @@ translator = google_translator()
 IBM_WATSON_CRED_URL = "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/bd6b59ba-3134-4dd4-aff2-49a79641ea15"
 IBM_WATSON_CRED_PASSWORD = "UQ1MtTzZhEsMGK094klnfa-7y_4MCpJY1yhd52MXOo3Y"
 url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
+
 
 async def lunaQuery(query: str, user_id: int):
     luna = await arq.luna(query, user_id)

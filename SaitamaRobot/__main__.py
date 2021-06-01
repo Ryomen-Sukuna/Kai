@@ -9,19 +9,19 @@ import requests
 from pyrogram import idle, Client
 from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import (
-    TelegramError, 
-    Unauthorized, 
+    TelegramError,
+    Unauthorized,
     BadRequest,
-    TimedOut, 
-    ChatMigrated, 
-    NetworkError
+    TimedOut,
+    ChatMigrated,
+    NetworkError,
 )
 from telegram.ext import (
     CallbackContext,
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
-    Filters
+    Filters,
 )
 from telegram.ext.dispatcher import DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
@@ -148,13 +148,13 @@ for module_name in ALL_MODULES:
 
 # do not async
 def send_help(chat_id, text, keyboard=None):
-    '''#TODO
+    """#TODO
 
     Params:
         chat_id  -
         text     -
         keyboard -
-    '''
+    """
 
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
@@ -185,7 +185,13 @@ def start(update: Update, context: CallbackContext):
                     update.effective_chat.id,
                     HELPABLE[mod].__help__,
                     InlineKeyboardMarkup(
-                        [[InlineKeyboardButton(text="Back", callback_data="help_back")]],
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    text="Back", callback_data="help_back"
+                                )
+                            ]
+                        ],
                     ),
                 )
             elif args[0].lower() == "markdownhelp":
@@ -209,7 +215,8 @@ def start(update: Update, context: CallbackContext):
             update.effective_message.reply_photo(
                 KAI_IMG,
                 PM_START_TEXT.format(
-                    escape_markdown(first_name), escape_markdown(context.bot.first_name),
+                    escape_markdown(first_name),
+                    escape_markdown(context.bot.first_name),
                 ),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -230,7 +237,7 @@ def start(update: Update, context: CallbackContext):
                             InlineKeyboardButton(
                                 text="Source code",
                                 url="https://github.com/Ryomen-Sukuna/Kai",
-                            )
+                            ),
                         ],
                     ]
                 ),
@@ -246,12 +253,12 @@ def start(update: Update, context: CallbackContext):
 
 # for test purposes
 def error_callback(update, context):
-    '''#TODO
+    """#TODO
 
     Params:
         update  -
         context -
-    '''
+    """
 
     try:
         raise context.error
@@ -273,6 +280,7 @@ def error_callback(update, context):
     except TelegramError:
         pass
         # handle all other telegram related errors
+
 
 def help_button(update, context):
     query = update.callback_query
@@ -354,7 +362,8 @@ def get_help(update: Update, context: CallbackContext):
                             InlineKeyboardButton(
                                 text="Help",
                                 url="t.me/{}?start=ghelp_{}".format(
-                                    context.bot.username, module,
+                                    context.bot.username,
+                                    module,
                                 ),
                             ),
                         ],
@@ -451,9 +460,13 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = mod_match.group(1)
             module = mod_match.group(2)
             chat = bot.get_chat(chat_id)
-            text = "*{}* has the following settings for the *{}* module:\n\n".format(
-                escape_markdown(chat.title), CHAT_SETTINGS[module].__mod_name__,
-            ) + CHAT_SETTINGS[module].__chat_settings__(chat_id, user.id)
+            text = (
+                "*{}* has the following settings for the *{}* module:\n\n".format(
+                    escape_markdown(chat.title),
+                    CHAT_SETTINGS[module].__mod_name__,
+                )
+                + CHAT_SETTINGS[module].__chat_settings__(chat_id, user.id)
+            )
             query.message.reply_text(
                 text=text,
                 parse_mode=ParseMode.MARKDOWN,
@@ -478,7 +491,10 @@ def settings_button(update: Update, context: CallbackContext):
                 "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
-                        curr_page - 1, CHAT_SETTINGS, "stngs", chat=chat_id,
+                        curr_page - 1,
+                        CHAT_SETTINGS,
+                        "stngs",
+                        chat=chat_id,
                     ),
                 ),
             )
@@ -492,7 +508,10 @@ def settings_button(update: Update, context: CallbackContext):
                 "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
-                        next_page + 1, CHAT_SETTINGS, "stngs", chat=chat_id,
+                        next_page + 1,
+                        CHAT_SETTINGS,
+                        "stngs",
+                        chat=chat_id,
                     ),
                 ),
             )
@@ -538,7 +557,8 @@ def get_settings(update: Update, context: CallbackContext):
                             InlineKeyboardButton(
                                 text="Settings",
                                 url="t.me/{}?start=stngs_{}".format(
-                                    context.bot.username, chat.id,
+                                    context.bot.username,
+                                    chat.id,
                                 ),
                             ),
                         ],
@@ -553,14 +573,15 @@ def get_settings(update: Update, context: CallbackContext):
 
 
 def donate(update: Update, context: CallbackContext):
-    '''#TODO
+    """#TODO
 
     Params:
         update: Update           -
         context: CallbackContext -
-    '''
+    """
 
     update.effective_message.reply_text("I'm free for everyone! >_<")
+
 
 def migrate_chats(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
@@ -582,7 +603,7 @@ def migrate_chats(update: Update, context: CallbackContext):
 
 
 def main():
-    '''#TODO'''
+    """#TODO"""
 
     test_handler = CommandHandler("test", test, run_async=True)
     start_handler = CommandHandler("start", start, pass_args=True, run_async=True)
@@ -623,13 +644,16 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info(f"Kai started, Using long polling. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(
+            f"Kai started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
+        )
         updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
     if len(argv) not in (1, 3, 4):
         telethn.disconnect()
     else:
         telethn.run_until_disconnected()
     updater.idle()
+
 
 if __name__ == "__main__":
     LOGGER.info("[KAI] Successfully loaded modules: " + str(ALL_MODULES))

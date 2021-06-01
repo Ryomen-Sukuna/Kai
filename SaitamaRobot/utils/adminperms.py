@@ -3,6 +3,7 @@ from pyrogram import filters
 from pyrogram.types import ChatPermissions, Message
 from SaitamaRobot import kp as app
 
+
 async def member_permissions(chat_id: int, user_id: int):
     perms = []
     member = await app.get_chat_member(chat_id, user_id)
