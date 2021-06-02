@@ -7,7 +7,6 @@ import spamwatch
 import telegram.ext as tg
 from redis import StrictRedis
 from aiohttp import ClientSession
-from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from Python_ARQ import ARQ
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
@@ -235,6 +234,7 @@ updater = tg.Updater(
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client.SaitamaRobot
+motor = motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 aiohttpsession = ClientSession()
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 dispatcher = updater.dispatcher
