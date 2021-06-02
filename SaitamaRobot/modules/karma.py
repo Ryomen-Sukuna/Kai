@@ -23,16 +23,6 @@ ARQ_API_KEY = "YKYUHE-KEWVTL-HHSTVX-AZDKWX-ARQ"
 ARQ_API_URL = "https://thearq.tech"
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
-__mod_name__ = "Karma"
-__help__ = """
-[UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
-[DOWNVOTE] - Use downvote keywords like "-", "-1", etc to downvote a message.
-/karma_toggle [ON|OFF] - Enable or Disable Karma System In Your Chat.
-Reply to a message with /karma to check a user's karma
-Send /karma without replying to any message to chek karma list of top 10 users
-"""
-
-
 regex_upvote = r"^((?i)\+|\+\+|\+1|thx|tnx|ty|thank you|thanx|thanks|pro|cool|good|👍)$"
 regex_downvote = r"^(\-|\-\-|\-1|👎)$"
 
@@ -182,3 +172,12 @@ async def captcha_state(_, message):
         await message.reply_text("Disabled karma system.")
     else:
         await message.reply_text(usage)
+
+__help__ = """
+[UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
+[DOWNVOTE] - Use downvote keywords like "-", "-1", etc to downvote a message.
+/karma_toggle [ON|OFF] - Enable or Disable Karma System In Your Chat.
+Reply to a message with /karma to check a user's karma
+Send /karma without replying to any message to chek karma list of top 10 users
+"""
+__mod_name__ = "Karma"
