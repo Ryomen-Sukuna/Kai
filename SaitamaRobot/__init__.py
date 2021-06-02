@@ -14,6 +14,7 @@ from motor import motor_asyncio
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 from pyrogram import Client, errors
+from pymongo.errors import ServerSelectionTimeoutError
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
 from ptbcontrib.postgres_persistence import PostgresPersistence
@@ -116,7 +117,7 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
-    BOT_ID = os.environ.get("BOT_ID", None)
+    BOT_ID = int(os.environ.get("BOT_ID", None))
     ARQ_API_URL =  "https://thearq.tech"
     ARQ_API_KEY = ARQ_API
 
