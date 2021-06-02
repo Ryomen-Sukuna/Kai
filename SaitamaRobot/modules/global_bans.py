@@ -145,7 +145,9 @@ def gban(update: Update, context: CallbackContext):
             return
 
         old_reason = sql.update_gban_reason(
-            user_id, user_chat.username or user_chat.first_name, reason,
+            user_id,
+            user_chat.username or user_chat.first_name,
+            reason,
         )
         if old_reason:
             message.reply_text(
@@ -232,7 +234,9 @@ def gban(update: Update, context: CallbackContext):
                     )
                 else:
                     send_to_list(
-                        bot, DRAGONS + DEMONS, f"Could not gban due to: {excp.message}",
+                        bot,
+                        DRAGONS + DEMONS,
+                        f"Could not gban due to: {excp.message}",
                     )
                 sql.ungban_user(user_id)
                 return
@@ -361,7 +365,8 @@ def ungban(update: Update, context: CallbackContext):
                     )
                 else:
                     bot.send_message(
-                        OWNER_ID, f"Could not un-gban due to: {excp.message}",
+                        OWNER_ID,
+                        f"Could not un-gban due to: {excp.message}",
                     )
                 return
         except TelegramError:
