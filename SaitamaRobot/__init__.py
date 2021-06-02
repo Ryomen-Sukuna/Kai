@@ -118,7 +118,7 @@ if ENV:
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
-    ARQ_API_URL =  "https://thearq.tech"
+    ARQ_API_URL = "https://thearq.tech"
     ARQ_API_KEY = ARQ_API
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
