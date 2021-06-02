@@ -9,6 +9,7 @@ from redis import StrictRedis
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
 from pymongo import MongoClient
+from odmantic import AIOEngine
 from motor import motor_asyncio
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
@@ -234,12 +235,16 @@ updater = tg.Updater(
     persistence=PostgresPersistence(SESSION),
 )
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
-mongo_client = MongoClient(MONGO_DB_URI)
-db = mongo_client.SaitamaRobot
+mongodb = MongoClient(MONGO_URI, MONGO_PORT)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_URI)
+db = motor[MONGO_DB]
+engine = AIOEngine(motor, MONGO_DB)
+print("[INFO]: INITIALIZING AIOHTTP SESSION")
 aiohttpsession = ClientSession()
+# ARQ Client
+print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
-dispatcher = updater.dispatcher
+
 
 kp = Client(
     ":memory:",
