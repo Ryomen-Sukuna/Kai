@@ -75,13 +75,13 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
+✦ Hi {}, my name is {}! 
 
-×× I am an Anime themed group management bot ××
-==========================
+➛ I am an Anime themed group management bot ××
+➖➖➖➖➖➖➖➖➖➖➖➖➖
 `Maintained By` @Anomaliii
-==========================
-×× Find the list of available commands with /help ××
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+➛ Find the list of available commands with /help ××
 """
 
 HELP_STRINGS = """
@@ -223,7 +223,7 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Add to your group",
+                                text="✤ Add to your Group ✤",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
                                 ),
@@ -231,13 +231,21 @@ def start(update: Update, context: CallbackContext):
                         ],
                         [
                             InlineKeyboardButton(
-                                text="Support Group",
+                                text="✯ Support Group ✯",
                                 url=f"https://t.me/zerounions",
                             ),
                             InlineKeyboardButton(
-                                text="Source code",
+                                text="✫ Source Code ✫",
                                 url="https://github.com/Ryomen-Sukuna/Kai",
                             ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="[► Help ◄]",
+                                url="t.me/{}?start".format(
+                                    context.bot.username
+                                ),
+                            )
                         ],
                     ]
                 ),
