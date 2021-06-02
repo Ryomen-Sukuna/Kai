@@ -46,6 +46,7 @@ async def fetch(url):
         print("AI response Timeout")
         return
 
+
 eren_chats = []
 en_chats = []
 # AI Chat (C) 2020-2021 by @InukaAsith
