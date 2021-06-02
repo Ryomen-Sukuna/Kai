@@ -376,10 +376,5 @@ __help__ = """
  • `/chatbot [ON/OFF]`: Enables and disables Chatbot mode in the chat.
  • `/chatbot EN` : Enables English only Chatbot mode in the chat.
  *Powered by Brainshop* (brainshop.ai)
- 
- 
- 
- 
 """
-
 __mod_name__ = "Chatbot"
