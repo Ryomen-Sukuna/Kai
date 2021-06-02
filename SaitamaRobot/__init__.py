@@ -9,6 +9,7 @@ from redis import StrictRedis
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
 from pymongo import MongoClient
+from motor import motor_asyncio
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 from pyrogram import Client, errors
