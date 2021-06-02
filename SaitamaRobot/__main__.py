@@ -85,7 +85,7 @@ PM_START_TEXT = """
 """
 
 HELP_STRINGS = """
-*Main* commands available[:](https://telegra.ph/file/f17b58ca75b7b3357dcf1.jpg)
+*Main* commands available[:](https://telegra.ph/file/b7430b90a96224f0a79b6.jpg)
 
  ➛ /help: PM's you this message.
  ➛ /help <module name>: PM's you info about that module.
@@ -96,7 +96,7 @@ HELP_STRINGS = """
 """
 
 
-KAI_IMG = "https://telegra.ph/file/11bacfc2bd4b01c845519.jpg"
+KAI_IMG = "https://telegra.ph/file/b2d1da6b005787000f0d1.jpg"
 
 DONATE_STRING = """× I'm Free for Everyone ×"""
 
