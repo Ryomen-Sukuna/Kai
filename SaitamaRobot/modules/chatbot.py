@@ -15,7 +15,7 @@ from google_trans_new import google_translator
 from pyrogram import filters
 
 from SaitamaRobot import BOT_ID
-from SaitamaRobot.chatbot.chatbotdb import add_chat, get_session, remove_chat
+from SaitamaRobot.modules.chatbot.chatbotdb import add_chat, get_session, remove_chat
 from SaitamaRobot.modules.karma import arq
 from SaitamaRobot.utils.pluginhelper import admins_only, edit_or_reply
 from SaitamaRobot import kp as eren
