@@ -8,7 +8,7 @@ from pyrogram import filters
 
 from SaitamaRobot import BOT_ID
 from SaitamaRobot.chatbot.chatbotdb import add_chat, get_session, remove_chat
-from SaitamaRobot.utils.permissions import admins_only, edit_or_reply
+from SaitamaRobot.utils.pluginhelper import admins_only, edit_or_reply
 from SaitamaRobot import kp as Cutiepii
 
 translator = google_translator()
