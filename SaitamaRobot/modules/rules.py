@@ -13,10 +13,11 @@ from telegram import (
     User,
 )
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import escape_markdown
 
 
+@run_async
 def get_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     send_rules(update, chat_id)
@@ -45,10 +46,7 @@ def send_rules(update, chat_id, from_pm=False):
 
     if from_pm and rules:
         bot.send_message(
-            user.id,
-            text,
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
+            user.id, text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True,
         )
     elif from_pm:
         bot.send_message(
@@ -63,8 +61,7 @@ def send_rules(update, chat_id, from_pm=False):
                 [
                     [
                         InlineKeyboardButton(
-                            text="Rules",
-                            url=f"t.me/{bot.username}?start={chat_id}",
+                            text="Rules", url=f"t.me/{bot.username}?start={chat_id}",
                         ),
                     ],
                 ],
@@ -77,8 +74,7 @@ def send_rules(update, chat_id, from_pm=False):
                 [
                     [
                         InlineKeyboardButton(
-                            text="Rules",
-                            url=f"t.me/{bot.username}?start={chat_id}",
+                            text="Rules", url=f"t.me/{bot.username}?start={chat_id}",
                         ),
                     ],
                 ],
@@ -91,6 +87,7 @@ def send_rules(update, chat_id, from_pm=False):
         )
 
 
+@run_async
 @user_admin
 def set_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -101,15 +98,14 @@ def set_rules(update: Update, context: CallbackContext):
         txt = args[1]
         offset = len(txt) - len(raw_text)  # set correct offset relative to command
         markdown_rules = markdown_parser(
-            txt,
-            entities=msg.parse_entities(),
-            offset=offset,
+            txt, entities=msg.parse_entities(), offset=offset,
         )
 
         sql.set_rules(chat_id, markdown_rules)
         update.effective_message.reply_text("Successfully set rules for this group.")
 
 
+@run_async
 @user_admin
 def clear_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -145,13 +141,9 @@ __help__ = """
 
 __mod_name__ = "Rules"
 
-GET_RULES_HANDLER = CommandHandler("rules", get_rules, filters=Filters.chat_type.group)
-SET_RULES_HANDLER = CommandHandler(
-    "setrules", set_rules, filters=Filters.chat_type.group
-)
-RESET_RULES_HANDLER = CommandHandler(
-    "clearrules", clear_rules, filters=Filters.chat_type.group
-)
+GET_RULES_HANDLER = CommandHandler("rules", get_rules, filters=Filters.group)
+SET_RULES_HANDLER = CommandHandler("setrules", set_rules, filters=Filters.group)
+RESET_RULES_HANDLER = CommandHandler("clearrules", clear_rules, filters=Filters.group)
 
 dispatcher.add_handler(GET_RULES_HANDLER)
 dispatcher.add_handler(SET_RULES_HANDLER)
