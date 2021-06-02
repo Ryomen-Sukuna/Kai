@@ -94,10 +94,11 @@ if ENV:
     API_ID = os.environ.get("API_ID", None)
     API_HASH = os.environ.get("API_HASH", None)
     DB_URI = os.environ.get("DATABASE_URL")
-    REDIS_URL = os.environ.get("REDIS_URL")
-    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
-    ARQ_API_KEY = os.environ.get("ARQ_API_KEY", None)
-    ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
+    MONGO_URI = os.environ.get("MONGO_DB_URI", None)
+    MONGO_PORT = int(os.environ.get("MONGO_PORT", None))
+    MONGO_DB = os.environ.get("MONGO_DB", None)
+    REDIS_URL = os.environ.get("REDIS_URL", None)
+    ARQ_API = os.environ.get("ARQ_API", None)
     DONATION_LINK = os.environ.get("DONATION_LINK")
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
@@ -115,7 +116,9 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
-    BOT_ID = 1820343887
+    BOT_ID = os.environ.get("BOT_ID", None)
+    ARQ_API_URL =  "https://thearq.tech"
+    ARQ_API_KEY = ARQ_API
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
