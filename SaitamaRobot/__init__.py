@@ -239,6 +239,7 @@ updater = tg.Updater(
     persistence=PostgresPersistence(SESSION),
 )
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+dispatcher = updater.dispatcher
 mongodb = MongoClient(MONGO_URI, MONGO_PORT)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 db = motor[MONGO_DB]
