@@ -18,7 +18,7 @@ from SaitamaRobot import BOT_ID
 from SaitamaRobot.modules.mongo.chatbot_mongo import add_chat, get_session, remove_chat
 from SaitamaRobot.modules.karma import arq
 from SaitamaRobot.utils.pluginhelper import admins_only, edit_or_reply
-from SaitamaRobot import kp as eren
+from SaitamaRobot import kp as kai
 
 translator = google_translator()
 
@@ -47,11 +47,11 @@ async def fetch(url):
         return
 
 
-eren_chats = []
+kai_chats = []
 en_chats = []
 # AI Chat (C) 2020-2021 by @InukaAsith
 """
-@eren.on_message(
+@kai.on_message(
     filters.voice & filters.reply & ~filters.bot & ~filters.via_bot & ~filters.forwarded,
     group=2,
 )
@@ -83,12 +83,12 @@ async def hmm(client, message):
 """
 
 
-@eren.on_message(
+@kai.on_message(
     filters.command("chatbot") & ~filters.edited & ~filters.bot & ~filters.private
 )
 @admins_only
 async def chatbot_status(_, message):
-    global eren_chats
+    global kai_chats
     if len(message.command) != 2:
         await message.reply_text(
             "I only recognize `/chatbot on` and /chatbot `off only`"
@@ -129,7 +129,7 @@ async def chatbot_status(_, message):
         )
 
 
-@eren.on_message(
+@kai.on_message(
     filters.text
     & filters.reply
     & ~filters.bot
@@ -155,17 +155,17 @@ async def chatbot_function(client, message):
         message.continue_propagation()
     if chat_id in en_chats:
         test = msg
-        test = test.replace("eren", "Aco")
-        test = test.replace("Eren", "Aco")
+        test = test.replace("kai", "Aco")
+        test = test.replace("kai", "Aco")
         response = await lunaQuery(
             test, message.from_user.id if message.from_user else 0
         )
-        response = response.replace("Aco", "Eren")
-        response = response.replace("aco", "Eren")
+        response = response.replace("Aco", "kai")
+        response = response.replace("aco", "kai")
 
         pro = response
         try:
-            await eren.send_chat_action(message.chat.id, "typing")
+            await kai.send_chat_action(message.chat.id, "typing")
             await message.reply_text(pro)
         except CFError:
             return
@@ -211,13 +211,13 @@ async def chatbot_function(client, message):
                 return
         # test = emoji.demojize(test.strip())
 
-        test = test.replace("Eren", "Aco")
-        test = test.replace("eren", "Aco")
+        test = test.replace("kai", "Aco")
+        test = test.replace("kai", "Aco")
         response = await lunaQuery(
             test, message.from_user.id if message.from_user else 0
         )
-        response = response.replace("Aco", "eren")
-        response = response.replace("aco", "Eren")
+        response = response.replace("Aco", "kai")
+        response = response.replace("aco", "kai")
         pro = response
         if not "en" in lan and not lan == "":
             try:
@@ -225,13 +225,13 @@ async def chatbot_function(client, message):
             except:
                 return
         try:
-            await eren.send_chat_action(message.chat.id, "typing")
+            await kai.send_chat_action(message.chat.id, "typing")
             await message.reply_text(pro)
         except CFError:
             return
 
 
-@eren.on_message(
+@kai.on_message(
     filters.text & filters.private & ~filters.edited & filters.reply & ~filters.bot
 )
 async def sasuke(client, message):
@@ -280,25 +280,25 @@ async def sasuke(client, message):
     # test = emoji.demojize(test.strip())
 
     # Kang with the credits bitches @InukaASiTH
-    test = test.replace("Eren", "Aco")
-    test = test.replace("eren", "Aco")
+    test = test.replace("kai", "Aco")
+    test = test.replace("kai", "Aco")
 
     response = await lunaQuery(test, message.from_user.id if message.from_user else 0)
-    response = response.replace("Aco", "Eren")
-    response = response.replace("aco", "eren")
+    response = response.replace("Aco", "kai")
+    response = response.replace("aco", "kai")
 
     pro = response
     if not "en" in lan and not lan == "":
         pro = translator.translate(pro, lang_tgt=lan[0])
     try:
-        await eren.send_chat_action(message.chat.id, "typing")
+        await kai.send_chat_action(message.chat.id, "typing")
         await message.reply_text(pro)
     except CFError:
         return
 
 
-@eren.on_message(
-    filters.regex("Eren|eren|Eren Jaeger|eren jaeger|eren yeager|Eren Yeager")
+@kai.on_message(
+    filters.regex("Kai|kai|Chisaki Kai|chisaki kai|chisaki|Chisaki")
     & ~filters.bot
     & ~filters.via_bot
     & ~filters.forwarded
@@ -306,7 +306,7 @@ async def sasuke(client, message):
     & ~filters.channel
     & ~filters.edited
 )
-async def sasuke(client, message):
+async def zero(client, message):
     msg = message.text
     if msg.startswith("/") or msg.startswith("@"):
         message.continue_propagation()
@@ -351,11 +351,11 @@ async def sasuke(client, message):
 
     # test = emoji.demojize(test.strip())
 
-    test = test.replace("eren", "Aco")
-    test = test.replace("Eren", "Aco")
+    test = test.replace("kai", "Aco")
+    test = test.replace("kai", "Aco")
     response = await lunaQuery(test, message.from_user.id if message.from_user else 0)
-    response = response.replace("Aco", "Eren")
-    response = response.replace("aco", "eren")
+    response = response.replace("Aco", "kai")
+    response = response.replace("aco", "kai")
 
     pro = response
     if not "en" in lan and not lan == "":
@@ -364,14 +364,14 @@ async def sasuke(client, message):
         except Exception:
             return
     try:
-        await eren.send_chat_action(message.chat.id, "typing")
+        await kai.send_chat_action(message.chat.id, "typing")
         await message.reply_text(pro)
     except CFError:
         return
 
 
 __help__ = """
- Chatbot utilizes the Branshop's API and allows Eren to talk and provides a more interactive group chat experience.
+ Chatbot utilizes the Branshop's API and allows kai to talk and provides a more interactive group chat experience.
  *Admins Only Commands*:
  • `/chatbot [ON/OFF]`: Enables and disables Chatbot mode in the chat.
  • `/chatbot EN` : Enables English only Chatbot mode in the chat.
