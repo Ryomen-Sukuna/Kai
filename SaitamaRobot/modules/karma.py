@@ -173,6 +173,7 @@ async def captcha_state(_, message):
     else:
         await message.reply_text(usage)
 
+
 __help__ = """
 [UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
 [DOWNVOTE] - Use downvote keywords like "-", "-1", etc to downvote a message.

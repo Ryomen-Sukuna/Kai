@@ -172,6 +172,7 @@ def __user_info__(user_id):
 def __gdpr__(user_id):
     end_afk(user_id)
 
+
 __help__ = """
  • `/afk <reason>`*:* mark yourself as AFK (away from keyboard).
  • `brb <reason>`*:* same as the afk command - but not a command.
