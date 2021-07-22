@@ -1,5 +1,6 @@
 import io
 from SaitamaRobot.events import register
+from SaitamaRobot import telethn as borg
 from SaitamaRobot import telethn as tbot
 from telethon import types
 from telethon import events
