@@ -11,7 +11,6 @@ from telegram import (
 )
 from SaitamaRobot import dispatcher, kp
 from pyrogram import filters
-from pyrogram.types import Message
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
