@@ -22,7 +22,8 @@ from telegram import (
     ParseMode,
     Message,
     MessageEntity,
-    TelegramError)
+    TelegramError,
+)
 from telegram.error import BadRequest
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
