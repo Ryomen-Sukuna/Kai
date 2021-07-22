@@ -49,7 +49,7 @@ def convert(update: Update, context: CallbackContext):
         )
 
 
-CONVERTER_HANDLER = CommandHandler("cash", convert)
+CONVERTER_HANDLER = CommandHandler("cash", convert, run_async=True)
 
 dispatcher.add_handler(CONVERTER_HANDLER)
 

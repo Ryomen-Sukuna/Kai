@@ -557,22 +557,19 @@ __help__ = """
  • `/admincache`*:* force refresh the admins list
 """
 
-ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
-
-PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
-
-INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
-
-PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
-FULLPROMOTE_HANDLER = DisableAbleCommandHandler("fullpromote", fullpromote)
-DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
-
-SET_TITLE_HANDLER = CommandHandler("title", set_title)
+ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist, run_async=True)
+PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.chat_type.groups, run_async=True)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.groups, run_async=True)
+INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, run_async=True)
+PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, run_async=True)
+FULLPROMOTE_HANDLER = DisableAbleCommandHandler("fullpromote", fullpromote, run_async=True)
+DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, run_async=True)
+SET_TITLE_HANDLER = CommandHandler("title", set_title, run_async=True)
 ADMIN_REFRESH_HANDLER = CommandHandler(
     "admincache",
     refresh_admin,
-    filters=Filters.group,
+    filters=Filters.chat_type.groups,
+    run_async=True,
 )
 
 dispatcher.add_handler(ADMINLIST_HANDLER)

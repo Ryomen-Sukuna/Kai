@@ -320,12 +320,12 @@ if is_module_loaded(FILENAME):
     def __chat_settings__(chat_id, user_id):
         return build_curr_disabled(chat_id)
 
-    DISABLE_HANDLER = CommandHandler("disable", disable)
-    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module)
-    ENABLE_HANDLER = CommandHandler("enable", enable)
-    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module)
-    COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands)
-    TOGGLE_HANDLER = CommandHandler("listcmds", list_cmds)
+    DISABLE_HANDLER = CommandHandler("disable", disable, run_async=True)
+    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module, run_async=True)
+    ENABLE_HANDLER = CommandHandler("enable", enable, run_async=True)
+    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module, run_async=True)
+    COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands, run_async=True)
+    TOGGLE_HANDLER = CommandHandler("listcmds", list_cmds, run_async=True)
 
     dispatcher.add_handler(DISABLE_HANDLER)
     dispatcher.add_handler(DISABLE_MODULE_HANDLER)

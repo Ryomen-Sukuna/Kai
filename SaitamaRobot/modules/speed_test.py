@@ -3,7 +3,7 @@ from SaitamaRobot import DEV_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
+from telegram.ext import CallbackContext, CallbackQueryHandler
 
 
 def convert(speed):
@@ -51,10 +51,11 @@ def speedtestxyz_callback(update: Update, context: CallbackContext):
         query.answer("You are required to join Heroes Association to use this command.")
 
 
-SPEED_TEST_HANDLER = DisableAbleCommandHandler("speedtest", speedtestxyz)
+SPEED_TEST_HANDLER = DisableAbleCommandHandler("speedtest", speedtestxyz, run_async=True)
 SPEED_TEST_CALLBACKHANDLER = CallbackQueryHandler(
     speedtestxyz_callback,
     pattern="speedtest_.*",
+    run_async=True
 )
 
 dispatcher.add_handler(SPEED_TEST_HANDLER)

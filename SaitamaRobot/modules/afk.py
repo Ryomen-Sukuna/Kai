@@ -4,7 +4,7 @@ import time
 from telegram import Message, User
 from telegram import MessageEntity, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler, run_async
+from telegram.ext import Filters, MessageHandler
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import (
@@ -27,7 +27,6 @@ AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
-@run_async
 def afk(update, context):
     args = update.effective_message.text.split(None, 1)
     user = update.effective_user
@@ -180,10 +179,10 @@ When marked as AFK, any mentions will be replied to with a message to say you're
 """
 __mod_name__ = "AFK"
 
-AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
-AFK_REGEX_HANDLER = MessageHandler(Filters.regex("(?i)brb"), afk)
-NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
-AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
+AFK_HANDLER = DisableAbleCommandHandler("afk", afk, run_async=True)
+AFK_REGEX_HANDLER = MessageHandler(Filters.regex("(?i)brb"), afk, run_async=True)
+NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, no_longer_afk, run_async=True)
+AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, reply_afk, run_async=True)
 
 dispatcher.add_handler(AFK_HANDLER, AFK_GROUP)
 dispatcher.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)

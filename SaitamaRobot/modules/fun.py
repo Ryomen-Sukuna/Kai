@@ -9,7 +9,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from telegram import ChatPermissions, ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, run_async
+from telegram.ext import CallbackContext
 
 GIF_ID = "CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr5nGxsE"
 
@@ -329,20 +329,20 @@ __help__ = """
  • `/8ball`*:* predicts using 8ball method
 """
 
-SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
-RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
-SLAP_HANDLER = DisableAbleCommandHandler("slap", slap)
-PAT_HANDLER = DisableAbleCommandHandler("pat", pat)
-ROLL_HANDLER = DisableAbleCommandHandler("roll", roll)
-TOSS_HANDLER = DisableAbleCommandHandler("toss", toss)
-SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug)
-BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext)
-RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
-DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
-EIGHTBALL_HANDLER = DisableAbleCommandHandler("8ball", eightball)
-TABLE_HANDLER = DisableAbleCommandHandler("table", table)
-SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
-WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
+SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize, run_async=True)
+RUNS_HANDLER = DisableAbleCommandHandler("runs", runs, run_async=True)
+SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, run_async=True)
+PAT_HANDLER = DisableAbleCommandHandler("pat", pat, run_async=True)
+ROLL_HANDLER = DisableAbleCommandHandler("roll", roll, run_async=True)
+TOSS_HANDLER = DisableAbleCommandHandler("toss", toss, run_async=True)
+SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug, run_async=True)
+BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext, run_async=True)
+RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg, run_async=True)
+DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide, run_async=True)
+EIGHTBALL_HANDLER = DisableAbleCommandHandler("8ball", eightball, run_async=True)
+TABLE_HANDLER = DisableAbleCommandHandler("table", table, run_async=True)
+SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, run_async=True)
+WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify, run_async=True)
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)

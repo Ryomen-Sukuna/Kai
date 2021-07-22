@@ -99,7 +99,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         log += "\n<b>Reason:</b> {}".format(reason)
 
     try:
-        chat.kick_member(user_id)
+        chat.ban_member(user_id)
 
         if silent:
             if message.reply_to_message:
@@ -195,7 +195,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
         log += "\n<b>Reason:</b> {}".format(reason)
 
     try:
-        chat.kick_member(user_id, until_date=bantime)
+        chat.ban_member(user_id, until_date=bantime)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         bot.sendMessage(
             chat.id,
@@ -404,13 +404,13 @@ __help__ = """
  • `/punch <userhandle>`*:* Punches a user out of the group, (via handle, or reply)
 """
 
-BAN_HANDLER = CommandHandler(["ban", "sban"], ban)
-TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
-PUNCH_HANDLER = CommandHandler("punch", punch)
-UNBAN_HANDLER = CommandHandler("unban", unban)
-ROAR_HANDLER = CommandHandler("roar", selfunban)
+BAN_HANDLER = CommandHandler(["ban", "sban"], ban, run_async=True)
+TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, run_async=True)
+PUNCH_HANDLER = CommandHandler("punch", punch, run_async=True)
+UNBAN_HANDLER = CommandHandler("unban", unban, run_async=True)
+ROAR_HANDLER = CommandHandler("roar", selfunban, run_async=True)
 PUNCHME_HANDLER = DisableAbleCommandHandler(
-    "punchme", punchme, filters=Filters.chat_type.group
+    "punchme", punchme, filters=Filters.chat_type.groups, run_async=True
 )
 
 dispatcher.add_handler(BAN_HANDLER)

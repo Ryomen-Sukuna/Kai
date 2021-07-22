@@ -54,5 +54,5 @@ def wall(update: Update, context: CallbackContext):
                 )
 
 
-WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
+WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, run_async=True)
 dispatcher.add_handler(WALLPAPER_HANDLER)

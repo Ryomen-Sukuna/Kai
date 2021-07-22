@@ -267,14 +267,12 @@ __help__ = """
  Output: `1.0 USD = 75.505 INR`
 """
 
-ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.chat_type.group)
-MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
-PING_HANDLER = DisableAbleCommandHandler("ping", ping)
-PASTE_HANDLER = DisableAbleCommandHandler(
-    "paste", paste, pass_args=True, run_async=True
-)
+ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.chat_type.groups, run_async=True)
+MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, run_async=True)
+PING_HANDLER = DisableAbleCommandHandler("ping", ping, run_async=True)
+PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True, run_async=True)
 WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
-WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)
+WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, run_async=True)
 
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)

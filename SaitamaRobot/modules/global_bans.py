@@ -10,7 +10,6 @@ from telegram.ext import (
     CommandHandler,
     Filters,
     MessageHandler,
-    run_async,
 )
 from telegram.utils.helpers import mention_html
 
@@ -218,7 +217,7 @@ def gban(update: Update, context: CallbackContext):
             continue
 
         try:
-            bot.kick_chat_member(chat_id, user_id)
+            bot.ban_chat_member(chat_id, user_id)
             gbanned_chats += 1
 
         except BadRequest as excp:
@@ -429,7 +428,7 @@ def check_and_ban(update, user_id, should_message=True):
             sw_ban = None
 
     if sw_ban:
-        update.effective_chat.kick_member(user_id)
+        update.effective_chat.ban_member(user_id)
         if should_message:
             update.effective_message.reply_text(
                 f"<b>Alert</b>: this user is globally banned.\n"
@@ -442,7 +441,7 @@ def check_and_ban(update, user_id, should_message=True):
         return
 
     if sql.is_user_gbanned(user_id):
-        update.effective_chat.kick_member(user_id)
+        update.effective_chat.ban_member(user_id)
         if should_message:
             text = (
                 f"<b>Alert</b>: this user is globally banned.\n"
@@ -559,13 +558,11 @@ Constantly help banning spammers off from your group automatically So, you wont 
 *Note:* Users can appeal spamwatch bans at @SpamwatchSupport
 """
 
-GBAN_HANDLER = CommandHandler("gban", gban)
-UNGBAN_HANDLER = CommandHandler("ungban", ungban)
-GBAN_LIST = CommandHandler("gbanlist", gbanlist)
-
-GBAN_STATUS = CommandHandler("antispam", gbanstat, filters=Filters.group)
-
-GBAN_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gban)
+GBAN_HANDLER = CommandHandler("gban", gban, run_async=True)
+UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
+GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
+GBAN_STATUS = CommandHandler("antispam", gbanstat, filters=Filters.chat_type.groups, run_async=True)
+GBAN_ENFORCER = MessageHandler(Filters.all & Filters.chat_type.groups, enforce_gban, run_async=True)
 
 dispatcher.add_handler(GBAN_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
