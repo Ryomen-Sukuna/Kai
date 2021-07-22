@@ -1,6 +1,7 @@
 from functools import wraps
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from pyrogram.types import Message
+from SaitamaRobot import kp as app
 from SaitamaRobot import DRAGONS, DEV_USERS, WOLVES, DEMONS, TIGERS
 from SaitamaRobot.utils.adminperms import member_permissions
 
