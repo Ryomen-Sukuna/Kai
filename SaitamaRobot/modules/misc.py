@@ -16,22 +16,19 @@ from requests import get, post
 from telegram import (
     Chat,
     ChatAction,
-    ParseMode,
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ParseMode,
     Message,
     MessageEntity,
-    TelegramError,
-)
+    TelegramError)
 from telegram.error import BadRequest
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
-from SaitamaRobot import StartTime, dispatcher
+from SaitamaRobot import StartTime
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.alternate import send_action, typing_action
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
