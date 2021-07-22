@@ -49,7 +49,6 @@ def afk(update, context):
         pass
 
 
-@run_async
 def no_longer_afk(update, context):
     user = update.effective_user
     message = update.effective_message
@@ -77,7 +76,6 @@ def no_longer_afk(update, context):
             return
 
 
-@run_async
 def reply_afk(update, context):
     message = update.effective_message
     userc = update.effective_user
