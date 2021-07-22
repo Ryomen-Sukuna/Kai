@@ -1,4 +1,4 @@
-from SaitamaRobot import dispatcher
+from SaitamaRobot import dispatcher, LOGGER
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     is_bot_admin,
