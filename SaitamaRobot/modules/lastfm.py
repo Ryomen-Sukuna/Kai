@@ -100,11 +100,6 @@ def last_fm(update: Update, _):
     )
     msg.reply_text(rep, reply_markup=buttons, parse_mode=ParseMode.HTML)
 
-    def __stats__():
-        return (
-            f"-> {sql.num_lastfm()} Last.FM username, across {sql.num_chats()} chats."
-        )
-
 
 SET_USER_HANDLER = CommandHandler("setuser", set_user, pass_args=True, run_async=True)
 CLEAR_USER_HANDLER = CommandHandler("clearuser", clear_user, run_async=True)
