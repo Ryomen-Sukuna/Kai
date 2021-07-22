@@ -275,15 +275,25 @@ TAG_ALL_HANDLER = DisableAbleCommandHandler(
 UNTAG_ALL_HANDLER = DisableAbleCommandHandler(
     "untagall", untagall, filters=Filters.chat_type.groups, run_async=True
 )
-UNTAG_ME_HANDLER = CommandHandler("untagme", untagme, filters=Filters.chat_type.groups, run_async=True)
-TAG_ME_HANDLER = CommandHandler("tagme", tagme, filters=Filters.chat_type.group, run_async=True)
+UNTAG_ME_HANDLER = CommandHandler(
+    "untagme", untagme, filters=Filters.chat_type.groups, run_async=True
+)
+TAG_ME_HANDLER = CommandHandler(
+    "tagme", tagme, filters=Filters.chat_type.group, run_async=True
+)
 ADD_TAG_HANDLER = DisableAbleCommandHandler(
     "addtag", addtag, pass_args=True, filters=Filters.chat_type.groups, run_async=True
 )
 REMOVE_TAG_HANDLER = DisableAbleCommandHandler(
-    "removetag", removetag, pass_args=True, filters=Filters.chat_type.groups, run_async=True
+    "removetag",
+    removetag,
+    pass_args=True,
+    filters=Filters.chat_type.groups,
+    run_async=True,
 )
-TAGALL_CALLBACK_HANDLER = CallbackQueryHandler(tagg_all_button, pattern=r"tagall_", run_async=True)
+TAGALL_CALLBACK_HANDLER = CallbackQueryHandler(
+    tagg_all_button, pattern=r"tagall_", run_async=True
+)
 
 
 dispatcher.add_handler(TAG_ALL_HANDLER)
