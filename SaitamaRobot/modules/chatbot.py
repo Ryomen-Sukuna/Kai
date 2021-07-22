@@ -95,7 +95,7 @@ async def chatbot_status(_, message):
         message.continue_propagation()
     status = message.text.split(None, 1)[1]
     chat_id = message.chat.id
-    if status == "ON" or status == "on" or status == "On":
+    if status in ("ON", "on", "On"):
         lel = await edit_or_reply(message, "`Processing...`")
         lol = add_chat(int(message.chat.id))
         if not lol:
@@ -105,7 +105,7 @@ async def chatbot_status(_, message):
             f"Chat Bot Successfully Added For Users In The Chat {message.chat.id}"
         )
 
-    elif status == "OFF" or status == "off" or status == "Off":
+    elif status in ("OFF", "off", "Off"):
         lel = await edit_or_reply(message, "`Processing...`")
         Escobar = remove_chat(int(message.chat.id))
         if not Escobar:
@@ -115,7 +115,7 @@ async def chatbot_status(_, message):
             f"Chat Bot Successfully Deactivated For Users In The Chat {message.chat.id}"
         )
 
-    elif status == "EN" or status == "en" or status == "english":
+    elif status in ("EN", "en", "english"):
         if not chat_id in en_chats:
             en_chats.append(chat_id)
             await message.reply_text("English Only chat bot Enabled!")
