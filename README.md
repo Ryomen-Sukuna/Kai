@@ -22,6 +22,7 @@
 <a href="https://github.com/Ryomen-Sukuna/SaitamaRobot" alt="GitHub repo size"> <img src="https://img.shields.io/github/repo-size/ryomen-sukuna/kai" /> </a>
 <a href="https://makeapullrequest.com" alt="PRs Welcome"> <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" /> </a>
 <a href="https://github.com/Ryomen-Sukuna/SaitamaRobot" alt="Docker!"> <img src="https://aleen42.github.io/badges/src/docker.svg" /> </a>
+<a href="https://www.codefactor.io/repository/github/ryomen-sukuna/kai"><img src="https://www.codefactor.io/repository/github/ryomen-sukuna/kai/badge" alt="CodeFactor" /></a>
 </p>
 <p align="center">
 <a href="https://t.me/KaiUpdates" alt="Telegram!"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
