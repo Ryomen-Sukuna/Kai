@@ -29,7 +29,7 @@ def approve(update, context):
         member = chat.get_member(user_id)
     except BadRequest:
         return ""
-    if member.status == "administrator" or member.status == "creator":
+    if member.status in ("administrator", "creator"):
         message.reply_text(
             "User is already admin - locks, blocklists, and antiflood already don't apply to them.",
         )
@@ -73,7 +73,7 @@ def disapprove(update, context):
         member = chat.get_member(user_id)
     except BadRequest:
         return ""
-    if member.status == "administrator" or member.status == "creator":
+    if member.status in ("administrator", "creator"):
         message.reply_text("This user is an admin, they can't be unapproved.")
         return ""
     if not sql.is_approved(message.chat_id, user_id):
