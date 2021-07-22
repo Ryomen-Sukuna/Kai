@@ -1,4 +1,5 @@
 import requests
+from SaitamaRobot.__main__ import __help__
 from SaitamaRobot import CASH_API_KEY, dispatcher
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext, CommandHandler
