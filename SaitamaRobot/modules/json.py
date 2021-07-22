@@ -1,6 +1,5 @@
 import io
 from SaitamaRobot.events import register
-from SaitamaRobot import telethn as borg
 from SaitamaRobot import telethn as tbot
 from telethon import types
 from telethon import events
@@ -43,7 +42,7 @@ async def _(event):
     if len(the_real_message) > 4095:
         with io.BytesIO(str.encode(the_real_message)) as out_file:
             out_file.name = "json.text"
-            await borg.send_file(
+            await tbot.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
