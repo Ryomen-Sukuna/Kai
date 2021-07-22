@@ -59,7 +59,7 @@ def promote(update: Update, context: CallbackContext) -> str:
     except:
         return
 
-    if user_member.status == "administrator" or user_member.status == "creator":
+    if user_member.status in ("administrator", "creator"):
         message.reply_text("How am I meant to promote someone that's already an admin?")
         return
 
@@ -141,7 +141,7 @@ def fullpromote(update: Update, context: CallbackContext) -> str:
     except:
         return
 
-    if user_member.status == "administrator" or user_member.status == "creator":
+    if user_member.status in ("administrator", "creator"):
         message.reply_text("How am I meant to promote someone that's already an admin?")
         return
 
@@ -350,13 +350,13 @@ def pin(update: Update, context: CallbackContext) -> str:
     user = update.effective_user
     chat = update.effective_chat
 
-    is_group = chat.type != "private" and chat.type != "channel"
+    is_group = chat.type not in ("private", "channel")
     prev_message = update.effective_message.reply_to_message
 
     is_silent = True
     if len(args) >= 1:
-        is_silent = not (
-            args[0].lower() == "notify"
+        is_silent = (
+            args[0].lower() != "notify"
             or args[0].lower() == "loud"
             or args[0].lower() == "violent"
         )
