@@ -3,8 +3,10 @@ import random
 import re
 import time
 from functools import partial
+from io import BytesIO
+from typing import Tuple, Optional
+from telethon import events
 from contextlib import suppress
-
 import SaitamaRobot.modules.sql.welcome_sql as sql
 import SaitamaRobot
 from SaitamaRobot import (
@@ -18,6 +20,8 @@ from SaitamaRobot import (
     sw,
     dispatcher,
     JOIN_LOGGER,
+    SUPPORT_CHAT,
+    telethn,
 )
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -37,6 +41,8 @@ from telegram import (
     InlineKeyboardMarkup,
     ParseMode,
     Update,
+    ChatMemberUpdated,
+    ChatMember,
 )
 from telegram.error import BadRequest
 from telegram.ext import (
@@ -45,7 +51,7 @@ from telegram.ext import (
     CommandHandler,
     Filters,
     MessageHandler,
-    run_async,
+    ChatMemberHandler,
 )
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
 
@@ -74,6 +80,40 @@ ENUM_FUNC_MAP = {
 VERIFIED_USER_WAITLIST = {}
 
 
+def extract_status_change(
+    chat_member_update: ChatMemberUpdated,
+) -> Optional[Tuple[bool, bool]]:
+    status_change = chat_member_update.difference().get("status")
+    old_is_member, new_is_member = chat_member_update.difference().get(
+        "is_member", (None, None)
+    )
+
+    if status_change is None:
+        return None
+
+    old_status, new_status = status_change
+    was_member = (
+        old_status
+        in [
+            ChatMember.MEMBER,
+            ChatMember.CREATOR,
+            ChatMember.ADMINISTRATOR,
+        ]
+        or (old_status == ChatMember.RESTRICTED and old_is_member is True)
+    )
+    is_member = (
+        new_status
+        in [
+            ChatMember.MEMBER,
+            ChatMember.CREATOR,
+            ChatMember.ADMINISTRATOR,
+        ]
+        or (new_status == ChatMember.RESTRICTED and new_is_member is True)
+    )
+
+    return was_member, is_member
+
+
 # do not async
 def send(update, message, keyboard, backup_message):
     chat = update.effective_chat
@@ -87,7 +127,7 @@ def send(update, message, keyboard, backup_message):
             pass
         reply = False
     try:
-        msg = update.effective_message.reply_text(
+        msg = update.effective_chat.send_message(
             message,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=keyboard,
@@ -95,14 +135,14 @@ def send(update, message, keyboard, backup_message):
         )
     except BadRequest as excp:
         if excp.message == "Reply message not found":
-            msg = update.effective_message.reply_text(
+            msg = update.effective_chat.send_message(
                 message,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=keyboard,
                 quote=False,
             )
         elif excp.message == "Button_url_invalid":
-            msg = update.effective_message.reply_text(
+            msg = update.effective_chat.send_message(
                 markdown_parser(
                     backup_message + "\nNote: the current message has an invalid url "
                     "in one of its buttons. Please update.",
@@ -111,7 +151,7 @@ def send(update, message, keyboard, backup_message):
                 reply_to_message_id=reply,
             )
         elif excp.message == "Unsupported url protocol":
-            msg = update.effective_message.reply_text(
+            msg = update.effective_chat.send_message(
                 markdown_parser(
                     backup_message + "\nNote: the current message has buttons which "
                     "use url protocols that are unsupported by "
@@ -121,7 +161,7 @@ def send(update, message, keyboard, backup_message):
                 reply_to_message_id=reply,
             )
         elif excp.message == "Wrong url host":
-            msg = update.effective_message.reply_text(
+            msg = update.effective_chat.send_message(
                 markdown_parser(
                     backup_message + "\nNote: the current message has some bad urls. "
                     "Please update.",
@@ -135,7 +175,7 @@ def send(update, message, keyboard, backup_message):
         elif excp.message == "Have no rights to send a message":
             return
         else:
-            msg = update.effective_message.reply_text(
+            msg = update.effective_chat.send_message(
                 markdown_parser(
                     backup_message + "\nNote: An error occured when sending the "
                     "custom message. Please update.",
@@ -147,20 +187,42 @@ def send(update, message, keyboard, backup_message):
     return msg
 
 
-@loggable
+# cleanservice
+@telethn.on(events.ChatAction)
+async def delete_service(event):
+    clean = sql.clean_service(event.chat_id)
+    if not clean:
+        return
+    try:
+        if (
+            event.user_joined
+            or event.user_added
+            or event.user_left
+            or event.user_kicked
+        ):
+            await event.delete()
+        else:
+            pass
+    except BadRequest:
+        pass
+
+
 def new_member(update: Update, context: CallbackContext):
     bot, job_queue = context.bot, context.job_queue
     chat = update.effective_chat
     user = update.effective_user
-    msg = update.effective_message
-
+    result = extract_status_change(update.chat_member)
+    if chat.type != "supergroup":
+        return
+    if result is None:
+        return
+    was_member, is_member = result
     should_welc, cust_welcome, cust_content, welc_type = sql.get_welc_pref(chat.id)
     welc_mutes = sql.welcome_mutes(chat.id)
     human_checks = sql.get_human_checks(user.id, chat.id)
 
-    new_members = update.effective_message.new_chat_members
-
-    for new_mem in new_members:
+    if not was_member and is_member:
+        new_mem = update.chat_member.new_chat_member.user
 
         if new_mem.id == bot.id and not SaitamaRobot.ALLOW_CHATS:
             with suppress(BadRequest):
@@ -187,20 +249,10 @@ def new_member(update: Update, context: CallbackContext):
 
         if should_welc:
 
-            reply = update.message.message_id
-            cleanserv = sql.clean_service(chat.id)
-            # Clean service welcome
-            if cleanserv:
-                try:
-                    dispatcher.bot.delete_message(chat.id, update.message.message_id)
-                except BadRequest:
-                    pass
-                reply = False
-
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text(
-                    "Oh, Genos? Let's get this moving.",
+                update.effective_chat.send_message(
+                    text="Oh, Genos? Let's get this moving.",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -208,12 +260,11 @@ def new_member(update: Update, context: CallbackContext):
                     f"#USER_JOINED\n"
                     f"Bot Owner just joined the group"
                 )
-                continue
 
             # Welcome Devs
             if new_mem.id in DEV_USERS:
-                update.effective_message.reply_text(
-                    "Be cool! A member of the Heroes Association just joined.",
+                update.effective_chat.send_message(
+                    text="Be cool! A member of the Heroes Association just joined.",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -221,12 +272,11 @@ def new_member(update: Update, context: CallbackContext):
                     f"#USER_JOINED\n"
                     f"Bot Dev just joined the group"
                 )
-                continue
 
             # Welcome Sudos
             if new_mem.id in DRAGONS:
-                update.effective_message.reply_text(
-                    "Whoa! A Dragon disaster just joined! Stay Alert!",
+                update.effective_chat.send_message(
+                    text="Whoa! A Dragon disaster just joined! Stay Alert!",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -234,12 +284,11 @@ def new_member(update: Update, context: CallbackContext):
                     f"#USER_JOINED\n"
                     f"Bot Sudo just joined the group"
                 )
-                continue
 
             # Welcome Support
             if new_mem.id in DEMONS:
-                update.effective_message.reply_text(
-                    "Huh! Someone with a Demon disaster level just joined!",
+                update.effective_chat.send_message(
+                    text="Huh! Someone with a Demon disaster level just joined!",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -247,12 +296,11 @@ def new_member(update: Update, context: CallbackContext):
                     f"#USER_JOINED\n"
                     f"Bot Support just joined the group"
                 )
-                continue
 
             # Welcome Whitelisted
             if new_mem.id in TIGERS:
-                update.effective_message.reply_text(
-                    "Roar! A Tiger disaster just joined!",
+                update.effective_chat.send_message(
+                    text="Roar! A Tiger disaster just joined!",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -260,12 +308,11 @@ def new_member(update: Update, context: CallbackContext):
                     f"#USER_JOINED\n"
                     f"A whitelisted user joined the chat"
                 )
-                continue
 
             # Welcome Tigers
             if new_mem.id in WOLVES:
-                update.effective_message.reply_text(
-                    "Awoo! A Wolf disaster just joined!",
+                update.effective_chat.send_message(
+                    text="Awoo! A Wolf disaster just joined!",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -273,41 +320,22 @@ def new_member(update: Update, context: CallbackContext):
                     f"#USER_JOINED\n"
                     f"A whitelisted user joined the chat"
                 )
-                continue
 
             # Welcome yourself
             if new_mem.id == bot.id:
-                creator = None
-                for x in bot.bot.get_chat_administrators(update.effective_chat.id):
-                    if x.status == "creator":
-                        creator = x.user
-                        break
-                if creator:
-                    bot.send_message(
-                        JOIN_LOGGER,
-                        "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>\n<b>Creator:</b> <code>{}</code>".format(
-                            html.escape(chat.title),
-                            chat.id,
-                            html.escape(creator),
-                        ),
-                        parse_mode=ParseMode.HTML,
-                    )
-                else:
-                    bot.send_message(
-                        JOIN_LOGGER,
-                        "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>".format(
-                            html.escape(chat.title),
-                            chat.id,
-                        ),
-                        parse_mode=ParseMode.HTML,
-                    )
-                update.effective_message.reply_text(
-                    "Watashi ga kita!",
-                    reply_to_message_id=reply,
+                bot.send_message(
+                    JOIN_LOGGER,
+                    "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>".format(
+                        html.escape(chat.title), chat.id
+                    ),
+                    parse_mode=ParseMode.HTML,
                 )
-                continue
-            buttons = sql.get_welc_buttons(chat.id)
-            keyb = build_keyboard(buttons)
+                update.effective_chat.send_message(
+                    text="Thanks for adding me! Join {@SUPPORT_CHAT} for support.",
+                )
+            else:
+                buttons = sql.get_welc_buttons(chat.id)
+                keyb = build_keyboard(buttons)
 
             if welc_type not in (sql.Types.TEXT, sql.Types.BUTTON_TEXT):
                 media_wel = True
@@ -326,7 +354,7 @@ def new_member(update: Update, context: CallbackContext):
                     fullname = escape_markdown(f"{first_name} {new_mem.last_name}")
                 else:
                     fullname = escape_markdown(first_name)
-                count = chat.get_members_count()
+                count = chat.get_member_count()
                 mention = mention_markdown(new_mem.id, escape_markdown(first_name))
                 if new_mem.username:
                     username = "@" + escape_markdown(new_mem.username)
@@ -426,7 +454,7 @@ def new_member(update: Update, context: CallbackContext):
                             },
                         )
                     new_join_mem = f'<a href="tg://user?id={user.id}">{html.escape(new_mem.first_name)}</a>'
-                    message = msg.reply_text(
+                    message = bot.send_message(
                         f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
                         reply_markup=InlineKeyboardMarkup(
                             [
@@ -602,7 +630,7 @@ def left_member(update: Update, context: CallbackContext):
                     fullname = escape_markdown(f"{first_name} {left_mem.last_name}")
                 else:
                     fullname = escape_markdown(first_name)
-                count = chat.get_members_count()
+                count = chat.get_member_count()
                 mention = mention_markdown(left_mem.id, first_name)
                 if left_mem.username:
                     username = "@" + escape_markdown(left_mem.username)
@@ -1102,7 +1130,7 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(chat_id, user_id):
+def __chat_settings__(chat_id, _):
     welcome_pref = sql.get_welc_pref(chat_id)[0]
     goodbye_pref = sql.get_gdbye_pref(chat_id)[0]
     return (
@@ -1131,8 +1159,8 @@ user joined chat, user left chat.
  • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
 """
 
-NEW_MEM_HANDLER = MessageHandler(
-    Filters.status_update.new_chat_members, new_member, run_async=True
+NEW_MEM_HANDLER = ChatMemberHandler(
+    new_member, ChatMemberHandler.CHAT_MEMBER, run_async=True
 )
 LEFT_MEM_HANDLER = MessageHandler(
     Filters.status_update.left_chat_member, left_member, run_async=True
