@@ -117,15 +117,8 @@ def extract_status_change(
 # do not async
 def send(update, message, keyboard, backup_message):
     chat = update.effective_chat
-    cleanserv = sql.clean_service(chat.id)
-    reply = update.message.message_id
-    # Clean service welcome
-    if cleanserv:
-        try:
-            dispatcher.bot.delete_message(chat.id, update.message.message_id)
-        except BadRequest:
-            pass
-        reply = False
+    reply = None
+
     try:
         msg = update.effective_chat.send_message(
             message,
@@ -134,7 +127,7 @@ def send(update, message, keyboard, backup_message):
             reply_to_message_id=reply,
         )
     except BadRequest as excp:
-        if excp.message == "Reply message not found":
+        if excp.message == "Replied message not found":
             msg = update.effective_chat.send_message(
                 message,
                 parse_mode=ParseMode.MARKDOWN,
@@ -248,6 +241,7 @@ def new_member(update: Update, context: CallbackContext):
             return
 
         if should_welc:
+            reply = None
 
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
@@ -467,7 +461,7 @@ def new_member(update: Update, context: CallbackContext):
                             ],
                         ),
                         parse_mode=ParseMode.HTML,
-                        reply_to_message_id=reply,
+                        reply_to_message_id=None,
                     )
                     bot.restrict_chat_member(
                         chat.id,
@@ -496,7 +490,7 @@ def new_member(update: Update, context: CallbackContext):
                     cust_content,
                     caption=res,
                     reply_markup=keyboard,
-                    reply_to_message_id=reply,
+                    reply_to_message_id=None,
                     parse_mode="markdown",
                 )
             else:
