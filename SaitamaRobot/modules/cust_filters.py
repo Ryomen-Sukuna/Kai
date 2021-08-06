@@ -300,10 +300,7 @@ def reply_filter(update, context):
                 if filt.reply_text:
                     if "%%%" in filt.reply_text:
                         split = filt.reply_text.split("%%%")
-                        if all(split):
-                            text = random.choice(split)
-                        else:
-                            text = filt.reply_text
+                        text = random.choice(split) if all(split) else filt.reply_text
                     else:
                         text = filt.reply_text
                     if text.startswith("~!") and text.endswith("!~"):
@@ -592,7 +589,7 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(chat_id, user_id):
+def __chat_settings__(chat_id, _):
     cust_filters = sql.get_chat_triggers(chat_id)
     return "There are `{}` custom filters here.".format(len(cust_filters))
 
