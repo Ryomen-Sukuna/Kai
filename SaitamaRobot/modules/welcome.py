@@ -116,7 +116,6 @@ def extract_status_change(
 
 # do not async
 def send(update, message, keyboard, backup_message):
-    chat = update.effective_chat
     reply = None
 
     try:
