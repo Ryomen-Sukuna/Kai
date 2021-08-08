@@ -218,7 +218,7 @@ def new_member(update: Update, context: CallbackContext):
 
         if new_mem.id == bot.id and not SaitamaRobot.ALLOW_CHATS:
             with suppress(BadRequest):
-                update.effective_message.reply_text(
+                update.effective_message.send_message(
                     f"Groups are disabled for {bot.first_name}, I'm outta here."
                 )
             bot.leave_chat(update.effective_chat.id)
