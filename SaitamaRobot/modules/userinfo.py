@@ -82,24 +82,11 @@ def hpmanager(user):
             afkst = afk_reason(user.id)
             # if user is afk and no reason then decrease 7%
             # else if reason exist decrease 5%
-            if not afkst:
-                new_hp -= no_by_per(total_hp, 7)
-            else:
-                new_hp -= no_by_per(total_hp, 5)
-
-        # fbanned users will have (2*number of fbans) less from max HP
-        # Example: if HP is 100 but user has 5 diff fbans
-        # Available HP is (2*5) = 10% less than Max HP
-        # So.. 10% of 100HP = 90HP
-
-    # Commenting out fban health decrease cause it wasnt working and isnt needed ig.
-    # _, fbanlist = get_user_fbanlist(user.id)
-    # new_hp -= no_by_per(total_hp, 2 * len(fbanlist))
-
-    # Bad status effects:
-    # gbanned users will always have 5% HP from max HP
-    # Example: If HP is 100 but gbanned
-    # Available HP is 5% of 100 = 5HP
+            new_hp -= no_by_per(total_hp, 7) if not afkst else no_by_per(total_hp, 5)
+            # fbanned users will have (2*number of fbans) less from max HP
+            # Example: if HP is 100 but user has 5 diff fbans
+            # Available HP is (2*5) = 10% less than Max HP
+            # So.. 10% of 100HP = 90HP
 
     else:
         new_hp = no_by_per(total_hp, 5)
@@ -145,19 +132,17 @@ def get_id(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.HTML,
             )
 
+    elif chat.type == "private":
+        msg.reply_text(
+            f"Your id is <code>{chat.id}</code>.",
+            parse_mode=ParseMode.HTML,
+        )
+
     else:
-
-        if chat.type == "private":
-            msg.reply_text(
-                f"Your id is <code>{chat.id}</code>.",
-                parse_mode=ParseMode.HTML,
-            )
-
-        else:
-            msg.reply_text(
-                f"This group's id is <code>{chat.id}</code>.",
-                parse_mode=ParseMode.HTML,
-            )
+        msg.reply_text(
+            f"This group's id is <code>{chat.id}</code>.",
+            parse_mode=ParseMode.HTML,
+        )
 
 
 @SaitamaTelethonClient.on(
@@ -279,8 +264,6 @@ def info(update: Update, context: CallbackContext):
             text += "\n\n<b>This person is Spamwatched!</b>"
             text += f"\nReason: <pre>{spamwtc.reason}</pre>"
             text += "\nAppeal at @SpamWatchSupport"
-        else:
-            pass
     except:
         pass  # don't crash if api is down somehow...
 
@@ -365,11 +348,7 @@ def about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = extract_user(message, args)
 
-    if user_id:
-        user = bot.get_chat(user_id)
-    else:
-        user = message.from_user
-
+    user = bot.get_chat(user_id) if user_id else message.from_user
     info = sql.get_user_me_info(user.id)
 
     if info:
@@ -420,7 +399,10 @@ def set_about_me(update: Update, context: CallbackContext):
 
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
-    stats = "<b>📊 Current stats:</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
+    stats = "<b>📊 Current stats:</b>\n" + "\n".join(
+        mod.__stats__() for mod in STATS
+    )
+
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
@@ -430,11 +412,7 @@ def about_bio(update: Update, context: CallbackContext):
     message = update.effective_message
 
     user_id = extract_user(message, args)
-    if user_id:
-        user = bot.get_chat(user_id)
-    else:
-        user = message.from_user
-
+    user = bot.get_chat(user_id) if user_id else message.from_user
     info = sql.get_user_bio(user.id)
 
     if info:

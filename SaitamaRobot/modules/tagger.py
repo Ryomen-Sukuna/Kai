@@ -125,38 +125,36 @@ def tagg_all_button(update, context):
     splitter = query.data.split("=")
     query_match = splitter[0]
     user_id = splitter[1]
-    if query_match == "tagall_accept":
-        if query.from_user.id == int(user_id):
-            member = chat.get_member(int(user_id))
-            chat_id = str(chat.id)[1:]
-            REDIS.sadd(
-                f"tagall2_{chat_id}",
-                mention_html(member.user.id, member.user.first_name),
-            )
-            query.message.edit_text(
-                "{} is accepted! to add yourself {}'s tag list.".format(
-                    mention_html(member.user.id, member.user.first_name), chat.title
-                ),
-                parse_mode=ParseMode.HTML,
-            )
+    if query_match == "tagall_accept" and query.from_user.id == int(user_id):
+        member = chat.get_member(int(user_id))
+        chat_id = str(chat.id)[1:]
+        REDIS.sadd(
+            f"tagall2_{chat_id}",
+            mention_html(member.user.id, member.user.first_name),
+        )
+        query.message.edit_text(
+            "{} is accepted! to add yourself {}'s tag list.".format(
+                mention_html(member.user.id, member.user.first_name), chat.title
+            ),
+            parse_mode=ParseMode.HTML,
+        )
 
-        else:
-            context.bot.answer_callback_query(
-                query.id, text="You're not the user being added in tag list!"
-            )
+    elif (
+        query_match == "tagall_accept"
+        or query_match == "tagall_dicline"
+        and query.from_user.id != int(user_id)
+    ):
+        context.bot.answer_callback_query(
+            query.id, text="You're not the user being added in tag list!"
+        )
     elif query_match == "tagall_dicline":
-        if query.from_user.id == int(user_id):
-            member = chat.get_member(int(user_id))
-            query.message.edit_text(
-                "{} is deslined! to add yourself {}'s tag list.".format(
-                    mention_html(member.user.id, member.user.first_name), chat.title
-                ),
-                parse_mode=ParseMode.HTML,
-            )
-        else:
-            context.bot.answer_callback_query(
-                query.id, text="You're not the user being added in tag list!"
-            )
+        member = chat.get_member(int(user_id))
+        query.message.edit_text(
+            "{} is deslined! to add yourself {}'s tag list.".format(
+                mention_html(member.user.id, member.user.first_name), chat.title
+            ),
+            parse_mode=ParseMode.HTML,
+        )
 
 
 @typing_action
