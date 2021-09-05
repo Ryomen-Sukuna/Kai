@@ -24,9 +24,7 @@ def song(client, message):
     user_name = message.from_user.first_name
     rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    query = ""
-    for i in message.command[1:]:
-        query += " " + str(i)
+    query = "".join(" " + str(i) for i in message.command[1:])
     print(query)
     m = message.reply("🔎 Finding the song...")
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
