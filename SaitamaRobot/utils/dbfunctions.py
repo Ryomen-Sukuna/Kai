@@ -6,11 +6,8 @@ karmadb = db.karma
 
 async def int_to_alpha(user_id: int) -> str:
     alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
-    text = ""
     user_id = str(user_id)
-    for i in user_id:
-        text += alphabet[int(i)]
-    return text
+    return "".join(alphabet[int(i)] for i in user_id)
 
 
 async def alpha_to_int(user_id_alphabet: str) -> int:
@@ -45,9 +42,8 @@ async def user_global_karma(user_id) -> int:
     total_karma = 0
     for chat in await chats.to_list(length=1000000):
         karma = await get_karma(chat["chat_id"], await int_to_alpha(user_id))
-        if karma:
-            if int(karma["karma"]) > 0:
-                total_karma += int(karma["karma"])
+        if karma and int(karma["karma"]) > 0:
+            total_karma += int(karma["karma"])
     return total_karma
 
 
@@ -76,9 +72,7 @@ async def update_karma(chat_id: int, name: str, karma: dict):
 
 async def is_karma_on(chat_id: int) -> bool:
     chat = await karmadb.find_one({"chat_id_toggle": chat_id})
-    if not chat:
-        return True
-    return False
+    return not chat
 
 
 async def karma_on(chat_id: int):

@@ -116,7 +116,7 @@ async def chatbot_status(_, message):
         )
 
     elif status in ("EN", "en", "english"):
-        if not chat_id in en_chats:
+        if chat_id not in en_chats:
             en_chats.append(chat_id)
             await message.reply_text("English Only chat bot Enabled!")
             return
@@ -163,12 +163,6 @@ async def chatbot_function(client, message):
         response = response.replace("aco", "kai")
 
         pro = response
-        try:
-            await kai.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
-
     else:
         u = msg.split()
         emj = extract_emojis(msg)
@@ -203,7 +197,7 @@ async def chatbot_function(client, message):
         except:
             return
         test = rm
-        if not "en" in lan and not lan == "":
+        if "en" not in lan and lan != "":
             try:
                 test = translator.translate(test, lang_tgt="en")
             except:
@@ -218,16 +212,16 @@ async def chatbot_function(client, message):
         response = response.replace("Aco", "kai")
         response = response.replace("aco", "kai")
         pro = response
-        if not "en" in lan and not lan == "":
+        if "en" not in lan and lan != "":
             try:
                 pro = translator.translate(pro, lang_tgt=lan[0])
             except:
                 return
-        try:
-            await kai.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
+    try:
+        await kai.send_chat_action(message.chat.id, "typing")
+        await message.reply_text(pro)
+    except CFError:
+        return
 
 
 @kai.on_message(
@@ -270,7 +264,7 @@ async def sasuke(client, message):
     except:
         return
     test = rm
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         try:
             test = translator.translate(test, lang_tgt="en")
         except:
@@ -287,7 +281,7 @@ async def sasuke(client, message):
     response = response.replace("aco", "kai")
 
     pro = response
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         pro = translator.translate(pro, lang_tgt=lan[0])
     try:
         await kai.send_chat_action(message.chat.id, "typing")
@@ -342,7 +336,7 @@ async def zero(client, message):
     except:
         return
     test = rm
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         try:
             test = translator.translate(test, lang_tgt="en")
         except:
@@ -357,7 +351,7 @@ async def zero(client, message):
     response = response.replace("aco", "kai")
 
     pro = response
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         try:
             pro = translator.translate(pro, lang_tgt=lan[0])
         except Exception:
