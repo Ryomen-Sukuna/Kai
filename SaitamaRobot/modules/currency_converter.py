@@ -1,5 +1,4 @@
 import requests
-from SaitamaRobot.__main__ import __help__
 from SaitamaRobot import CASH_API_KEY, dispatcher
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext, CommandHandler
@@ -30,14 +29,14 @@ def convert(update: Update, context: CallbackContext):
         response = requests.get(request_url).json()
         try:
             current_rate = float(
-                response["Realtime Currency Exchange Rate"]["5. Exchange Rate"],
+                response["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
             )
         except KeyError:
             update.effective_message.reply_text("Currency Not Supported.")
             return
         new_cur_amount = round(orig_cur_amount * current_rate, 5)
         update.effective_message.reply_text(
-            f"{orig_cur_amount} {orig_cur} = {new_cur_amount} {new_cur}",
+            f"{orig_cur_amount} {orig_cur} = {new_cur_amount} {new_cur}"
         )
 
     elif len(args) == 1:
