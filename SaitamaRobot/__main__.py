@@ -7,7 +7,12 @@ from typing import Optional, List
 from sys import argv
 import requests
 from pyrogram import idle, Client
-from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import (
+    Update, 
+    ParseMode, 
+    InlineKeyboardMarkup, 
+    InlineKeyboardButton,
+)
 from telegram.error import (
     TelegramError,
     Unauthorized,
@@ -188,7 +193,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             [
                                 InlineKeyboardButton(
-                                    text="Back", callback_data="help_back"
+                                    text="⬅️ Back", callback_data="help_back"
                                 )
                             ]
                         ],
@@ -232,7 +237,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="✯ Support Group ✯",
-                                url="https://t.me/zerounions",
+                                url="https://t.me/ironbloodnations",
                             ),
                             InlineKeyboardButton(
                                 text="✫ Source Code ✫",
@@ -606,16 +611,16 @@ def migrate_chats(update: Update, context: CallbackContext):
 def main():
     """#TODO"""
 
-    test_handler = CommandHandler("test", test)
-    start_handler = CommandHandler("start", start)
+    test_handler = DisableAbleCommandHandler("test", test)
+    start_handler = DisableAbleCommandHandler("start", start)
 
-    help_handler = CommandHandler("help", get_help)
+    help_handler = DisableAbleCommandHandler("help", get_help)
     help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*")
 
-    settings_handler = CommandHandler("settings", get_settings)
+    settings_handler = DisableAbleCommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
-    donate_handler = CommandHandler("donate", donate)
+    donate_handler = DisableAbleCommandHandler("donate", donate)
     migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
 
     # dispatcher.add_handler(test_handler)
@@ -642,7 +647,12 @@ def main():
         LOGGER.info(
             f"Kai started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
         )
-        updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
+        updater.start_polling(
+            allowed_updates=Update.ALL_TYPES,
+            timeout=15,
+            read_latency=4,
+            drop_pending_updates=True,
+        )
     if len(argv) not in (1, 3, 4):
         telethn.disconnect()
     else:
@@ -655,3 +665,4 @@ if __name__ == "__main__":
     telethn.start(bot_token=TOKEN)
     kp.start()
     main()
+    idle()
