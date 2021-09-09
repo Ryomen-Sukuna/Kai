@@ -35,6 +35,7 @@ from SaitamaRobot import (
     CERT_PATH,
     LOGGER,
     OWNER_ID,
+    SUPPORT_CHAT,
     PORT,
     TOKEN,
     URL,
