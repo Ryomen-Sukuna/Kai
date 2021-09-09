@@ -30,9 +30,7 @@ from SaitamaRobot.modules.helper_funcs.alternate import send_message
 @user_admin
 @loggable
 def promote(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -112,9 +110,7 @@ def promote(update: Update, context: CallbackContext) -> str:
 @user_admin
 @loggable
 def fullpromote(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -195,9 +191,7 @@ def fullpromote(update: Update, context: CallbackContext) -> str:
 @user_admin
 @loggable
 def demote(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     message = update.effective_message
     user = update.effective_user
@@ -218,7 +212,7 @@ def demote(update: Update, context: CallbackContext) -> str:
         message.reply_text("This person CREATED the chat, how would I demote them?")
         return
 
-    if not user_member.status == "administrator":
+    if user_member.status != "administrator":
         message.reply_text("Can't demote what wasn't promoted!")
         return
 
@@ -278,9 +272,7 @@ def refresh_admin(update, _):
 @can_promote
 @user_admin
 def set_title(update: Update, context: CallbackContext):
-    bot = context.bot
-    args = context.args
-
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     message = update.effective_message
 
@@ -344,14 +336,25 @@ def set_title(update: Update, context: CallbackContext):
 @user_admin
 @loggable
 def pin(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
+    bot, args = context.bot, context.args
     user = update.effective_user
     chat = update.effective_chat
+    message = update.effective_message
+    pinner = chat.get_member(user.id)
+
+    if (
+        not (pinner.can_pin_messages or pinner.status == "creator")
+        and user.id not in DRAGONS
+    ):
+        message.reply_text("You don't have the necessary rights to do that!")
+        return
 
     is_group = chat.type not in ("private", "channel")
     prev_message = update.effective_message.reply_to_message
+
+    if not prev_message:
+        message.reply_text("Reply a message to pin it!")
+        return
 
     is_silent = True
     if len(args) >= 1:
@@ -388,6 +391,14 @@ def unpin(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
+    unpinner = chat.get_member(user.id)
+
+    if (
+        not (unpinner.can_pin_messages or unpinner.status == "creator")
+        and user.id not in DRAGONS
+    ):
+        message.reply_text("You don't have the necessary rights to do that!")
+        return
 
     try:
         bot.unpinChatMessage(chat.id)
@@ -570,7 +581,7 @@ FULLPROMOTE_HANDLER = DisableAbleCommandHandler(
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, run_async=True)
 SET_TITLE_HANDLER = CommandHandler("title", set_title, run_async=True)
 ADMIN_REFRESH_HANDLER = CommandHandler(
-    "admincache",
+    ["admincache", "refresh"],
     refresh_admin,
     filters=Filters.chat_type.groups,
     run_async=True,
