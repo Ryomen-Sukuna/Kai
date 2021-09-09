@@ -404,7 +404,7 @@ __help__ = """
 """
 
 BAN_HANDLER = DisableAbleCommandHandler(["ban", "sban"], ban, run_async=True)
-TEMPBAN_HANDLER = DisableAbleCommandHandlerr(["tban"], temp_ban, run_async=True)
+TEMPBAN_HANDLER = DisableAbleCommandHandler(["tban"], temp_ban, run_async=True)
 PUNCH_HANDLER = DisableAbleCommandHandler("kick", kick, run_async=True)
 UNBAN_HANDLER = DisableAbleCommandHandler("unban", unban, run_async=True)
 ROAR_HANDLER = DisableAbleCommandHandler("roar", selfunban, run_async=True)
