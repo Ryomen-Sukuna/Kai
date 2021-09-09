@@ -7,9 +7,8 @@ import urllib.parse
 from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
 
-from telegram import InputMediaPhoto, TelegramError
-from telegram import Update
-from telegram.ext import CallbackContext, run_async
+from telegram import Update, InputMediaPhoto, TelegramError 
+from telegram.ext import CallbackContext
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -205,7 +204,7 @@ def scam(imgspage, lim):
 
 
 REVERSE_HANDLER = DisableAbleCommandHandler(
-    "reverse", reverse, pass_args=True, admin_ok=True, run_async=True
+    ["grs", "reverse"], reverse, pass_args=True, run_async=True
 )
 
 dispatcher.add_handler(REVERSE_HANDLER)
