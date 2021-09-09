@@ -8,9 +8,9 @@ from sys import argv
 import requests
 from pyrogram import idle, Client
 from telegram import (
-    Update, 
-    ParseMode, 
-    InlineKeyboardMarkup, 
+    Update,
+    ParseMode,
+    InlineKeyboardMarkup,
     InlineKeyboardButton,
 )
 from telegram.error import (
