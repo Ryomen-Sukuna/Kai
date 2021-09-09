@@ -18,7 +18,6 @@ from pyrogram import Client, errors
 from pymongo.errors import ServerSelectionTimeoutError
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
-from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
@@ -228,7 +227,6 @@ updater = tg.Updater(
     TOKEN,
     workers=min(32, os.cpu_count() + 4),
     request_kwargs={"read_timeout": 10, "connect_timeout": 10},
-    persistence=PostgresPersistence(SESSION),
 )
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
