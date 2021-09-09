@@ -521,7 +521,7 @@ be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is
 __mod_name__ = "Warnings"
 
 WARN_HANDLER = CommandHandler(
-    ["warn", "dwarn"], warn_user, filters=Filters.groups, run_async=True
+    ["warn", "dwarn"], warn_user, filters=Filters.chat_type.groups, run_async=True
 )
 RESET_WARN_HANDLER = CommandHandler(
     ["resetwarn", "resetwarns"],
