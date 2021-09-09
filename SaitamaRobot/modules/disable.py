@@ -54,8 +54,8 @@ if is_module_loaded(FILENAME):
             if message.text and len(message.text) > 1:
                 fst_word = message.text.split(None, 1)[0]
                 if len(fst_word) > 1 and any(
-                        fst_word.startswith(start) for start in CMD_STARTERS
-                    ):
+                    fst_word.startswith(start) for start in CMD_STARTERS
+                ):
                     args = message.text.split()[1:]
                     command = fst_word[1:].split("@")
                     command.append(message.bot.username)
@@ -75,9 +75,9 @@ if is_module_loaded(FILENAME):
                         # disabled, admincmd, user admin
                         if sql.is_command_disabled(chat.id, command[0].lower()):
                             # check if command was disabled
-                            is_disabled = command[
-                                0
-                            ] in ADMIN_CMDS and is_user_admin(chat, user.id)
+                            is_disabled = command[0] in ADMIN_CMDS and is_user_admin(
+                                chat, user.id
+                            )
                             if not is_disabled:
                                 return None
                             return args, filter_result
