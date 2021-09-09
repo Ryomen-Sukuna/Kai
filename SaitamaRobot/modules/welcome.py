@@ -383,6 +383,8 @@ def new_member(update: Update, context: CallbackContext):
             res = None
             keyboard = None
             backup_message = None
+            reply = None
+
         # User exceptions from welcomemutes
         if (
             is_user_ban_protected(chat, new_mem.id, chat.get_member(new_mem.id))
@@ -443,6 +445,7 @@ def new_member(update: Update, context: CallbackContext):
                     )
                 new_join_mem = f'<a href="tg://user?id={user.id}">{html.escape(new_mem.first_name)}</a>'
                 message = bot.send_message(
+                    chat.id,
                     f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
                     reply_markup=InlineKeyboardMarkup(
                         [
@@ -455,7 +458,7 @@ def new_member(update: Update, context: CallbackContext):
                         ],
                     ),
                     parse_mode=ParseMode.HTML,
-                    reply_to_message_id=None,
+                    reply_to_message_id=reply,
                 )
                 bot.restrict_chat_member(
                     chat.id,
