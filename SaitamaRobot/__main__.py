@@ -612,7 +612,7 @@ def main():
 
     test_handler = DisableAbleCommandHandler("test", test)
     start_handler = DisableAbleCommandHandler("start", start)
-    
+
     help_handler = DisableAbleCommandHandler("help", get_help)
     help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*")
 
