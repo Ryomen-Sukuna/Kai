@@ -81,7 +81,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-✦ Hi {}, my name is {}[!](https://telegra.ph/file/b2d1da6b005787000f0d1.jpg)
+✦ Hi {}, my name is {}[.](https://telegra.ph/file/b2d1da6b005787000f0d1.jpg)
 
 ➛ I am an Anime themed group management bot ××
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -93,10 +93,10 @@ PM_START_TEXT = """
 HELP_STRINGS = """
 *Main* commands available[:](https://telegra.ph/file/b7430b90a96224f0a79b6.jpg)
 
- ➛ /help: PM's you this message.
- ➛ /help <module name>: PM's you info about that module.
- ➛ /donate: information on how to donate!
- ➛ /settings:
+➛ /help: PM's you this message.
+➛ /help <module name>: PM's you info about that module.
+➛ /donate: information on how to donate!
+➛ /settings:
    ❂ in PM: will send you your settings for all supported modules.
    ❂ in a group: will redirect you to pm, with all that chat's settings.
 """
