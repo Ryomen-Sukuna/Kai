@@ -35,7 +35,6 @@ from SaitamaRobot import (
     CERT_PATH,
     LOGGER,
     OWNER_ID,
-    SUPPORT_CHAT,
     PORT,
     TOKEN,
     URL,
@@ -612,16 +611,6 @@ def migrate_chats(update: Update, context: CallbackContext):
 
 def main():
     """#TODO"""
-
-    if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
-        try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Villain comes to you")
-        except Unauthorized:
-            LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!"
-            )
-        except BadRequest as e:
-            LOGGER.warning(e.message)
 
     test_handler = DisableAbleCommandHandler("test", test)
     start_handler = DisableAbleCommandHandler("start", start)
