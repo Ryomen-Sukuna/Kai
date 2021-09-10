@@ -162,9 +162,7 @@ def send_help(chat_id, text, keyboard=None):
     """
 
     if not keyboard:
-        kb = paginate_modules(0, HELPABLE, "help")
-        kb.append([InlineKeyboardButton(text="🔙 Back", callback_data="start_back")])
-        keyboard = InlineKeyboardMarkup(kb)
+        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     dispatcher.bot.send_message(
         chat_id=chat_id, text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard
     )
@@ -614,8 +612,7 @@ def main():
 
     test_handler = DisableAbleCommandHandler("test", test)
     start_handler = DisableAbleCommandHandler("start", start)
-    start_callback_handler = CallbackQueryHandler("start", pattern=r"start_back")
-
+    
     help_handler = DisableAbleCommandHandler("help", get_help)
     help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*")
 
