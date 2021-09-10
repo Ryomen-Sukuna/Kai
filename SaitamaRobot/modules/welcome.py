@@ -749,16 +749,15 @@ def goodbye(update: Update, context: CallbackContext):
 
                 send(update, goodbye_m, keyboard, sql.DEFAULT_GOODBYE)
 
-        else:
-            if noformat:
-                ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m)
+        elif noformat:
+            ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m)
 
-            else:
-                ENUM_FUNC_MAP[goodbye_type](
-                    chat.id,
-                    goodbye_m,
-                    parse_mode=ParseMode.MARKDOWN,
-                )
+        else:
+            ENUM_FUNC_MAP[goodbye_type](
+                chat.id,
+                goodbye_m,
+                parse_mode=ParseMode.MARKDOWN,
+            )
 
     elif len(args) >= 1:
         if args[0].lower() in ("on", "yes"):
@@ -959,26 +958,7 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
 def cleanservice(update: Update, context: CallbackContext) -> str:
     args = context.args
     chat = update.effective_chat  # type: Optional[Chat]
-    if chat.type != chat.PRIVATE:
-        if len(args) >= 1:
-            var = args[0]
-            if var in ("no", "off"):
-                sql.set_clean_service(chat.id, False)
-                update.effective_message.reply_text("Welcome clean service is : off")
-            elif var in ("yes", "on"):
-                sql.set_clean_service(chat.id, True)
-                update.effective_message.reply_text("Welcome clean service is : on")
-            else:
-                update.effective_message.reply_text(
-                    "Invalid option",
-                    parse_mode=ParseMode.HTML,
-                )
-        else:
-            update.effective_message.reply_text(
-                "Usage is <code>on</code>/<code>yes</code> or <code>off</code>/<code>no</code>",
-                parse_mode=ParseMode.HTML,
-            )
-    else:
+    if chat.type == chat.PRIVATE:
         curr = sql.clean_service(chat.id)
         if curr:
             update.effective_message.reply_text(
@@ -990,6 +970,25 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
                 "Welcome clean service is : <code>off</code>",
                 parse_mode=ParseMode.HTML,
             )
+
+    elif len(args) >= 1:
+        var = args[0]
+        if var in ("no", "off"):
+            sql.set_clean_service(chat.id, False)
+            update.effective_message.reply_text("Welcome clean service is : off")
+        elif var in ("yes", "on"):
+            sql.set_clean_service(chat.id, True)
+            update.effective_message.reply_text("Welcome clean service is : on")
+        else:
+            update.effective_message.reply_text(
+                "Invalid option",
+                parse_mode=ParseMode.HTML,
+            )
+    else:
+        update.effective_message.reply_text(
+            "Usage is <code>on</code>/<code>yes</code> or <code>off</code>/<code>no</code>",
+            parse_mode=ParseMode.HTML,
+        )
 
 
 def user_button(update: Update, context: CallbackContext):
