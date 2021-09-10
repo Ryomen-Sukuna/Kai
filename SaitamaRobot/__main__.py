@@ -91,7 +91,7 @@ PM_START_TEXT = """
 """
 
 HELP_STRINGS = """
-*Main* commands available[:](https://telegra.ph/file/b7430b90a96224f0a79b6.jpg)
+*Main commands available*[:](https://telegra.ph/file/b7430b90a96224f0a79b6.jpg)
 
 ➛ /help: PM's you this message.
 ➛ /help <module name>: PM's you info about that module.
