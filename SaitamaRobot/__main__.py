@@ -81,7 +81,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-✦ Hi {}, my name is {}! 
+✦ Hi {}, my name is {}[!](https://telegra.ph/file/b2d1da6b005787000f0d1.jpg)
 
 ➛ I am an Anime themed group management bot ××
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -218,8 +218,7 @@ def start(update: Update, context: CallbackContext):
 
         else:
             first_name = update.effective_user.first_name
-            update.effective_message.reply_photo(
-                KAI_IMG,
+            update.effective_message.reply_text(
                 PM_START_TEXT.format(
                     escape_markdown(first_name),
                     escape_markdown(context.bot.first_name),
@@ -248,7 +247,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             InlineKeyboardButton(
                                 text="[► Help ◄]",
-                                url="t.me/{}?start=help".format(context.bot.username),
+                                callback_data="help_back",
                             )
                         ],
                     ]
