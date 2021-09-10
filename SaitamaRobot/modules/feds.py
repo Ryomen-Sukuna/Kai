@@ -1665,11 +1665,8 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     parse_mode=ParseMode.MARKDOWN,
                 )
                 return
-            if user.id not in DRAGONS:
-                put_chat(chat.id, new_jam, chat_data)
-        else:
-            if user.id not in DRAGONS:
-                put_chat(chat.id, new_jam, chat_data)
+        if user.id not in DRAGONS:
+            put_chat(chat.id, new_jam, chat_data)
         # if int(int(msg.reply_to_message.document.file_size)/1024) >= 200:
         # 	msg.reply_text("This file is too big!")
         # 	return
@@ -1835,15 +1832,14 @@ def fed_import_bans(update: Update, context: CallbackContext):
             if failed >= 1:
                 text += " {} Failed to import.".format(failed)
             get_fedlog = sql.get_fed_log(fed_id)
-            if get_fedlog:
-                if ast.literal_eval(get_fedlog):
-                    teks = "Fed *{}* has successfully imported data. {} banned.".format(
-                        getfed["fname"],
-                        success,
-                    )
-                    if failed >= 1:
-                        teks += " {} Failed to import.".format(failed)
-                    bot.send_message(get_fedlog, teks, parse_mode="markdown")
+            if get_fedlog and ast.literal_eval(get_fedlog):
+                teks = "Fed *{}* has successfully imported data. {} banned.".format(
+                    getfed["fname"],
+                    success,
+                )
+                if failed >= 1:
+                    teks += " {} Failed to import.".format(failed)
+                bot.send_message(get_fedlog, teks, parse_mode="markdown")
         else:
             send_message(update.effective_message, "This file is not supported.")
             return
