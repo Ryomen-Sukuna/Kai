@@ -11,7 +11,7 @@ from SaitamaRobot.modules.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
 )
-from SaitamaRobot.modules.redis.afk_redis import (
+from SaitamaRobot.modules.redis.afk_db import (
     start_afk,
     end_afk,
     is_user_afk,
