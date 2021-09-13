@@ -165,9 +165,8 @@ def __gdpr__(user_id):
     end_afk(user_id)
 
 
-__help__ = # no help string
-
 __mod_name__ = "AFK"
+
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk, run_async=True)
 AFK_REGEX_HANDLER = MessageHandler(Filters.regex("(?i)brb"), afk, run_async=True)
