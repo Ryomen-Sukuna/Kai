@@ -2,7 +2,7 @@ import html
 import random
 import time
 
-import SaitamaRobot.modules.fun_strings as fun_strings
+import SaitamaRobot.modules.helper_funcs.fun_strings as fun_strings
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
