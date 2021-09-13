@@ -6,7 +6,7 @@ import textwrap
 import traceback
 from contextlib import redirect_stdout
 
-from SaitamaRobot import LOGGER, OWNER_ID
+from SaitamaRobot import dispatcher, LOGGER, OWNER_ID
 from telegram import ParseMode, Update
 from telegram.ext import Filters, CommandHandler, CallbackContext
 
@@ -118,6 +118,7 @@ def clear(update: Update, context: CallbackContext):
         del namespaces[update.message.chat_id]
     send("Cleared locals.", bot, update)
 
+
 EVAL_HANDLER = CommandHandler(["e", "ev", "eva", "eval"], evaluate, filters=Filters.user(OWNER_ID))
 EXEC_HANDLER = CommandHandler(["x", "ex", "exe", "exec", "py"], execute, filters=Filters.user(OWNER_ID))
 CLEAR_HANDLER  = CommandHandler("clearlocals", clear, filters=Filters.user(OWNER_ID))
@@ -126,5 +127,6 @@ CLEAR_HANDLER  = CommandHandler("clearlocals", clear, filters=Filters.user(OWNER
 dispatcher.add_handler(EVAL_HANDLER)
 dispatcher.add_handler(EXEC_HANDLER)
 dispatcher.add_handler(CLEAR_HANDLER)
+
 
 __mod_name__ = "Eval Module"
