@@ -15,7 +15,6 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     user_admin,
     ADMIN_CACHE,
 )
-
 from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
@@ -554,16 +553,21 @@ def adminlist(update, context):
 
 
 __help__ = """
- • `/admins`*:* list of admins in the chat
+Lazy to promote or demote someone for admins? Want to see basic information about chat?
+All stuff about chatroom such as admin lists, pinning or grabbing an invite link can be
+done easily using the bot.
 
-*Admins only:*
- • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users
- • `/unpin`*:* unpins the currently pinned message
- • `/invitelink`*:* gets invitelink
- • `/promote`*:* promotes the user replied to
- • `/demote`*:* demotes the user replied to
- • `/title <title here>`*:* sets a custom title for an admin that the bot promoted
- • `/admincache`*:* force refresh the admins list
+*Users Commands:*
+>> /admins: list of all administrator in the chat.
+
+*Admins Commands:*
+>> /pin: silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users.
+>> /unpin: unpins the currently pinned message.
+>> /invitelink: gets invitelink.
+>> /promote: promotes the user replied to.
+>> /demote: demotes the user replied to.
+>> /title <title here>: sets a custom title for an admin that the bot promoted.
+>> /admincache: force refresh the admins list.
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist, run_async=True)
