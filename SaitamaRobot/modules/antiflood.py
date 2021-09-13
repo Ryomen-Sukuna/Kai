@@ -402,7 +402,7 @@ Antiflood allows you to take action on users that send more than x messages in a
 will result in restricting that user.
 This will mute users if they send more than 10 messages in a row, bots are ignored.
 
-*Users Commands:"
+*Users Commands:*
 >> /flood: get the current flood control setting
 
 *Admins only:*
