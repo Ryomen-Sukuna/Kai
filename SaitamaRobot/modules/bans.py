@@ -87,12 +87,14 @@ def ban(update: Update, context: CallbackContext) -> str:
         else:
             message.reply_text("This user has immunity and cannot be banned.")
         return log_message
+
     if message.text.startswith("/s"):
         silent = True
         if not can_delete(chat, context.bot.id):
             return ""
     else:
         silent = False
+
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#{'S' if silent else ''}BANNED\n"
@@ -166,6 +168,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
             raise
         message.reply_text("I can't seem to find this user.")
         return log_message
+
     if user_id == bot.id:
         message.reply_text("I'm not gonna BAN myself, are you crazy?")
         return log_message
@@ -281,7 +284,7 @@ def kick(update: Update, context: CallbackContext) -> str:
             log += f"\n<b>Reason:</b> {reason}"
 
         return log
-    message.reply_text("Well damn, I can't punch that user.")
+    message.reply_text("Well damn, I can't kick that user.")
 
     return log_message
 
@@ -393,14 +396,20 @@ def selfunban(context: CallbackContext, update: Update) -> str:
 
 
 __help__ = """
- • `/punchme`*:* punchs the user who issued the command
+Some people need to be publicly banned; spammers, annoyances, or just trolls.
+This module allows you to do that easily, by exposing some common actions, so everyone will see!
+
+>> /kickme: kicks the user who issued the command
 
 *Admins only:*
- • `/ban <userhandle>`*:* bans a user. (via handle, or reply)
- • `/sban <userhandle>`*:* Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
- • `/tban <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
- • `/unban <userhandle>`*:* unbans a user. (via handle, or reply)
- • `/kick <userhandle>`*:* kicks a user out of the group, (via handle, or reply)
+>> /ban <userhandle>: bans a user. (via handle, or reply)
+>> /sban <userhandle>: silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
+>> /tban <userhandle> x(m/h/d): bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
+>> /unban <userhandle>: unbans a user. (via handle, or reply)
+>> /kick <userhandle>: kicks a user out of the group, (via handle, or reply)
+
+*An example of temporarily banning someone:*
+`/tban @username 2h`; this bans a user for 2 hours.
 """
 
 BAN_HANDLER = DisableAbleCommandHandler(["ban", "sban"], ban, run_async=True)
