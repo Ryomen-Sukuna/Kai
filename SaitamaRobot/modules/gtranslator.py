@@ -1,41 +1,23 @@
-from gpytranslate import Translator
-from telegram.ext import CommandHandler, CallbackContext
 from telegram import (
-    Message,
-    Chat,
-    User,
     ParseMode,
     Update,
-    InlineKeyboardMarkup,
     InlineKeyboardButton,
+    InlineKeyboardMarkup,
 )
-from SaitamaRobot import dispatcher, kp
-from pyrogram import filters
+from telegram.ext import CallbackContext
+from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from gpytranslate import SyncTranslator
 
 
-__help__ = """ 
-Use this module to translate stuff!
-*Commands:*
-• `/tl` (or `/tr`): as a reply to a message, translates it to English.
-• `/tl <lang>`: translates to <lang>
-eg: `/tl ja`: translates to Japanese.
-• `/tl <source>//<dest>`: translates from <source> to <lang>.
-eg: `/tl ja//en`: translates from Japanese to English.
-• `/langs`: get a list of supported languages for translation.
-"""
-
-__mod_name__ = "Translator"
+trans = SyncTranslator()
 
 
-trans = Translator()
-
-
-@kp.on_message(filters.command(["tl", "tr"]))
-async def translate(_, message: Message) -> None:
+def translate(update: Update, context: CallbackContext) -> None:
+    message = update.effective_message
     reply_msg = message.reply_to_message
     if not reply_msg:
-        await message.reply_text("Reply to a message to translate it!")
+        message.reply_text("Reply to a message to translate it!")
         return
     if reply_msg.caption:
         to_translate = reply_msg.caption
@@ -47,18 +29,18 @@ async def translate(_, message: Message) -> None:
             source = args.split("//")[0]
             dest = args.split("//")[1]
         else:
-            source = await trans.detect(to_translate)
+            source = trans.detect(to_translate)
             dest = args
     except IndexError:
-        source = await trans.detect(to_translate)
+        source = trans.detect(to_translate)
         dest = "en"
-    translation = await trans(to_translate, sourcelang=source, targetlang=dest)
+    translation = trans(to_translate, sourcelang=source, targetlang=dest)
     reply = (
         f"<b>Translated from {source} to {dest}</b>:\n"
         f"<code>{translation.text}</code>"
     )
 
-    await message.reply_text(reply, parse_mode="html")
+    message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
 def languages(update: Update, context: CallbackContext) -> None:
@@ -78,6 +60,25 @@ def languages(update: Update, context: CallbackContext) -> None:
     )
 
 
-LANG_HANDLER = DisableAbleCommandHandler("langs", languages, run_async=True)
+__help__ = """
+*Use this modules to translate stuff!*
 
+*Users Commands:*
+>> /tr or /tl (language code) as reply to a long message
+*Example:*
+>> /tr id: translates something to indonesia.
+>> /tr id//en: translates indonesia to english.
+>> /lang | /langs: get a list of languages supported.
+"""
+
+
+__mod_name__ = "Translator"
+
+
+TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], translate, run_async=True)
+LANG_HANDLER = DisableAbleCommandHandler(
+    ["lang", "langs"], languages, run_async=True
+)
+
+dispatcher.add_handler(TRANSLATE_HANDLER)
 dispatcher.add_handler(LANG_HANDLER)
