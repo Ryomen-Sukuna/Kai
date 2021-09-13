@@ -6,10 +6,7 @@ from typing import List
 from random import randint
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot import (
-    dispatcher,
-    WALL_API,
-)
+from SaitamaRobot import dispatcher, WALL_API
 import requests as r
 import wikipedia
 from requests import get, post
@@ -236,31 +233,41 @@ def paste(update, context):
 
 __help__ = """
 *Available commands:*
+
 *Markdown:*
- • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
- *Paste:*
- • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
- *React:*
- • `/react`*:* Reacts with a random reaction 
- *Urban Dictonary:*
- • `/ud <word>`*:* Type the word or expression you want to search use
- *Last FM:*
- • `/setuser <username>`*:* sets your last.fm username.
- • `/clearuser`*:* removes your last.fm username from the bot's database.
- • `/lastfm`*:* returns what you're scrobbling on last.fm
- *Reverse:*
- • `/reverse`*:* Does a reverse image search of the media which it was replied to.
- *Wikipedia:*
- • `/wiki <query>`*:* wikipedia your query
- *Wallpapers:*
- • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com
- *Currency converter:* 
- • `/cash`*:* currency converter
- Example:
- `/cash 1 USD INR`  
-      _OR_
- `/cash 1 usd inr`
- Output: `1.0 USD = 75.505 INR`
+>> /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
+
+*Paste:*
+>> /paste: Saves replied content to `nekobin.com` and replies with a url.
+
+*React:*
+>> /react: Reacts with a random reaction.
+
+*Urban Dictonary:*
+>> /ud <word>: Type the word or expression you want to search use.
+
+*Last FM:*
+>> /setuser <username>: sets your last.fm username.
+>> /clearuser: removes your last.fm username from the bot's database.
+>> /lastfm: returns what you're scrobbling on last.fm.
+
+*Reverse:*
+>> /reverse: Does a reverse image search of the media which it was replied to.
+>> /grs: same like reverse.
+
+*Wikipedia:*
+>> /wiki <query>: wikipedia your query.
+
+*Wallpapers:*
+>> /wall <query>: get a wallpaper from wall.alphacoders.com.
+
+*Currency converter:* 
+>> /cash: currency converter
+*An example for using cash:*
+`/cash 1 USD INR`  
+     _OR_
+`/cash 1 usd inr`
+Output: `1.0 USD = 75.505 INR`
 """
 
 ECHO_HANDLER = DisableAbleCommandHandler(
