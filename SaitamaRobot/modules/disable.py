@@ -331,14 +331,20 @@ if is_module_loaded(FILENAME):
     dispatcher.add_handler(TOGGLE_HANDLER)
 
     __help__ = """
-• `/cmds`*:* check the current status of disabled commands
+Not everyone wants every feature that the bot offers. Some commands are best
+left unused; to avoid spam and abuse.
+This allows you to disable some commonly used commands, so noone can use them.
+It'll also allow you to autodelete them, stopping people from bluetexting.
 
-*Admins only:*
-• `/enable <cmd name>`*:* enable that command
-• `/disable <cmd name>`*:* disable that command
-• `/enablemodule <module name>`*:* enable all commands in that module
-• `/disablemodule <module name>`*:* disable all commands in that module
-• `/listcmds`*:* list all possible toggleable commands
+*Users Commands:*
+>> /cmds: check the current status of disabled commands
+
+*Admins Commands:*
+>> /enable <cmd name>: enable that command.
+>> /disable <cmd name>: disable that command
+>> /enablemodule <module name>: enable all commands in that module
+>> /disablemodule <module name>: disable all commands in that module
+>> /listcmds: list all possible toggleable commands
 """
     __mod_name__ = "Disabling"
 
