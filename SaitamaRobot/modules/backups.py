@@ -379,7 +379,7 @@ __help__ = """
 >> /import: Reply to the backup file to import as much as possible, making transfers very easy! \
 Note that files / photos cannot be imported due to telegram restrictions.
 
->>/export: Export group data, which will be exported are: rules, notes (documents, images, music, video, audio, voice, text, text buttons) \
+>> /export: Export group data, which will be exported are: rules, notes (documents, images, music, video, audio, voice, text, text buttons) \
 """
 
 IMPORT_HANDLER = CommandHandler("import", import_data, run_async=True)
