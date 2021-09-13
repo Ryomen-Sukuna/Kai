@@ -2,17 +2,12 @@ import logging
 import os
 import sys
 import json
-import asyncio
 import time
 import spamwatch
 
 import telegram.ext as tg
-from redis import StrictRedis
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
-from pymongo import MongoClient
-from odmantic import AIOEngine
-from motor import motor_asyncio
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 
@@ -95,7 +90,6 @@ if ENV:
     REDIS_URL = os.environ.get("REDIS_URL", None)
     ARQ_API = os.environ.get("ARQ_API", None)
     DONATION_LINK = os.environ.get("DONATION_LINK")
-    DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
@@ -110,7 +104,6 @@ if ENV:
     SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
-    CF_API_KEY = os.environ.get("CF_API_KEY", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
     ARQ_API_URL = "https://thearq.tech"
     ARQ_API_KEY = ARQ_API
@@ -185,7 +178,6 @@ else:
     SPAMWATCH_API = Config.SPAMWATCH_API
     INFOPIC = Config.INFOPIC
     LASTFM_API_KEY = Config.LASTFM_API_KEY
-    CF_API_KEY = Config.CF_API_KEY
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
@@ -194,17 +186,6 @@ else:
 
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
-
-# Redis Database
-REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
-try:
-    REDIS.ping()
-    LOGGER.info("Your redis server is now alive!")
-except BaseException:
-    raise Exception("Your redis server is not alive, please check again.")
-finally:
-    REDIS.ping()
-    LOGGER.info("Your redis server is now alive!")
 
 # SpamWatch
 if not SPAMWATCH_API:
@@ -227,11 +208,6 @@ updater = tg.Updater(
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 # Bot itself
 dispatcher = updater.dispatcher
-# MongoDB Database
-mongodb = MongoClient(MONGO_URI, MONGO_PORT)[MONGO_DB]
-motor = motor_asyncio.AsyncIOMotorClient(MONGO_URI)
-db = motor[MONGO_DB]
-engine = AIOEngine(motor, MONGO_DB)
 # Aiohttp Session
 aiohttpsession = ClientSession()
 # ARQ Client
