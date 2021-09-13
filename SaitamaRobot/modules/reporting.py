@@ -226,7 +226,7 @@ def buttons(update: Update, context: CallbackContext):
     splitter = query.data.replace("report_", "").split("=")
     if splitter[1] == "kick":
         try:
-            bot.kickChatMember(splitter[0], splitter[2])
+            bot.banChatMember(splitter[0], splitter[2])
             bot.unbanChatMember(splitter[0], splitter[2])
             query.answer("✅ Succesfully kicked")
             return ""
@@ -239,7 +239,7 @@ def buttons(update: Update, context: CallbackContext):
             )
     elif splitter[1] == "banned":
         try:
-            bot.kickChatMember(splitter[0], splitter[2])
+            bot.banChatMember(splitter[0], splitter[2])
             query.answer("✅  Succesfully Banned")
             return ""
         except Exception as err:
@@ -264,14 +264,25 @@ def buttons(update: Update, context: CallbackContext):
 
 
 __help__ = """
- • `/report <reason>`*:* reply to a message to report it to admins.
- • `@admin`*:* reply to a message to report it to admins.
+We're all busy people who don't have time to monitor our groups 24/7. But how do you \
+react if someone in your group is spamming?
+Presenting reports; if someone in your group thinks someone needs reporting, they now have \
+an easy way to call all admins.
+
+>> /report <reason>: reply to a message to report it to admins.
+>> `@admin` or `@admins`: reply to a message to report it to admins.
 *NOTE:* Neither of these will get triggered if used by admins.
 
 *Admins only:*
- • `/reports <on/off>`*:* change report setting, or view current status.
-   • If done in pm, toggles your status.
-   • If in group, toggles that groups's status.
+>> /reports <on/off>`*:* change report setting, or view current status.
+   × If done in pm, toggles your status.
+   × If in group, toggles that groups's status.
+
+To report a user, simply reply to user's message with `@admin` or /report.
+This message tags all the chat admins; same as if they had been @'ed.
+You *MUST* reply to a message to report a user; you can't just use `@admin` to tag admins for no reason!
+Note that the report commands do not work when admins use them; or when used to report an admin. Bot assumes that
+admins don't need to report, or be reported!
 """
 
 SETTING_HANDLER = CommandHandler("reports", report_setting, run_async=True)
