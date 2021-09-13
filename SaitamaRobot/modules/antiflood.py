@@ -406,16 +406,16 @@ This will mute users if they send more than 10 messages in a row, bots are ignor
 >> /flood: get the current flood control setting
 
 *Admins only:*
->> /setflood <int/'no'/'off'>: enables or disables flood control
+>> /setflood <int/no/off>: enables or disables flood control
 >> /setfloodmode <ban/kick/mute/tban/tmute> <value>: action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban
 
 *NOTE*
 Value must be filled for tban and tmute!!
 It can be:
-`5m` = 5 minutes
-`6h` = 6 hours
-`3d` = 3 days
-`1w` = 1 week
+`5m = 5 minutes`
+`6h = 6 hours`
+`3d = 3 days`
+`1w = 1 week`
 """
 
 __mod_name__ = "Anti-Flood"
