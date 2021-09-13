@@ -600,13 +600,13 @@ Reply 1
 Reply 2
 %%%
 Reply 3`
->> /stop <filter keyword>`*:* Stop that filter.
+>> /stop <filter keyword>: Stop that filter.
 
 *Chat creator only:*
 >> /removeallfilters: Remove all chat filters at once.
 
 *NOTE:* Filters also support markdown formatters like: {first}, {last} etc.. and buttons.
-Check `/markdownhelp` to know more!
+Check /markdownhelp to know more!
 """
 
 __mod_name__ = "Filters"
