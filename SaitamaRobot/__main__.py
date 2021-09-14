@@ -47,7 +47,6 @@ from SaitamaRobot import (
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
-from SaitamaRobot.modules.helper_funcs.alternate import typing_action
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.misc import paginate_modules
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -634,7 +633,7 @@ def main():
     settings_handler = DisableAbleCommandHandler("settings", get_settings, run_async=True)
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_", run_async=True)
 
-    data_callback_handler = CallbackQueryHandler(kai_callback_data, pattern=r"kai_", run_async=True)
+    data_callback_handler = CallbackQueryHandler(kai_callback_data, pattern=r"kai_back", run_async=True)
     donate_handler = DisableAbleCommandHandler("donate", donate, run_async=True)
     migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats, run_async=True)
 
