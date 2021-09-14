@@ -352,10 +352,9 @@ def help_button(update, context):
 
 def kai_callback_data(update, context):
     query = update.callback_query
-    uptime = get_readable_time((time.time() - StartTime))
     if query.data == "kai_back":
         first_name = update.effective_user.first_name
-        query.message.edit_text(
+        query.message.reply_text(
             PM_START_TEXT.format(
                 escape_markdown(first_name),
                 escape_markdown(context.bot.first_name),
@@ -363,7 +362,7 @@ def kai_callback_data(update, context):
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
             timeout=60,
-        )  
+        )
 
 
 def get_help(update: Update, context: CallbackContext):
