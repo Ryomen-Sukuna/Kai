@@ -351,7 +351,7 @@ def help_button(update, context):
         pass
 
 
-def kai_cv(update, context):
+def kai_cb(update, context):
     query = update.callback_query
     uptime = get_readable_time((time.time() - StartTime))
     if query.data == "kai_":
