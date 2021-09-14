@@ -351,7 +351,7 @@ def help_button(update, context):
         pass
 
 
-def kai_cb(update, context):
+def kai_callback_data(update, context):
     query = update.callback_query
     uptime = get_readable_time((time.time() - StartTime))
     if query.data == "kai_":
@@ -642,7 +642,7 @@ def main():
     settings_handler = DisableAbleCommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
-    data_callback_handler = CallbackQueryHandler(kai_cb, pattern=r"kai_", run_async=True)
+    data_callback_handler = CallbackQueryHandler(kai_callback_data, pattern=r"kai_", run_async=True)
     donate_handler = DisableAbleCommandHandler("donate", donate)
     migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
 
