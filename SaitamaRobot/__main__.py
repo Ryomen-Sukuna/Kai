@@ -98,10 +98,31 @@ HELP_STRINGS = """
 """
 
 
-buttons = [[InlineKeyboardButton(text="✤ Add to your Group ✤", url="t.me/{}?startgroup=true".format(context.bot.username))],
-          [InlineKeyboardButton(text="✯ Support Group ✯", url="https://t.me/ironbloodnations"),
-          InlineKeyboardButton(text="✫ Source Code ✫", url="https://github.com/Ryomen-Sukuna/Kai")],
-          [InlineKeyboardButton(text="[► Help ◄]", callback_data="help_back")]
+buttons = [
+              [
+                  InlineKeyboardButton(
+                      text="✤ Add to your Group ✤", 
+                      url="t.me/{}?startgroup=true".format(
+                          context.bot.username),
+                  ),
+              ],
+              [
+                  InlineKeyboardButton(
+                      text="✯ Support Group ✯", 
+                      url="https://t.me/ironbloodnations",
+                  ),
+                  InlineKeyboardButton(
+                      text="✫ Source Code ✫",
+                      url="https://github.com/Ryomen-Sukuna/Kai",
+                  ),
+              ],
+              [
+                  InlineKeyboardButton(
+                      text="[► Help ◄]", 
+                      callback_data="help_back",
+                  ),
+              ],
+          ]
 
 
 KAI_IMG = "https://telegra.ph/file/b2d1da6b005787000f0d1.jpg"
