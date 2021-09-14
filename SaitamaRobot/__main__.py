@@ -47,6 +47,7 @@ from SaitamaRobot import (
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
+from SaitamaRobot.modules.helper_funcs.alternate import typing_action
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.misc import paginate_modules
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -376,6 +377,7 @@ def kai_callback_data(update, context):
         )
 
 
+@typing_action
 def get_help(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
