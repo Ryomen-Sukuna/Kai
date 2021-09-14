@@ -351,6 +351,29 @@ def help_button(update, context):
         pass
 
 
+def kai_cb(update, context):
+    query = update.callback_query
+    uptime = get_readable_time((time.time() - StartTime))
+    if query.data == "kai_":
+        query.message.edit_text(
+            text="""CallBackQueriesData Here""",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(text="⬅️ Back", callback_data="kai_back")]]
+            ),
+        )
+    elif query.data == "kai_back":
+        first_name = update.effective_user.first_name
+        query.message.edit_text(
+                PM_START_TEXT.format(
+                    escape_markdown(first_name),
+                    escape_markdown(uptime),
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.MARKDOWN,
+                timeout=60,
+        )
+
+
 def get_help(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
@@ -409,29 +432,6 @@ def get_help(update: Update, context: CallbackContext):
 
     else:
         send_help(chat.id, HELP_STRINGS)
-
-
-def kai_cb(update, context):
-    query = update.callback_query
-    uptime = get_readable_time((time.time() - StartTime))
-    if query.data == "kai_":
-        query.message.edit_text(
-            text="""CallBackQueriesData Here""",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="⬅️ Back", callback_data="kai_back")]]
-            ),
-        )
-    elif query.data == "kai_back":
-        first_name = update.effective_user.first_name
-        query.message.edit_text(
-                PM_START_TEXT.format(
-                    escape_markdown(first_name),
-                    escape_markdown(uptime),
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
-        )
 
 
 def send_settings(chat_id, user_id, user=False):
@@ -640,6 +640,7 @@ def main():
     settings_handler = DisableAbleCommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
+    data_callback_handler = CallbackQueryHandler(kai_cb, pattern=r"kai_", run_async=True)
     donate_handler = DisableAbleCommandHandler("donate", donate)
     migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
 
