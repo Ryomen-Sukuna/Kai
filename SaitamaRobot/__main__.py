@@ -394,7 +394,7 @@ def kai_cb(update, context):
     uptime = get_readable_time((time.time() - StartTime))
     if query.data == "kai_":
         query.message.edit_text(
-            text="""CALLBACKQUERIESDATA""",
+            text="""CallBackQueriesData Here""",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="⬅️ Back", callback_data="kai_back")]]
