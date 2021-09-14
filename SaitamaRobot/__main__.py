@@ -351,13 +351,14 @@ def help_button(update, context):
         pass
 
 
-def kai_cb(update, context):
+def kai_cv(update, context):
     query = update.callback_query
     uptime = get_readable_time((time.time() - StartTime))
     if query.data == "kai_":
         query.message.edit_text(
-            text="""CallBackQueriesData Here""",
+            text="""cb""",
             parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="⬅️ Back", callback_data="kai_back")]]
             ),
@@ -371,6 +372,7 @@ def kai_cb(update, context):
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
+                disable_web_page_preview=False,
         )
 
 
