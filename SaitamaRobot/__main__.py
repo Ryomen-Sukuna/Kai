@@ -299,7 +299,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "【 Help for *{}* module 】\n".format(
+                "【► Help for *{}* module ◄】\n".format(
                     HELPABLE[module].__mod_name__,
                 )
                 + HELPABLE[module].__help__
@@ -358,12 +358,12 @@ def kai_callback_data(update, context):
         query.message.edit_text(
             PM_START_TEXT.format(
                 escape_markdown(first_name),
-                escape_markdown(uptime),
+                escape_markdown(context.bot.first_name),
             ),
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=False,
-            timeout=60)  
+            timeout=60,
+        )  
 
 
 def get_help(update: Update, context: CallbackContext):
