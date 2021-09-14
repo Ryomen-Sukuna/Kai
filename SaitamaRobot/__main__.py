@@ -357,15 +357,11 @@ def kai_callback_data(update, context):
     uptime = get_readable_time((time.time() - StartTime))
     if query.data == "kai_":
         query.message.edit_text(
-            text="""CallBackQueriesData Here""",
+            text="""cb""",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [
-                 [
-                    InlineKeyboardButton(text="Back", callback_data="kai_back")
-                 ]
-                ]
+                [[InlineKeyboardButton(text="⬅️ Back", callback_data="kai_back")]]
             ),
         )
     elif query.data == "kai_back":
@@ -374,12 +370,10 @@ def kai_callback_data(update, context):
                 PM_START_TEXT.format(
                     escape_markdown(first_name),
                     escape_markdown(uptime),
-                    sql.num_users(),
-                    sql.num_chats()),
+                ),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
-                disable_web_page_preview=False,
         )
 
 
