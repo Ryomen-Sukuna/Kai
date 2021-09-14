@@ -51,7 +51,7 @@ def evaluate(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(eval, bot, update), bot, update)
 
- 
+
 def execute(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(exec, bot, update), bot, update)
@@ -119,9 +119,13 @@ def clear(update: Update, context: CallbackContext):
     send("Cleared locals.", bot, update)
 
 
-EVAL_HANDLER = CommandHandler(["e", "ev", "eva", "eval"], evaluate, filters=Filters.user(OWNER_ID))
-EXEC_HANDLER = CommandHandler(["x", "ex", "exe", "exec", "py"], execute, filters=Filters.user(OWNER_ID))
-CLEAR_HANDLER  = CommandHandler("clearlocals", clear, filters=Filters.user(OWNER_ID))
+EVAL_HANDLER = CommandHandler(
+    ["e", "ev", "eva", "eval"], evaluate, filters=Filters.user(OWNER_ID)
+)
+EXEC_HANDLER = CommandHandler(
+    ["x", "ex", "exe", "exec", "py"], execute, filters=Filters.user(OWNER_ID)
+)
+CLEAR_HANDLER = CommandHandler("clearlocals", clear, filters=Filters.user(OWNER_ID))
 
 
 dispatcher.add_handler(EVAL_HANDLER)

@@ -100,30 +100,29 @@ HELP_STRINGS = """
 
 
 buttons = [
-              [
-                  InlineKeyboardButton(
-                      text="✤ Add to your Group ✤", 
-                      url="t.me/{}?startgroup=true".format(
-                          context.bot.username),
-                  ),
-              ],
-              [
-                  InlineKeyboardButton(
-                      text="✯ Support Group ✯", 
-                      url="https://t.me/ironbloodnations",
-                  ),
-                  InlineKeyboardButton(
-                      text="✫ Source Code ✫",
-                      url="https://github.com/Ryomen-Sukuna/Kai",
-                  ),
-              ],
-              [
-                  InlineKeyboardButton(
-                      text="[► Help ◄]", 
-                      callback_data="help_back",
-                  ),
-              ],
-          ]
+    [
+        InlineKeyboardButton(
+            text="✤ Add to your Group ✤",
+            url="t.me/{}?startgroup=true".format(context.bot.username),
+        ),
+    ],
+    [
+        InlineKeyboardButton(
+            text="✯ Support Group ✯",
+            url="https://t.me/ironbloodnations",
+        ),
+        InlineKeyboardButton(
+            text="✫ Source Code ✫",
+            url="https://github.com/Ryomen-Sukuna/Kai",
+        ),
+    ],
+    [
+        InlineKeyboardButton(
+            text="[► Help ◄]",
+            callback_data="help_back",
+        ),
+    ],
+]
 
 
 KAI_IMG = "https://telegra.ph/file/b2d1da6b005787000f0d1.jpg"
@@ -367,13 +366,13 @@ def kai_callback_data(update, context):
     elif query.data == "kai_back":
         first_name = update.effective_user.first_name
         query.message.edit_text(
-                PM_START_TEXT.format(
-                    escape_markdown(first_name),
-                    escape_markdown(uptime),
-                ),
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
+            PM_START_TEXT.format(
+                escape_markdown(first_name),
+                escape_markdown(uptime),
+            ),
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            timeout=60,
         )
 
 
@@ -644,7 +643,9 @@ def main():
     settings_handler = DisableAbleCommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
-    data_callback_handler = CallbackQueryHandler(kai_callback_data, pattern=r"kai_", run_async=True)
+    data_callback_handler = CallbackQueryHandler(
+        kai_callback_data, pattern=r"kai_", run_async=True
+    )
     donate_handler = DisableAbleCommandHandler("donate", donate)
     migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
 
@@ -660,9 +661,7 @@ def main():
     # dispatcher.add_error_handler(error_handler)
 
     if WEBHOOK:
-        LOGGER.info(
-            f"Kai started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
-        )
+        LOGGER.info(f"Kai started, Using webhook. | BOT: [@{dispatcher.bot.username}]")
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
