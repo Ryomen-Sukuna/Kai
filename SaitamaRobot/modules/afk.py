@@ -17,7 +17,7 @@ from SaitamaRobot.modules.redis.afk_db import (
     is_user_afk,
     afk_reason,
 )
-from SaitamaRobot import REDIS
+from SaitamaRobot.modules.redis import REDIS
 from SaitamaRobot.modules.users import get_user_id
 
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
