@@ -30,9 +30,9 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
-LOGGER.info("[KAI] Kai is starting. | An Zero Union Project. | Licensed under GPLv3.")
-LOGGER.info("[KAI] Not affiliated to Shie Hashaikai or Villain in any way whatsoever.")
-LOGGER.info("[KAI] Project maintained by: github.com/Ryomen-Sukuna (t.me/Anomaliii)")
+LOGGER.info("[Kai] Kai is starting. | An Iron Blood Project Parts. | Licensed under GPLv3.")
+LOGGER.info("[Kai] Not affiliated to Shie Hassaikai or Villain in any way whatsoever.")
+LOGGER.info("[Kai] Project maintained by: github.com/Ryomen-Sukuna (t.me/Anomaliii)")
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
