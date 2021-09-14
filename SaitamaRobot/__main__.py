@@ -299,7 +299,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "【► Help for *{}* module ◄】\n".format(
+                "[► *{}* ◄]\n".format(
                     HELPABLE[module].__mod_name__,
                 )
                 + HELPABLE[module].__help__
@@ -359,7 +359,7 @@ def kai_cb(update, context):
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Back", callback_data="cutiepii_back")]]
+                [[InlineKeyboardButton(text="Back", callback_data="kai_back")]]
             ),
         )
     elif query.data == "kai_back":
@@ -418,7 +418,7 @@ def get_help(update: Update, context: CallbackContext):
     if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
+            "[► *{}*◄]:\n".format(
                 HELPABLE[module].__mod_name__,
             )
             + HELPABLE[module].__help__
