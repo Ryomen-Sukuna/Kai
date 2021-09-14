@@ -103,7 +103,7 @@ buttons = [
     [
         InlineKeyboardButton(
             text="✤ Add to your Group ✤",
-            url="t.me/{}?startgroup=true".format(context.bot.username),
+            url="t.me/{}?startgroup=true".format(dispatcher.bot.username),
         ),
     ],
     [
