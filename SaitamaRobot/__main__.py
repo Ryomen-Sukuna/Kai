@@ -98,6 +98,13 @@ HELP_STRINGS = """
 """
 
 
+buttons = [[InlineKeyboardButton(text="✤ Add to your Group ✤", url="t.me/{}?startgroup=true".format(context.bot.username))],
+          [InlineKeyboardButton(text="✯ Support Group ✯", url="https://t.me/ironbloodnations"),
+          InlineKeyboardButton(text="✫ Source Code ✫", url="https://github.com/Ryomen-Sukuna/Kai")],
+          [InlineKeyboardButton(text="[► Help ◄]", callback_data="help_back")]]
+          ))
+
+
 KAI_IMG = "https://telegra.ph/file/b2d1da6b005787000f0d1.jpg"
 
 DONATE_STRING = """× I'm Free for Everyone ×"""
@@ -220,35 +227,7 @@ def start(update: Update, context: CallbackContext):
                     escape_markdown(context.bot.first_name),
                 ),
                 parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                text="✤ Add to your Group ✤",
-                                url="t.me/{}?startgroup=true".format(
-                                    context.bot.username
-                                ),
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text="✯ Support Group ✯",
-                                url="https://t.me/ironbloodnations",
-                            ),
-                            InlineKeyboardButton(
-                                text="✫ Source Code ✫",
-                                url="https://github.com/Ryomen-Sukuna/Kai",
-                            ),
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text="[► Help ◄]",
-                                callback_data="help_back",
-                            )
-                        ],
-                    ]
-                ),
-            )
+                reply_markup=InlineKeyboardMarkup(buttons)
     else:
         update.effective_message.reply_text(
             "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
@@ -408,6 +387,29 @@ def get_help(update: Update, context: CallbackContext):
 
     else:
         send_help(chat.id, HELP_STRINGS)
+
+
+def kai_cb(update, context):
+    query = update.callback_query
+    uptime = get_readable_time((time.time() - StartTime))
+    if query.data == "kai_":
+        query.message.edit_text(
+            text="""cb here""",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(text="⬅️ Back", callback_data="kai_back")]]
+            ),
+        )
+    elif query.data == "kai_back":
+        first_name = update.effective_user.first_name
+        query.message.edit_text(
+                PM_START_TEXT.format(
+                    escape_markdown(first_name),
+                    escape_markdown(uptime),
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.MARKDOWN,
+                timeout=60,
+        )
 
 
 def send_settings(chat_id, user_id, user=False):
