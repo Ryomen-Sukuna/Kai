@@ -354,16 +354,7 @@ def help_button(update, context):
 def kai_callback_data(update, context):
     query = update.callback_query
     uptime = get_readable_time((time.time() - StartTime))
-    if query.data == "kai_":
-        query.message.edit_text(
-            text="""cb""",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="⬅️ Back", callback_data="kai_back")]]
-            ),
-        )
-    elif query.data == "kai_back":
+    if query.data == "kai_back":
         first_name = update.effective_user.first_name
         query.message.edit_text(
             PM_START_TEXT.format(
@@ -634,20 +625,18 @@ def migrate_chats(update: Update, context: CallbackContext):
 def main():
     """#TODO"""
 
-    test_handler = DisableAbleCommandHandler("test", test)
-    start_handler = DisableAbleCommandHandler("start", start)
+    test_handler = DisableAbleCommandHandler("test", test, run_async=True)
+    start_handler = DisableAbleCommandHandler("start", start, run_async=True)
 
-    help_handler = DisableAbleCommandHandler("help", get_help)
-    help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*")
+    help_handler = DisableAbleCommandHandler("help", get_help, run_async=True)
+    help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*", run_async=True)
 
-    settings_handler = DisableAbleCommandHandler("settings", get_settings)
-    settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
+    settings_handler = DisableAbleCommandHandler("settings", get_settings, run_async=True)
+    settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_", run_async=True)
 
-    data_callback_handler = CallbackQueryHandler(
-        kai_callback_data, pattern=r"kai_", run_async=True
-    )
-    donate_handler = DisableAbleCommandHandler("donate", donate)
-    migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
+    data_callback_handler = CallbackQueryHandler(kai_callback_data, pattern=r"kai_", run_async=True)
+    donate_handler = DisableAbleCommandHandler("donate", donate, run_async=True)
+    migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats, run_async=True)
 
     # dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)
