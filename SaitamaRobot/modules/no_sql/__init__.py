@@ -8,7 +8,7 @@ from pymongo.errors import ServerSelectionTimeoutError
 from SaitamaRobot import (
     LOGGER,
     MONGO_URI,
-    MONGO_DB, 
+    MONGO_DB,
     MONGO_PORT,
 )
 
