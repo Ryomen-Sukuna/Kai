@@ -647,7 +647,9 @@ def main():
         settings_button, pattern=r"stngs_", run_async=True
     )
 
-    data_callback_handler = CallbackQueryHandler(kai_cb, pattern=r"kai_", run_async=True)
+    data_callback_handler = CallbackQueryHandler(
+        kai_cb, pattern=r"kai_", run_async=True
+    )
     donate_handler = DisableAbleCommandHandler("donate", donate, run_async=True)
     migrate_handler = MessageHandler(
         Filters.status_update.migrate, migrate_chats, run_async=True
