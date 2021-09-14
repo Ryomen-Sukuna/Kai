@@ -299,7 +299,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "[► *{}* ◄]\n".format(
+                "「 ► *{}* ◄ 」\n".format(
                     HELPABLE[module].__mod_name__,
                 )
                 + HELPABLE[module].__help__
@@ -352,7 +352,6 @@ def help_button(update, context):
 
 def kai_cb(update, context):
     query = update.callback_query
-    uptime = get_readable_time((time.time() - StartTime))
     if query.data == "kai_":
         query.message.edit_text(
             text="""Your Callback Data""",
@@ -418,7 +417,7 @@ def get_help(update: Update, context: CallbackContext):
     if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "[► *{}*◄]:\n".format(
+            "「 ► *{}* ◄ 」\n".format(
                 HELPABLE[module].__mod_name__,
             )
             + HELPABLE[module].__help__
