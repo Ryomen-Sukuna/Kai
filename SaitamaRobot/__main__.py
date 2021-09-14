@@ -367,7 +367,7 @@ def kai_cb(update, context):
         query.message.edit_text(
             PM_START_TEXT.format(
                 escape_markdown(first_name),
-                escape_markdown(uptime),
+                escape_markdown(context.bot.first_name),
             ),
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
