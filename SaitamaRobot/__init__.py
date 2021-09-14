@@ -30,7 +30,9 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
-LOGGER.info("[Kai] Kai is starting. | An Iron Blood Project Parts. | Licensed under GPLv3.")
+LOGGER.info(
+    "[Kai] Kai is starting. | An Iron Blood Project Parts. | Licensed under GPLv3."
+)
 LOGGER.info("[Kai] Not affiliated to Shie Hassaikai or Villain in any way whatsoever.")
 LOGGER.info("[Kai] Project maintained by: github.com/Ryomen-Sukuna (t.me/Anomaliii)")
 
