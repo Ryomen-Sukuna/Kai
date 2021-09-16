@@ -302,9 +302,10 @@ def blacklist_mode(update: Update, context: CallbackContext):
             sql.set_blacklist_strength(chat_id, 5, "0")
         elif args[0].lower() == "tban":
             if len(args) == 1:
-                teks = ("It looks like you are trying to set a temporary value to blacklist" 
-                     "but has not determined the time;\nuse `/blstickermode tban <timevalue>`.\n"
-                     "Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
+                teks = (
+                    "It looks like you are trying to set a temporary value to blacklist"
+                    "but has not determined the time;\nuse `/blstickermode tban <timevalue>`.\n"
+                    "Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
                 )
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
@@ -312,9 +313,10 @@ def blacklist_mode(update: Update, context: CallbackContext):
             sql.set_blacklist_strength(chat_id, 6, str(args[1]))
         elif args[0].lower() == "tmute":
             if len(args) == 1:
-                teks = ("It looks like you are trying to set a temporary value to blacklist"
-                     "but has not determined the time;\nuse `/blstickermode tmute <timevalue>`.\n"
-                     "Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
+                teks = (
+                    "It looks like you are trying to set a temporary value to blacklist"
+                    "but has not determined the time;\nuse `/blstickermode tmute <timevalue>`.\n"
+                    "Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
                 )
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
