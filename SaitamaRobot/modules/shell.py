@@ -1,6 +1,6 @@
 import subprocess
 
-from SaitamaRobot import LOGGER
+from SaitamaRobot import dispatcher, LOGGER
 from telegram import ParseMode, Update
 from telegram.ext import Filters, CallbackContext, CommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
