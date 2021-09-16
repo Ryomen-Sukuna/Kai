@@ -302,16 +302,20 @@ def blacklist_mode(update: Update, context: CallbackContext):
             sql.set_blacklist_strength(chat_id, 5, "0")
         elif args[0].lower() == "tban":
             if len(args) == 1:
-                teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tban <timevalue>`.
-                                              Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                teks = ("It looks like you are trying to set a temporary value to blacklist" 
+                     "but has not determined the time;\nuse `/blstickermode tban <timevalue>`.\n"
+                     "Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
+                )
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
             settypeblacklist = "temporary banned for {}".format(args[1])
             sql.set_blacklist_strength(chat_id, 6, str(args[1]))
         elif args[0].lower() == "tmute":
             if len(args) == 1:
-                teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tmute <timevalue>`.
-                                              Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                teks = ("It looks like you are trying to set a temporary value to blacklist"
+                     "but has not determined the time;\nuse `/blstickermode tmute <timevalue>`.\n"
+                     "Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
+                )
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
             settypeblacklist = "temporary muted for {}".format(args[1])
@@ -435,7 +439,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     return
                 elif getmode == 5:
                     message.delete()
-                    chat.kick_member(user.id)
+                    chat.ban_member(user.id)
                     bot.sendMessage(
                         chat.id,
                         "{} banned because using '{}' which in blacklist stickers".format(
@@ -448,7 +452,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                 elif getmode == 6:
                     message.delete()
                     bantime = extract_time(message, value)
-                    chat.kick_member(user.id, until_date=bantime)
+                    chat.ban_member(user.id, until_date=bantime)
                     bot.sendMessage(
                         chat.id,
                         "{} banned for {} because using '{}' which in blacklist stickers".format(
