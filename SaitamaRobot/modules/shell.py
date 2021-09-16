@@ -5,6 +5,7 @@ from telegram import ParseMode, Update
 from telegram.ext import Filters, CallbackContext, CommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
+
 @dev_plus
 def shell(update: Update, context: CallbackContext):
     message = update.effective_message
