@@ -73,7 +73,7 @@ def no_longer_afk(update, context):
         try:
             afkback = message.reply_text("{} is back online!\nYou were AFK for: {}".format(firstname, end_afk_time))
         sleep(10)
-        afkback.delete()
+            afkback.delete()
         except BaseException:
             return
 
