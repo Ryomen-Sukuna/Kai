@@ -54,7 +54,7 @@ def error_callback(update: Update, context: CallbackContext):
         pretty_errors.output_stderr = sys.stderr
         pretty_error = stringio.getvalue()
         stringio.close()
-    except: # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except
         pretty_error = "Failed to create pretty error."
     tb_list = traceback.format_exception(
         None,
