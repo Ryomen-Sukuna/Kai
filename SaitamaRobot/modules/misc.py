@@ -4,6 +4,7 @@ import re
 import codecs
 from typing import List
 from random import randint
+
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import dispatcher, WALL_API, SUPPORT_CHAT
@@ -21,6 +22,7 @@ from telegram import (
     MessageEntity,
     TelegramError,
 )
+
 from telegram.error import BadRequest
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
@@ -290,7 +292,7 @@ dispatcher.add_handler(WIKI_HANDLER)
 dispatcher.add_handler(WALLPAPER_HANDLER)
 dispatcher.add_handler(PASTE_HANDLER)
 
-__mod_name__ = "Extra"
+__mod_name__ = "Misc"
 __command_list__ = ["id", "echo", "ping", "paste", "wiki", "wall"]
 __handlers__ = [
     ECHO_HANDLER,
