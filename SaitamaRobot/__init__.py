@@ -20,7 +20,7 @@ def get_user_list(__init__, key):
 
 
 # enable logging
-FORMAT = "[KAI] %(message)s"
+FORMAT = "[Kai] %(message)s"
 logging.basicConfig(
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=logging.INFO,
@@ -79,6 +79,7 @@ if ENV:
 
     INFOPIC = bool(os.environ.get("INFOPIC", False))
     EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
+    ERROR_LOGS = os.environ.get("ERROR_LOGS", None)
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
     URL = os.environ.get("URL", "")  # Does not contain token
     PORT = int(os.environ.get("PORT", 5000))
@@ -90,7 +91,6 @@ if ENV:
     MONGO_PORT = int(os.environ.get("MONGO_PORT", None))
     MONGO_DB = os.environ.get("MONGO_DB", None)
     REDIS_URL = os.environ.get("REDIS_URL", None)
-    ARQ_API = os.environ.get("ARQ_API", None)
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
@@ -107,8 +107,8 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
+    ARQ_API = os.environ.get("ARQ_API", None)
     ARQ_API_URL = "https://thearq.tech"
-    ARQ_API_KEY = ARQ_API
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -152,6 +152,7 @@ else:
         raise Exception("Your tiger users list does not contain valid integers.")
 
     EVENT_LOGS = Config.EVENT_LOGS
+    ERROR_LOGS = Config.ERROR_LOGS
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
     PORT = Config.PORT

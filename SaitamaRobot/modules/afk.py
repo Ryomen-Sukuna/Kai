@@ -1,5 +1,6 @@
 from typing import Optional
 import time
+from time import sleep
 
 from telegram import Message, User
 from telegram import MessageEntity, ParseMode
@@ -33,15 +34,19 @@ def afk(update, context):
     if not user:  # ignore channels
         return
 
-    if user.id == 777000:
+    if user.id in (777000, 1087968824):
         return
+
     start_afk_time = time.time()
     reason = args[1] if len(args) >= 2 else "none"
-    start_afk(update.effective_user.id, reason)
-    REDIS.set(f"afk_time_{update.effective_user.id}", start_afk_time)
+    start_afk(user.id, reason)
+    msg = update.effective_message
+    REDIS.set(f"afk_time_{user.id}", start_afk_time)
     fname = update.effective_user.first_name
+    afkon = msg.reply_text("{} is now away!".format(fname))
+    sleep(5)
     try:
-        update.effective_message.reply_text("{} is now Away!".format(fname))
+        afkon.delete()
     except BadRequest:
         pass
 
@@ -49,11 +54,13 @@ def afk(update, context):
 def no_longer_afk(update, context):
     user = update.effective_user
     message = update.effective_message
+
     if not user:  # ignore channels
         return
 
     if not is_user_afk(user.id):  # Check if user is afk or not
         return
+
     end_afk_time = get_readable_time(
         (time.time() - float(REDIS.get(f"afk_time_{user.id}")))
     )
@@ -64,12 +71,14 @@ def no_longer_afk(update, context):
             return
         firstname = update.effective_user.first_name
         try:
-            message.reply_text(
-                "{} is no longer AFK!\nTime you were AFK for: {}".format(
+            afkback = message.reply_text(
+                "{} is back online!\nYou were AFK for: {}".format(
                     firstname, end_afk_time
                 )
             )
-        except Exception:
+            sleep(10)
+            afkback.delete()
+        except BaseException:
             return
 
 
@@ -142,8 +151,12 @@ def check_afk(update, context, user_id, fst_name, userc_id):
             res = "{} is AFK! Says it's because of:\n{}\nSince: {}".format(
                 fst_name, reason, since_afk
             )
-
-        update.effective_message.reply_text(res)
+        afkcheck = update.effective_message.reply_text(res)
+        sleep(10)
+        try:
+            afkcheck.delete()
+        except BadRequest:
+            return
 
 
 def __user_info__(user_id):
