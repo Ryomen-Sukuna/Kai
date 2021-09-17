@@ -82,7 +82,7 @@ PM_START_TEXT = """
 
 ➛ I'm an Anime-themed group management bot -××
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
-`Maintained By` [Shie Hashaikai]("https://t.me/shiehassaikaisupport)
+`Maintained By` [Shie Hashaikai](https://t.me/shiehassaikaisupport)
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
 ➛ Find the list of available commands with /help -××
 """
