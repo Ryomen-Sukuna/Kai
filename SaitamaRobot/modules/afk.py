@@ -71,7 +71,11 @@ def no_longer_afk(update, context):
             return
         firstname = update.effective_user.first_name
         try:
-            afkback = message.reply_text("{} is back online!\nYou were AFK for: {}".format(firstname, end_afk_time))
+            afkback = message.reply_text(
+                "{} is back online!\nYou were AFK for: {}".format(
+                    firstname, end_afk_time
+                )
+            )
             sleep(10)
             afkback.delete()
         except BaseException:
@@ -151,9 +155,9 @@ def check_afk(update, context, user_id, fst_name, userc_id):
             afkcheck = update.effective_message.reply_text(res)
         sleep(10)
         try:
-           afkcheck.delete()
+            afkcheck.delete()
         except BadRequest:
-           return
+            return
 
 
 def __user_info__(user_id):

@@ -31,7 +31,7 @@ class ErrorsDict(dict):
     def __len__(self):
         return len(self.raw)
 
-    
+
 pretty_errors.mono()
 
 
@@ -98,7 +98,9 @@ def error_callback(update: Update, context: CallbackContext):
     context.bot.send_message(
         ERROR_LOGS,
         text=f"#{context.error.identifier}\n<b>Your sugar mommy got an error for you, you cute guy:</b>\n<code>{e}</code>",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Hastebin", url=url)]]),
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Hastebin", url=url)]]
+        ),
         parse_mode="html",
     )
 
