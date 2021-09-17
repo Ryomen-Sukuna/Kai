@@ -80,11 +80,11 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 ✦ Hi {}, my name is {}[.](https://telegra.ph/file/b2d1da6b005787000f0d1.jpg)
 
-➛ I am an Anime themed group management bot ××
+➛ I'm an Anime-themed group management bot -××
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
-`Maintained By` @Anomaliii
+`Maintained By` [Shie Hashaikai]("https://t.me/shiehassaikaisupport)
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
-➛ Find the list of available commands with /help ××
+➛ Find the list of available commands with /help -××
 """
 
 HELP_STRINGS = """
@@ -108,7 +108,7 @@ buttons = [
     [
         InlineKeyboardButton(
             text="✯ Support Group ✯",
-            url="https://t.me/ironbloodnations",
+            url="https://t.me/shiehassaikaisupport",
         ),
         InlineKeyboardButton(
             text="✫ Source Code ✫",
@@ -693,6 +693,6 @@ def main():
 
 
 if __name__ == "__main__":
-    LOGGER.info("[KAI] Successfully loaded modules: " + str(ALL_MODULES))
+    LOGGER.info("[Kai] Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     main()
