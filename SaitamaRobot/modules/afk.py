@@ -147,12 +147,11 @@ def check_afk(update, context, user_id, fst_name, userc_id):
             return
         if reason == "none":
             res = "{} is AFK!\nSince: {}".format(fst_name, since_afk)
-            afkcheck = update.effective_message.reply_text(res)
         else:
             res = "{} is AFK! Says it's because of:\n{}\nSince: {}".format(
                 fst_name, reason, since_afk
             )
-            afkcheck = update.effective_message.reply_text(res)
+        afkcheck = update.effective_message.reply_text(res)
         sleep(10)
         try:
             afkcheck.delete()
