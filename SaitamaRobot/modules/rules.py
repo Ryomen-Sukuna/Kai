@@ -13,10 +13,11 @@ from telegram import (
     User,
 )
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import escape_markdown
 
 
+@kaicmd(command="rules", filters=Filters.chat_type.groups)
 def get_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     send_rules(update, chat_id)
@@ -90,6 +91,7 @@ def send_rules(update, chat_id, from_pm=False):
         )
 
 
+@kaicmd(command="setrules", filters=Filters.chat_type.groups)
 @user_admin
 def set_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -109,6 +111,7 @@ def set_rules(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Successfully set rules for this group.")
 
 
+@kaicmd(command="clearrules", filters=Filters.chat_type.groups)
 @user_admin
 def clear_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -143,20 +146,9 @@ Every chat works with different rules; this module will help make those rules cl
 *Admins Commands:*
 >> /setrules <your rules here>: set the rules for this chat.
 >> /clearrules: clear the rules for this chat.
+
+*An example of how to set rules:*
+`/setrules` don't send nsfw on this group.
 """
 
 __mod_name__ = "Rules"
-
-GET_RULES_HANDLER = CommandHandler(
-    "rules", get_rules, filters=Filters.chat_type.groups, run_async=True
-)
-SET_RULES_HANDLER = CommandHandler(
-    "setrules", set_rules, filters=Filters.chat_type.groups, run_async=True
-)
-RESET_RULES_HANDLER = CommandHandler(
-    "clearrules", clear_rules, filters=Filters.chat_type.groups, run_async=True
-)
-
-dispatcher.add_handler(GET_RULES_HANDLER)
-dispatcher.add_handler(SET_RULES_HANDLER)
-dispatcher.add_handler(RESET_RULES_HANDLER)
