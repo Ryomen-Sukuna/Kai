@@ -89,4 +89,4 @@ class KaiHandler:
 kaicmd = KaiHandler(k).command
 kaimsg = KaiHandler(k).message
 kaicallback = KaiHandler(k).callbackquery
-kaiinline = KigyoTelegramHandler(k).inlinequery
+kaiinline = KaiHandler(k).inlinequery
