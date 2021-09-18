@@ -4,20 +4,21 @@ from typing import Optional
 import SaitamaRobot.modules.sql.blsticker_sql as sql
 from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.connection import connected
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
 from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg
 
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.warns import warn
 from telegram import Chat, Message, ParseMode, Update, User, ChatPermissions
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import mention_html, mention_markdown
 
 
+@kaicmd(command="blsticker", admin_ok=True)
 def blackliststicker(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
@@ -65,6 +66,7 @@ def blackliststicker(update: Update, context: CallbackContext):
     send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
 
 
+@kaicmd(command="addblsticker")
 @user_admin
 def add_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -157,7 +159,8 @@ def add_blackliststicker(update: Update, context: CallbackContext):
             "Tell me what stickers you want to add to the blacklist.",
         )
 
-
+        
+@kaicmd(command=["unblsticker", "rmblsticker"])
 @user_admin
 def unblackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -257,7 +260,8 @@ def unblackliststicker(update: Update, context: CallbackContext):
             "Tell me what stickers you want to add to the blacklist.",
         )
 
-
+        
+@kaicmd(command="blstickermode")
 @loggable
 @user_admin
 def blacklist_mode(update: Update, context: CallbackContext):
@@ -377,6 +381,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
     return ""
 
 
+@kaimsg(Filters.sticker & Filters.chat_type.groups)
 @user_not_admin
 def del_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -514,32 +519,3 @@ def __stats__():
 
 
 __mod_name__ = "Stickers Blacklist"
-
-BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
-    "blsticker",
-    blackliststicker,
-    admin_ok=True,
-    run_async=True,
-)
-ADDBLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
-    "addblsticker",
-    add_blackliststicker,
-    run_async=True,
-)
-UNBLACKLIST_STICKER_HANDLER = CommandHandler(
-    ["unblsticker", "rmblsticker"],
-    unblackliststicker,
-    run_async=True,
-)
-BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode)
-BLACKLIST_STICKER_DEL_HANDLER = MessageHandler(
-    Filters.sticker & Filters.chat_type.groups,
-    del_blackliststicker,
-    run_async=True,
-)
-
-dispatcher.add_handler(BLACKLIST_STICKER_HANDLER)
-dispatcher.add_handler(ADDBLACKLIST_STICKER_HANDLER)
-dispatcher.add_handler(UNBLACKLIST_STICKER_HANDLER)
-dispatcher.add_handler(BLACKLISTMODE_HANDLER)
-dispatcher.add_handler(BLACKLIST_STICKER_DEL_HANDLER)
