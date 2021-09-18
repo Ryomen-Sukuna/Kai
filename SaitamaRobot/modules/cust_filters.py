@@ -5,7 +5,7 @@ from html import escape
 import telegram
 from telegram import ParseMode, InlineKeyboardMarkup, Message, InlineKeyboardButton
 from telegram.error import BadRequest
-from telegram.ext import DispatcherHandlerStop, Filters,
+from telegram.ext import DispatcherHandlerStop, Filters
 from telegram.utils.helpers import mention_html, escape_markdown
 
 from SaitamaRobot import dispatcher, LOGGER, DRAGONS
