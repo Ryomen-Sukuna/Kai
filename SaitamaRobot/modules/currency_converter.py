@@ -1,9 +1,11 @@
 import requests
-from SaitamaRobot import CASH_API_KEY, dispatcher
+from SaitamaRobot import CASH_API_KEY
 from telegram import Update, ParseMode
-from telegram.ext import CallbackContext, CommandHandler
+from telegram.ext import CallbackContext
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 
+@kaicmd(command="cash")
 def convert(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(" ")
 
@@ -47,11 +49,6 @@ def convert(update: Update, context: CallbackContext):
             f"*Invalid Args!!:* Required 3 But Passed {len(args) -1}",
             parse_mode=ParseMode.MARKDOWN,
         )
-
-
-CONVERTER_HANDLER = CommandHandler("cash", convert, run_async=True)
-
-dispatcher.add_handler(CONVERTER_HANDLER)
-
+        
+        
 __command_list__ = ["cash"]
-__handlers__ = [CONVERTER_HANDLER]
