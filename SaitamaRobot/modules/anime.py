@@ -476,7 +476,7 @@ def upcoming(update: Update, context: CallbackContext):
     upcoming_list = [entry["title"] for entry in upcomin["top"]]
     upcoming_message = ""
 
-    for entry_num, in enumerate(upcoming_list):
+    for entry_num, _ in enumerate(upcoming_list):
         if entry_num == 10:
             break
         upcoming_message += f"{entry_num + 1}. {upcoming_list[entry_num]}\n"
