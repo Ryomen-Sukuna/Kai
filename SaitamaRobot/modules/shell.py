@@ -6,7 +6,7 @@ from telegram.ext import Filters, CallbackContext
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
 
-@kaicmd(command="sh", filters=Filters.user(DEV_USERS)
+@kaicmd(command="sh", filters=Filters.user(DEV_USERS))
 @dev_plus
 def shell(update: Update, context: CallbackContext):
     message = update.effective_message
