@@ -2,11 +2,19 @@ import html
 from typing import Optional, List
 import re
 
-from telegram import Message, Chat, Update, User, ChatPermissions
+from telegram import (
+    Message, 
+    Chat, 
+    Update, 
+    User, 
+    ChatPermissions,
+)
 
 from SaitamaRobot import TIGERS, WOLVES, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
+    can_restrict,
+    connection_status,
     is_user_admin,
     user_admin,
     user_admin_no_reply,
@@ -14,22 +22,19 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import antiflood_sql as sql
 from telegram.error import BadRequest
-from telegram.ext import (
-    CallbackContext,
-    CallbackQueryHandler,
-    CommandHandler,
-    Filters,
-    MessageHandler,
-)
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import mention_html
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from SaitamaRobot.modules.sql.approve_sql import is_approved
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg, kaicallback
 
 FLOOD_GROUP = 3
 
 
+@kaimsg((Filters.all & ~Filters.status_update & Filters.chat_type.groups), group=FLOOD_GROUP)
+@connection_status
 @loggable
 def check_flood(update, context) -> str:
     user = update.effective_user  # type: Optional[User]
@@ -53,11 +58,11 @@ def check_flood(update, context) -> str:
     try:
         getmode, getvalue = sql.get_flood_setting(chat.id)
         if getmode == 1:
-            chat.kick_member(user.id)
+            chat.ban_member(user.id)
             execstrings = "Banned"
             tag = "BANNED"
         elif getmode == 2:
-            chat.kick_member(user.id)
+            chat.ban_member(user.id)
             chat.unban_member(user.id)
             execstrings = "Kicked"
             tag = "KICKED"
@@ -71,7 +76,7 @@ def check_flood(update, context) -> str:
             tag = "MUTED"
         elif getmode == 4:
             bantime = extract_time(msg, getvalue)
-            chat.kick_member(user.id, until_date=bantime)
+            chat.ban_member(user.id, until_date=bantime)
             execstrings = "Banned for {}".format(getvalue)
             tag = "TBAN"
         elif getmode == 5:
@@ -116,6 +121,7 @@ def check_flood(update, context) -> str:
 
 @user_admin_no_reply
 @bot_admin
+@kaicallback(pattern=r"unmute_flooder")
 def flood_button(update: Update, context: CallbackContext):
     bot = context.bot
     query = update.callback_query
@@ -143,7 +149,10 @@ def flood_button(update: Update, context: CallbackContext):
             pass
 
 
+@kaicmd(command="setflood", pass_args=True, filters=Filters.chat_type.groups)
+@connection_status
 @user_admin
+@can_restrict
 @loggable
 def set_flood(update, context) -> str:
     chat = update.effective_chat  # type: Optional[Chat]
@@ -237,6 +246,8 @@ def set_flood(update, context) -> str:
     return ""
 
 
+@connection_status
+@kaicmd(command="flood", filters=Filters.chat_type.groups)
 def flood(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -278,7 +289,7 @@ def flood(update, context):
             ),
         )
 
-
+@kaicmd(command="setfloodmode", pass_args=True, filters=Filters.chat_type.groups)
 @user_admin
 def set_flood_mode(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -419,37 +430,3 @@ It can be:
 """
 
 __mod_name__ = "Anti-Flood"
-
-FLOOD_BAN_HANDLER = MessageHandler(
-    Filters.all & ~Filters.status_update & Filters.chat_type.groups,
-    check_flood,
-    run_async=True,
-)
-SET_FLOOD_HANDLER = CommandHandler(
-    "setflood", set_flood, filters=Filters.chat_type.group, run_async=True
-)
-SET_FLOOD_MODE_HANDLER = CommandHandler(
-    "setfloodmode",
-    set_flood_mode,
-    pass_args=True,
-    run_async=True,
-)  # , filters=Filters.chat_type.group)
-FLOOD_QUERY_HANDLER = CallbackQueryHandler(
-    flood_button, pattern=r"unmute_flooder", run_async=True
-)
-FLOOD_HANDLER = CommandHandler(
-    "flood", flood, filters=Filters.chat_type.groups, run_async=True
-)
-
-dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
-dispatcher.add_handler(FLOOD_QUERY_HANDLER)
-dispatcher.add_handler(SET_FLOOD_HANDLER)
-dispatcher.add_handler(SET_FLOOD_MODE_HANDLER)
-dispatcher.add_handler(FLOOD_HANDLER)
-
-__handlers__ = [
-    (FLOOD_BAN_HANDLER, FLOOD_GROUP),
-    SET_FLOOD_HANDLER,
-    FLOOD_HANDLER,
-    SET_FLOOD_MODE_HANDLER,
-]
