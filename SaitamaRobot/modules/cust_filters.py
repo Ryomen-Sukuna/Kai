@@ -5,17 +5,10 @@ from html import escape
 import telegram
 from telegram import ParseMode, InlineKeyboardMarkup, Message, InlineKeyboardButton
 from telegram.error import BadRequest
-from telegram.ext import (
-    CommandHandler,
-    MessageHandler,
-    DispatcherHandlerStop,
-    CallbackQueryHandler,
-    Filters,
-)
+from telegram.ext import DispatcherHandlerStop, Filters,
 from telegram.utils.helpers import mention_html, escape_markdown
 
 from SaitamaRobot import dispatcher, LOGGER, DRAGONS
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.handlers import MessageHandlerChecker
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_text
@@ -29,10 +22,9 @@ from SaitamaRobot.modules.helper_funcs.string_handling import (
     markdown_to_html,
 )
 from SaitamaRobot.modules.sql import cust_filters_sql as sql
-
 from SaitamaRobot.modules.connection import connected
-
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg, kaicallback
 
 HANDLER_GROUP = 10
 
@@ -50,6 +42,7 @@ ENUM_FUNC_MAP = {
 
 
 @typing_action
+@kaicmd(command="filters", admin_ok=True)
 def list_handlers(update, context):
     chat = update.effective_chat
     user = update.effective_user
@@ -96,6 +89,7 @@ def list_handlers(update, context):
 
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
+@kaicmd(command="filter", run_async=False)
 @user_admin
 @typing_action
 def filters(update, context):
@@ -218,6 +212,7 @@ def filters(update, context):
 
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
+@kaicmd(command="stop", run_async=False)
 @user_admin
 @typing_action
 def stop_filter(update, context):
@@ -258,6 +253,7 @@ def stop_filter(update, context):
     )
 
 
+@kaimsg((CustomFilters.has_text & ~Filters.update.edited_message))    
 def reply_filter(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -472,7 +468,8 @@ def reply_filter(update, context):
                     LOGGER.exception("Error in filters: " + excp.message)
             break
 
-
+            
+@kaicmd(command="removeallfilters", filters=Filters.chat_type.groups)
 def rmall_filters(update, context):
     chat = update.effective_chat
     user = update.effective_user
@@ -498,7 +495,8 @@ def rmall_filters(update, context):
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
+        
+@kaicallback(pattern=r"filters_.*")
 def rmall_callback(update, context):
     query = update.callback_query
     chat = update.effective_chat
@@ -610,34 +608,3 @@ Check /markdownhelp to know more!
 """
 
 __mod_name__ = "Filters"
-
-FILTER_HANDLER = CommandHandler("filter", filters, run_async=True)
-STOP_HANDLER = CommandHandler("stop", stop_filter, run_async=True)
-RMALLFILTER_HANDLER = CommandHandler(
-    "removeallfilters", rmall_filters, filters=Filters.chat_type.groups, run_async=True
-)
-RMALLFILTER_CALLBACK = CallbackQueryHandler(
-    rmall_callback, pattern=r"filters_.*", run_async=True
-)
-LIST_HANDLER = DisableAbleCommandHandler(
-    "filters", list_handlers, admin_ok=True, run_async=True
-)
-CUST_FILTER_HANDLER = MessageHandler(
-    CustomFilters.has_text & ~Filters.update.edited_message,
-    reply_filter,
-    run_async=True,
-)
-
-dispatcher.add_handler(FILTER_HANDLER)
-dispatcher.add_handler(STOP_HANDLER)
-dispatcher.add_handler(LIST_HANDLER)
-dispatcher.add_handler(CUST_FILTER_HANDLER, HANDLER_GROUP)
-dispatcher.add_handler(RMALLFILTER_HANDLER)
-dispatcher.add_handler(RMALLFILTER_CALLBACK)
-
-__handlers__ = [
-    FILTER_HANDLER,
-    STOP_HANDLER,
-    LIST_HANDLER,
-    (CUST_FILTER_HANDLER, HANDLER_GROUP, RMALLFILTER_HANDLER),
-]
