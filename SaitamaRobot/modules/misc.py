@@ -36,7 +36,7 @@ from telegram.ext import CallbackContext, Filters
 from SaitamaRobot import StartTime
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.alternate import send_action, typing_action
-from SaitamaRobot modules.helper_funcs.decorators import kaicmd, kaicallback
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaicallback
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -162,7 +162,7 @@ def wall(update: Update, context: CallbackContext):
     else:
         caption = query
         term = query.replace(" ", "%20")
-        json_rep = r.get(
+        json_rep = requests.get(
             f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}"
         ).json()
         if not json_rep.get("success"):
