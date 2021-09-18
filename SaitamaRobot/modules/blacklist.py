@@ -260,7 +260,7 @@ def blacklist_mode(update, context):
             if not restime:
                 teks = (
                     "Invalid time value!"
-                    ""Example of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
+                    "Example of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
                 )
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return ""
