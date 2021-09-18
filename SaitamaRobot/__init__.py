@@ -108,7 +108,7 @@ if ENV:
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
     ARQ_API = os.environ.get("ARQ_API", None)
-    ARQ_API_URL = "https://thearq.tech"
+    ARQ_URL = "https://thearq.tech"
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -162,9 +162,11 @@ else:
 
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
     REDIS_URL = Config.REDIS_URL
-    MONGO_DB_URI = Config.MONGO_DB_URI
-    ARQ_API = Config.ARQ_API_KEY
-    ARQ_API_URL = Config.ARQ_API_URL
+    MONGO_URI = Config.MONGO_URI
+    MONGO_DB = Config.MONGO_DB
+    MONGO_PORT = Config.MONGO_PORT
+    ARQ_API = Config.ARQ_API
+    ARQ_URL = Config.ARQ_URL
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
     NO_LOAD = Config.NO_LOAD
@@ -209,7 +211,7 @@ updater = tg.Updater(
 )
 # Telethon
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
-# Bot itself
+# Dispatcher
 dispatcher = updater.dispatcher
 # Aiohttp Session
 aiohttpsession = ClientSession()
