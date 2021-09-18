@@ -112,7 +112,7 @@ def approved(update, context):
     message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
-@kaicmd(command="approval", filters=Filters.chat_type.groups
+@kaicmd(command="approval", filters=Filters.chat_type.groups)
 @user_admin
 def approval(update, context):
     message = update.effective_message
