@@ -3,7 +3,7 @@ import re
 import time
 import json
 import traceback
-from typing import Optional, List
+from typing import Optional
 from sys import argv
 import requests
 from telegram import (
@@ -22,9 +22,6 @@ from telegram.error import (
 )
 from telegram.ext import (
     CallbackContext,
-    CommandHandler,
-    MessageHandler,
-    CallbackQueryHandler,
     Filters,
 )
 from telegram.ext.dispatcher import DispatcherHandlerStop
@@ -49,7 +46,7 @@ from SaitamaRobot import (
 from SaitamaRobot.modules import ALL_MODULES
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.misc import paginate_modules
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg, kaicallback
 
 
 def get_readable_time(seconds: int) -> str:
@@ -191,13 +188,15 @@ def send_help(chat_id, text, keyboard=None):
     )
 
 
+@kaicmd(command="test")
 def test(update: Update, context: CallbackContext):
-    # pprint(eval(str(update)))
+    # pprint(ast.literal_eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
     update.effective_message.reply_text("This person edited a message")
     print(update.effective_message)
 
 
+@kaicmd(command="start", pass_args=True)
 def start(update: Update, context: CallbackContext):
     args = context.args
     uptime = get_readable_time((time.time() - StartTime))
@@ -286,6 +285,7 @@ def error_callback(update, context):
         # handle all other telegram related errors
 
 
+@kaicallback(pattern=r"help_")
 def help_button(update, context):
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
@@ -350,6 +350,7 @@ def help_button(update, context):
         pass
 
 
+@kaicallback(pattern=r"kai_")
 def kai_cb(update, context):
     query = update.callback_query
     if query.data == "kai_":
@@ -374,6 +375,7 @@ def kai_cb(update, context):
         )
 
 
+@kaicmd(command="help")
 def get_help(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
@@ -474,6 +476,7 @@ def send_settings(chat_id, user_id, user=False):
         )
 
 
+@kaicallback(pattern=r"stngs_")
 def settings_button(update: Update, context: CallbackContext):
     query = update.callback_query
     user = update.effective_user
@@ -567,6 +570,7 @@ def settings_button(update: Update, context: CallbackContext):
             LOGGER.exception("Exception in settings buttons. %s", str(query.data))
 
 
+@kaicmd(command="settings")
 def get_settings(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -598,6 +602,7 @@ def get_settings(update: Update, context: CallbackContext):
         text = "Click here to check your settings."
 
 
+@kaicmd(command="donate")
 def donate(update: Update, context: CallbackContext):
     """#TODO
 
@@ -609,6 +614,7 @@ def donate(update: Update, context: CallbackContext):
     update.effective_message.reply_text("I'm free for everyone! >_<")
 
 
+@kaimsg((Filters.status_update.migrate))
 def migrate_chats(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
     if msg.migrate_to_chat_id:
@@ -629,40 +635,6 @@ def migrate_chats(update: Update, context: CallbackContext):
 
 
 def main():
-    """#TODO"""
-
-    test_handler = DisableAbleCommandHandler("test", test, run_async=True)
-    start_handler = DisableAbleCommandHandler("start", start, run_async=True)
-
-    help_handler = DisableAbleCommandHandler("help", get_help, run_async=True)
-    help_callback_handler = CallbackQueryHandler(
-        help_button, pattern=r"help_.*", run_async=True
-    )
-
-    settings_handler = DisableAbleCommandHandler(
-        "settings", get_settings, run_async=True
-    )
-    settings_callback_handler = CallbackQueryHandler(
-        settings_button, pattern=r"stngs_", run_async=True
-    )
-
-    data_callback_handler = CallbackQueryHandler(
-        kai_cb, pattern=r"kai_", run_async=True
-    )
-    donate_handler = DisableAbleCommandHandler("donate", donate, run_async=True)
-    migrate_handler = MessageHandler(
-        Filters.status_update.migrate, migrate_chats, run_async=True
-    )
-
-    # dispatcher.add_handler(test_handler)
-    dispatcher.add_handler(start_handler)
-    dispatcher.add_handler(help_handler)
-    dispatcher.add_handler(settings_handler)
-    dispatcher.add_handler(help_callback_handler)
-    dispatcher.add_handler(settings_callback_handler)
-    dispatcher.add_handler(data_callback_handler)
-    dispatcher.add_handler(migrate_handler)
-    dispatcher.add_handler(donate_handler)
     dispatcher.add_error_handler(error_callback)
     # dispatcher.add_error_handler(error_handler)
 
