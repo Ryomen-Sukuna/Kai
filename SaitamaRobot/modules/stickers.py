@@ -12,13 +12,13 @@ from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram import TelegramError, Update
 from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
-from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
 
+@kaicmd(command="stickerid")
 def stickerid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
@@ -39,6 +39,7 @@ def stickerid(update: Update, context: CallbackContext):
         )
 
 
+@kaicmd(command="kang")
 def kang(update, context):
     msg = update.effective_message
     user = update.effective_user
@@ -494,36 +495,7 @@ def makepack_internal(
         msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
 
 
-def getsticker(update, context):
-    msg = update.effective_message
-    chat_id = update.effective_chat.id
-    if msg.reply_to_message and msg.reply_to_message.sticker:
-        context.bot.sendChatAction(chat_id, "typing")
-        update.effective_message.reply_text(
-            "Hello"
-            + f"{mention_html(msg.from_user.id, msg.from_user.first_name)}"
-            + ", Please check the file you requested below."
-            "\nPlease use this feature wisely!",
-            parse_mode=ParseMode.HTML,
-        )
-        context.bot.sendChatAction(chat_id, "upload_document")
-        file_id = msg.reply_to_message.sticker.file_id
-        newFile = context.bot.get_file(file_id)
-        newFile.download("sticker.png")
-        context.bot.sendDocument(chat_id, document=open("sticker.png", "rb"))
-        context.bot.sendChatAction(chat_id, "upload_photo")
-        context.bot.send_photo(chat_id, photo=open("sticker.png", "rb"))
-
-    else:
-        context.bot.sendChatAction(chat_id, "typing")
-        update.effective_message.reply_text(
-            "Hello"
-            + f"{mention_html(msg.from_user.id, msg.from_user.first_name)}"
-            + ", Please reply to sticker message to get sticker image",
-            parse_mode=ParseMode.HTML,
-        )
-
-
+@kaicmd(command="stickers")
 def cb_sticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     split = msg.text.split(" ", 1)
@@ -546,6 +518,7 @@ def cb_sticker(update: Update, context: CallbackContext):
     msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
+@kaicmd(command="getsticker")
 def getsticker(update: Update, context: CallbackContext):
     bot = context.bot
     msg = update.effective_message
@@ -562,6 +535,7 @@ def getsticker(update: Update, context: CallbackContext):
         )
 
 
+@kaicmd(command=["remove", "delsticker"])
 def delsticker(update, context):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
@@ -583,14 +557,3 @@ __help__ = """
 """
 
 __mod_name__ = "Stickers"
-STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, run_async=True)
-GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, run_async=True)
-KANG_HANDLER = DisableAbleCommandHandler("kang", kang, pass_args=True, run_async=True)
-DEL_HANDLER = DisableAbleCommandHandler("delsticker", delsticker, run_async=True)
-STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, run_async=True)
-
-dispatcher.add_handler(STICKERS_HANDLER)
-dispatcher.add_handler(STICKERID_HANDLER)
-dispatcher.add_handler(GETSTICKER_HANDLER)
-dispatcher.add_handler(KANG_HANDLER)
-dispatcher.add_handler(DEL_HANDLER)
