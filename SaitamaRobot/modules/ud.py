@@ -1,11 +1,11 @@
 import requests
-from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 from telegram import ParseMode, Update
-from telegram.ext import CallbackContext
 
 
-def ud(update: Update, context: CallbackContext):
+@kaicmd(command="ud")
+def ud(update: Update, _):
     message = update.effective_message
     text = message.text[len("/ud ") :]
     results = requests.get(
@@ -16,11 +16,3 @@ def ud(update: Update, context: CallbackContext):
     except:
         reply_text = "No results found."
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
-
-
-UD_HANDLER = DisableAbleCommandHandler(["ud"], ud, run_async=True)
-
-dispatcher.add_handler(UD_HANDLER)
-
-__command_list__ = ["ud"]
-__handlers__ = [UD_HANDLER]
