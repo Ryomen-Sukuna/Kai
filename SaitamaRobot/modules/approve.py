@@ -8,7 +8,7 @@ from SaitamaRobot.modules.log_channel import loggable
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
 from telegram.utils.helpers import mention_html
 from telegram.error import BadRequest
-from SsitamsRobot.modules.helper_funcs.decorators import kaicmd, kaicallback
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaicallback
 
 
 @kaicmd(command="approve", filters=Filters.chat_type.groups)
