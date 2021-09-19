@@ -3,7 +3,7 @@ from typing import List
 
 import requests
 from SaitamaRobot import TIME_API_KEY, dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 
@@ -57,6 +57,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
     return result
 
 
+@kaicmd(command="time")
 def gettime(update: Update, context: CallbackContext):
     message = update.effective_message
 
@@ -92,10 +93,4 @@ def gettime(update: Update, context: CallbackContext):
     )
 
 
-TIME_HANDLER = DisableAbleCommandHandler("time", gettime, run_async=True)
-
-dispatcher.add_handler(TIME_HANDLER)
-
 __mod_name__ = "Time"
-__command_list__ = ["time"]
-__handlers__ = [TIME_HANDLER]
