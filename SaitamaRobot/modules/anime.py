@@ -10,6 +10,7 @@ from telegram import (
     InlineKeyboardMarkup,
     ParseMode,
     Update,
+    Message,
 )
 from telegram.ext import CallbackContext
 from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
