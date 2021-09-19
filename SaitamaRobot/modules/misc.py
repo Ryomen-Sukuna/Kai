@@ -25,7 +25,6 @@ from telegram import (
     MessageEntity,
     TelegramError,
     __version__ as ptbver,
-    StartTime,
 )
 from SaitamaRobot.__main__ import STATS, USER_INFO, TOKEN
 from SaitamaRobot.modules.sql import SESSION
