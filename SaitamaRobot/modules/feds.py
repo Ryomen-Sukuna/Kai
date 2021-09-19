@@ -32,6 +32,7 @@ from telegram import (
     MessageEntity,
     ParseMode,
     Update,
+    ChatAction,
 )
 from telegram.error import BadRequest, TelegramError, Unauthorized
 from telegram.ext import CallbackContext
