@@ -4,7 +4,6 @@ from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import (
     CallbackContext,
-    CommandHandler,
     Filters,
 )
 from telegram.utils.helpers import mention_html
@@ -17,9 +16,7 @@ from SaitamaRobot import (
     DEMONS,
     TIGERS,
     WOLVES,
-    dispatcher,
 )
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     can_restrict,
@@ -34,8 +31,10 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.log_channel import gloggable, loggable
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 
+@kaicmd(command="ban")
 @connection_status
 @bot_admin
 @can_restrict
@@ -143,6 +142,7 @@ def ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@kaicmd(command=["tban", "tempban"])
 @connection_status
 @bot_admin
 @can_restrict
@@ -232,6 +232,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@kaicmd(command="kick")
 @connection_status
 @bot_admin
 @can_restrict
@@ -289,6 +290,7 @@ def kick(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@kaicmd(command="kickme", filters=Filters.chat_type.groups)
 @bot_admin
 @can_restrict
 def kickme(update: Update, context: CallbackContext):
@@ -304,6 +306,7 @@ def kickme(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Huh? I can't :/")
 
 
+@kaicmd(command="unban")
 @connection_status
 @bot_admin
 @can_restrict
@@ -352,6 +355,7 @@ def unban(update: Update, context: CallbackContext) -> str:
     return log
 
 
+@kaicmd(command="roar")
 @connection_status
 @bot_admin
 @can_restrict
@@ -412,28 +416,5 @@ This module allows you to do that easily, by exposing some common actions, so ev
 `/tban @username 2h`; this bans a user for 2 hours.
 """
 
-BAN_HANDLER = DisableAbleCommandHandler(["ban", "sban"], ban, run_async=True)
-TEMPBAN_HANDLER = DisableAbleCommandHandler(["tban"], temp_ban, run_async=True)
-PUNCH_HANDLER = DisableAbleCommandHandler("kick", kick, run_async=True)
-UNBAN_HANDLER = DisableAbleCommandHandler("unban", unban, run_async=True)
-ROAR_HANDLER = DisableAbleCommandHandler("roar", selfunban, run_async=True)
-PUNCHME_HANDLER = DisableAbleCommandHandler(
-    "kickme", kickme, filters=Filters.chat_type.groups, run_async=True
-)
-
-dispatcher.add_handler(BAN_HANDLER)
-dispatcher.add_handler(TEMPBAN_HANDLER)
-dispatcher.add_handler(PUNCH_HANDLER)
-dispatcher.add_handler(UNBAN_HANDLER)
-dispatcher.add_handler(ROAR_HANDLER)
-dispatcher.add_handler(PUNCHME_HANDLER)
 
 __mod_name__ = "Bans"
-__handlers__ = [
-    BAN_HANDLER,
-    TEMPBAN_HANDLER,
-    PUNCH_HANDLER,
-    UNBAN_HANDLER,
-    ROAR_HANDLER,
-    PUNCHME_HANDLER,
-]

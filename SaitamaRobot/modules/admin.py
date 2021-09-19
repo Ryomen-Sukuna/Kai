@@ -2,11 +2,10 @@ import html
 
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import mention_html
 
-from SaitamaRobot import DRAGONS, dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot import DRAGONS
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     can_pin,
@@ -21,8 +20,10 @@ from SaitamaRobot.modules.helper_funcs.extraction import (
 )
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 
+@kaicmd(command="promote", can_disable=False)
 @connection_status
 @bot_admin
 @can_promote
@@ -103,6 +104,7 @@ def promote(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@kaicmd(command="fullpromote", can_disable=False)
 @connection_status
 @bot_admin
 @can_promote
@@ -184,6 +186,7 @@ def fullpromote(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@kaicmd(command="demote", can_disable=False)
 @connection_status
 @bot_admin
 @can_promote
@@ -256,6 +259,11 @@ def demote(update: Update, context: CallbackContext) -> str:
         return
 
 
+@kaicmd(
+    command=["admincache", "refresh"],
+    filters=Filters.chat_type.groups,
+    can_disable=False,
+)
 @user_admin
 def refresh_admin(update, _):
     try:
@@ -266,6 +274,7 @@ def refresh_admin(update, _):
     update.effective_message.reply_text("Admins cache refreshed!")
 
 
+@kaicmd(command="title", can_disable=False)
 @connection_status
 @bot_admin
 @can_promote
@@ -330,6 +339,7 @@ def set_title(update: Update, context: CallbackContext):
     )
 
 
+@kaicmd(command="pin", filters=Filters.chat_type.groups, can_disable=False)
 @bot_admin
 @can_pin
 @user_admin
@@ -382,6 +392,7 @@ def pin(update: Update, context: CallbackContext) -> str:
         return log_message
 
 
+@kaicmd(command="unpin", filters=Filters.chat_type.groups, can_disable=False)
 @bot_admin
 @can_pin
 @user_admin
@@ -416,6 +427,7 @@ def unpin(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
+@kaicmd(command="invitelink", can_disable=False)
 @bot_admin
 @user_admin
 @connection_status
@@ -440,6 +452,7 @@ def invite(update: Update, context: CallbackContext):
         )
 
 
+@kaicmd(command="admins")
 @connection_status
 def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat] -> unused variable
@@ -570,55 +583,5 @@ done easily using the bot.
 >> /admincache: force refresh the admins list.
 """
 
-ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist, run_async=True)
-PIN_HANDLER = CommandHandler(
-    "pin", pin, filters=Filters.chat_type.groups, run_async=True
-)
-UNPIN_HANDLER = CommandHandler(
-    "unpin", unpin, filters=Filters.chat_type.groups, run_async=True
-)
-INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, run_async=True)
-PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, run_async=True)
-FULLPROMOTE_HANDLER = DisableAbleCommandHandler(
-    "fullpromote", fullpromote, run_async=True
-)
-DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, run_async=True)
-SET_TITLE_HANDLER = CommandHandler("title", set_title, run_async=True)
-ADMIN_REFRESH_HANDLER = CommandHandler(
-    ["admincache", "refresh"],
-    refresh_admin,
-    filters=Filters.chat_type.groups,
-    run_async=True,
-)
-
-dispatcher.add_handler(ADMINLIST_HANDLER)
-dispatcher.add_handler(PIN_HANDLER)
-dispatcher.add_handler(UNPIN_HANDLER)
-dispatcher.add_handler(INVITE_HANDLER)
-dispatcher.add_handler(PROMOTE_HANDLER)
-dispatcher.add_handler(DEMOTE_HANDLER)
-dispatcher.add_handler(SET_TITLE_HANDLER)
-dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
-dispatcher.add_handler(FULLPROMOTE_HANDLER)
 
 __mod_name__ = "Admin"
-__command_list__ = [
-    "adminlist",
-    "admins",
-    "invitelink",
-    "promote",
-    "demote",
-    "admincache",
-    "fullpromote",
-]
-__handlers__ = [
-    ADMINLIST_HANDLER,
-    PIN_HANDLER,
-    UNPIN_HANDLER,
-    INVITE_HANDLER,
-    PROMOTE_HANDLER,
-    DEMOTE_HANDLER,
-    SET_TITLE_HANDLER,
-    ADMIN_REFRESH_HANDLER,
-    FULLPROMOTE_HANDLER,
-]

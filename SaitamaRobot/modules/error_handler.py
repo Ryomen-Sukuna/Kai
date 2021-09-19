@@ -11,6 +11,9 @@ from telegram.ext import CallbackContext, CommandHandler
 from SaitamaRobot import dispatcher, DEV_USERS, OWNER_ID, ERROR_LOGS
 
 
+pretty_errors.mono()
+
+
 class ErrorsDict(dict):
     "A custom dict to store errors and their count"
 
@@ -32,7 +35,7 @@ class ErrorsDict(dict):
         return len(self.raw)
 
 
-pretty_errors.mono()
+errors = ErrorsDict()
 
 
 def error_callback(update: Update, context: CallbackContext):

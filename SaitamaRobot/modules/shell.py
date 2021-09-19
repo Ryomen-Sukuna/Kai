@@ -1,12 +1,12 @@
 import subprocess
 
-from SaitamaRobot import dispatcher, LOGGER
+from SaitamaRobot import LOGGER, DEV_USERS
 from telegram import ParseMode, Update
-from telegram.ext import Filters, CallbackContext, CommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
+from telegram.ext import Filters, CallbackContext
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 
-@dev_plus
+@kaicmd(command="sh", filters=Filters.user(DEV_USERS))
 def shell(update: Update, context: CallbackContext):
     message = update.effective_message
     cmd = message.text.split(" ", 1)
@@ -43,9 +43,5 @@ def shell(update: Update, context: CallbackContext):
     else:
         message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
-
-SHELL_HANDLER = CommandHandler("sh", shell, run_async=True)
-
-dispatcher.add_handler(SHELL_HANDLER)
 
 __mod_name__ = "Shell"

@@ -5,8 +5,6 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -15,6 +13,8 @@ from telegram import (
     Message,
 )
 from telegram.ext import CallbackContext
+from SaitamaRobot.modules.helper_funcs.alternate import typing_action
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
@@ -176,6 +176,8 @@ def extract_arg(message: Message):
     return None
 
 
+@kaicmd(command="airing")
+@typing_action
 def airing(update: Update, context: CallbackContext):
     message = update.effective_message
     search_str = extract_arg(message)
@@ -189,7 +191,9 @@ def airing(update: Update, context: CallbackContext):
         url,
         json={"query": airing_query, "variables": variables},
     ).json()["data"]["Media"]
-    msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
+    info = response.get("siteUrl")
+    image = info.replace("anilist.co/anime/", "img.anili.st/media/")
+    msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`[⁠ ⁠]({image})"
     if response["nextAiringEpisode"]:
         time = response["nextAiringEpisode"]["timeUntilAiring"] * 1000
         time = t(time)
@@ -199,6 +203,8 @@ def airing(update: Update, context: CallbackContext):
     update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
+@kaicmd(command="anime")
+@typing_action
 def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -271,6 +277,8 @@ def anime(update: Update, context: CallbackContext):
             )
 
 
+@kaicmd(command="character")
+@typing_action
 def character(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -306,6 +314,8 @@ def character(update: Update, context: CallbackContext):
             )
 
 
+@kaicmd(command="manga")
+@typing_action
 def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     search = extract_arg(message)
@@ -373,6 +383,8 @@ def manga(update: Update, context: CallbackContext):
             )
 
 
+@kaicmd(command="user")
+@typing_action
 def user(update: Update, context: CallbackContext):
     message = update.effective_message
     search_query = extract_arg(message)
@@ -457,6 +469,8 @@ def user(update: Update, context: CallbackContext):
     progress_message.delete()
 
 
+@kaicmd(command="upcoming")
+@typing_action
 def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
     upcomin = jikan.top("anime", page=1, subtype="upcoming")
@@ -464,7 +478,7 @@ def upcoming(update: Update, context: CallbackContext):
     upcoming_list = [entry["title"] for entry in upcomin["top"]]
     upcoming_message = ""
 
-    for entry_num in range(len(upcoming_list)):
+    for entry_num, _ in enumerate(upcoming_list):
         if entry_num == 10:
             break
         upcoming_message += f"{entry_num + 1}. {upcoming_list[entry_num]}\n"
@@ -532,10 +546,12 @@ def site_search(update: Update, context: CallbackContext, site: str):
         )
 
 
+@kaicmd(command="kaizoku")
 def kaizoku(update: Update, context: CallbackContext):
     site_search(update, context, "kaizoku")
 
 
+@kaicmd(command="kayo")
 def kayo(update: Update, context: CallbackContext):
     site_search(update, context, "kayo")
 
@@ -555,42 +571,4 @@ Get information about anime, manga or characters from [AniList](anilist.co).
 >> /airing <anime>: returns anime airing info.
 """
 
-ANIME_HANDLER = DisableAbleCommandHandler("anime", anime, run_async=True)
-AIRING_HANDLER = DisableAbleCommandHandler("airing", airing, run_async=True)
-CHARACTER_HANDLER = DisableAbleCommandHandler("character", character, run_async=True)
-MANGA_HANDLER = DisableAbleCommandHandler("manga", manga, run_async=True)
-USER_HANDLER = DisableAbleCommandHandler("user", user, run_async=True)
-UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming, run_async=True)
-KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("kaizoku", kaizoku, run_async=True)
-KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kayo", kayo, run_async=True)
-
-dispatcher.add_handler(ANIME_HANDLER)
-dispatcher.add_handler(CHARACTER_HANDLER)
-dispatcher.add_handler(MANGA_HANDLER)
-dispatcher.add_handler(AIRING_HANDLER)
-dispatcher.add_handler(USER_HANDLER)
-dispatcher.add_handler(KAIZOKU_SEARCH_HANDLER)
-dispatcher.add_handler(KAYO_SEARCH_HANDLER)
-dispatcher.add_handler(UPCOMING_HANDLER)
-
 __mod_name__ = "Anime"
-__command_list__ = [
-    "anime",
-    "manga",
-    "character",
-    "user",
-    "upcoming",
-    "kaizoku",
-    "airing",
-    "kayo",
-]
-__handlers__ = [
-    ANIME_HANDLER,
-    CHARACTER_HANDLER,
-    MANGA_HANDLER,
-    USER_HANDLER,
-    UPCOMING_HANDLER,
-    KAIZOKU_SEARCH_HANDLER,
-    KAYO_SEARCH_HANDLER,
-    AIRING_HANDLER,
-]

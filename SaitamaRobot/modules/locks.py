@@ -3,14 +3,13 @@ import html
 from telegram import Message, Chat, ParseMode, MessageEntity
 from telegram import TelegramError, ChatPermissions
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters
+from telegram.ext import Filters
 from telegram.utils.helpers import mention_html
 
 from alphabet_detector import AlphabetDetector
 
 import SaitamaRobot.modules.sql.locks_sql as sql
 from SaitamaRobot import dispatcher, DRAGONS, LOGGER
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     can_delete,
     is_user_admin,
@@ -21,6 +20,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.sql.approve_sql import is_approved
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
 ad = AlphabetDetector()
@@ -140,6 +140,7 @@ def unrestr_members(
             pass
 
 
+@kaicmd(command="locktypes")
 def locktypes(update, context):
     update.effective_message.reply_text(
         "\n • ".join(
@@ -149,6 +150,7 @@ def locktypes(update, context):
     )
 
 
+@kaicmd(command="lock", pass_args=True)
 @user_admin
 @loggable
 @typing_action
@@ -255,6 +257,7 @@ def lock(update, context) -> str:
     return ""
 
 
+@kaicmd(command="unlock", pass_args=True)
 @user_admin
 @loggable
 @typing_action
@@ -359,6 +362,7 @@ def unlock(update, context) -> str:
     return ""
 
 
+@kaimsg((Filters.all & Filters.chat_type.groups), group=PERM_GROUP)
 @user_not_admin
 def del_lockables(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -495,6 +499,7 @@ def build_lock_message(chat_id):
     return res
 
 
+@kaicmd(command="locks")
 @user_admin
 @typing_action
 def list_locks(update, context):
@@ -583,30 +588,3 @@ Locking bots will stop non-admins from adding bots to the chat.
 """
 
 __mod_name__ = "Locks"
-
-LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes, run_async=True)
-LOCK_HANDLER = CommandHandler(
-    "lock",
-    lock,
-    pass_args=True,
-    run_async=True,
-)  # , filters=Filters.chat_type.group)
-UNLOCK_HANDLER = CommandHandler(
-    "unlock",
-    unlock,
-    pass_args=True,
-    run_async=True,
-)  # , filters=Filters.chat_type.group)
-LOCKED_HANDLER = CommandHandler(
-    "locks", list_locks, run_async=True
-)  # , filters=Filters.chat_type.group)
-
-dispatcher.add_handler(LOCK_HANDLER)
-dispatcher.add_handler(UNLOCK_HANDLER)
-dispatcher.add_handler(LOCKTYPES_HANDLER)
-dispatcher.add_handler(LOCKED_HANDLER)
-
-dispatcher.add_handler(
-    MessageHandler(Filters.all & Filters.chat_type.group, del_lockables),
-    PERM_GROUP,
-)

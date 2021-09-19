@@ -6,9 +6,10 @@ import textwrap
 import traceback
 from contextlib import redirect_stdout
 
-from SaitamaRobot import dispatcher, LOGGER, OWNER_ID
+from SaitamaRobot import LOGGER, DEV_USERS
 from telegram import ParseMode, Update
-from telegram.ext import Filters, CommandHandler, CallbackContext
+from telegram.ext import Filters, CallbackContext
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 namespaces = {}
 
@@ -47,11 +48,13 @@ def send(msg, bot, update):
         )
 
 
+@kaicmd(command=("e", "ev", "eva", "eval"), filters=Filters.user(DEV_USERS))
 def evaluate(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(eval, bot, update), bot, update)
 
 
+@kaicmd(command=("x", "ex", "exe", "exec", "py"), filters=Filters.user(DEV_USERS))
 def execute(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(exec, bot, update), bot, update)
@@ -110,6 +113,7 @@ def do(func, bot, update):
             return result
 
 
+@kaicmd(command="clearlocals", filters=Filters.user(DEV_USERS))
 def clear(update: Update, context: CallbackContext):
     bot = context.bot
     log_input(update)
@@ -117,20 +121,6 @@ def clear(update: Update, context: CallbackContext):
     if update.message.chat_id in namespaces:
         del namespaces[update.message.chat_id]
     send("Cleared locals.", bot, update)
-
-
-EVAL_HANDLER = CommandHandler(
-    ["e", "ev", "eva", "eval"], evaluate, filters=Filters.user(OWNER_ID)
-)
-EXEC_HANDLER = CommandHandler(
-    ["x", "ex", "exe", "exec", "py"], execute, filters=Filters.user(OWNER_ID)
-)
-CLEAR_HANDLER = CommandHandler("clearlocals", clear, filters=Filters.user(OWNER_ID))
-
-
-dispatcher.add_handler(EVAL_HANDLER)
-dispatcher.add_handler(EXEC_HANDLER)
-dispatcher.add_handler(CLEAR_HANDLER)
 
 
 __mod_name__ = "Eval Module"

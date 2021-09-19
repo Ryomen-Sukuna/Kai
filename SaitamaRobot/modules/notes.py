@@ -5,7 +5,6 @@ from typing import Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
 from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.handlers import MessageHandlerChecker
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
 from SaitamaRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
@@ -23,13 +22,8 @@ from telegram import (
 )
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_markdown
-from telegram.ext import (
-    CallbackContext,
-    CommandHandler,
-    CallbackQueryHandler,
-    Filters,
-    MessageHandler,
-)
+from telegram.ext import CallbackContext, Filters
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg, kaicallback
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 STICKER_MATCHER = re.compile(r"^###sticker(!photo)?###:")
@@ -216,6 +210,7 @@ def get(update, context, notename, show_none=True, no_format=False):
         message.reply_text("This note doesn't exist")
 
 
+@kaicmd(command="get")
 @connection_status
 def cmd_get(update: Update, context: CallbackContext):
     args = context.args
@@ -227,6 +222,7 @@ def cmd_get(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Get rekt")
 
 
+@kaimsg((Filters.regex(r"^#[^\s]+")), group=-14)
 @connection_status
 def hash_get(update: Update, context: CallbackContext):
     message = update.effective_message.text
@@ -235,6 +231,7 @@ def hash_get(update: Update, context: CallbackContext):
     get(update, context, no_hash, show_none=False)
 
 
+@kaimsg((Filters.regex(r"^/\d+$")), group=-16)
 @connection_status
 def slash_get(update: Update, context: CallbackContext):
     message, chat_id = update.effective_message.text, update.effective_chat.id
@@ -249,6 +246,7 @@ def slash_get(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Wrong Note ID 😾")
 
 
+@kaicmd(command="save")
 @user_admin
 @connection_status
 def save(update: Update, context: CallbackContext):
@@ -293,6 +291,7 @@ def save(update: Update, context: CallbackContext):
         return
 
 
+@kaicmd(command="clear")
 @user_admin
 @connection_status
 def clear(update: Update, context: CallbackContext):
@@ -307,6 +306,7 @@ def clear(update: Update, context: CallbackContext):
             update.effective_message.reply_text("That's not a note in my database!")
 
 
+@kaicmd(command="removeallnotes")
 def clearall(update: Update, _):
     chat = update.effective_chat
     user = update.effective_user
@@ -334,6 +334,7 @@ def clearall(update: Update, _):
         )
 
 
+@kaicallback(pattern=r"notes_.*")
 def clearall_btn(update: Update, _):
     query = update.callback_query
     chat = update.effective_chat
@@ -365,6 +366,7 @@ def clearall_btn(update: Update, _):
             query.answer("You need to be admin to do this.")
 
 
+@kaicmd(command=["notes", "saved"])
 @connection_status
 def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -569,23 +571,3 @@ Reply 3`
 """
 
 __mod_name__ = "Notes"
-
-GET_HANDLER = CommandHandler("get", cmd_get, run_async=True)
-HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get, run_async=True)
-SLASH_GET_HANDLER = MessageHandler(Filters.regex(r"^/\d+$"), slash_get, run_async=True)
-SAVE_HANDLER = CommandHandler("save", save, run_async=True)
-DELETE_HANDLER = CommandHandler("clear", clear, run_async=True)
-LIST_HANDLER = DisableAbleCommandHandler(
-    ["notes", "saved"], list_notes, admin_ok=True, run_async=True
-)
-CLEARALL = DisableAbleCommandHandler("removeallnotes", clearall, run_async=True)
-CLEARALL_BTN = CallbackQueryHandler(clearall_btn, pattern=r"notes_.*", run_async=True)
-
-dispatcher.add_handler(GET_HANDLER)
-dispatcher.add_handler(SAVE_HANDLER)
-dispatcher.add_handler(LIST_HANDLER)
-dispatcher.add_handler(DELETE_HANDLER)
-dispatcher.add_handler(HASH_GET_HANDLER)
-dispatcher.add_handler(SLASH_GET_HANDLER)
-dispatcher.add_handler(CLEARALL)
-dispatcher.add_handler(CLEARALL_BTN)

@@ -3,13 +3,13 @@ from io import BytesIO
 
 from telegram import ParseMode, Message
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler
 
 import SaitamaRobot.modules.sql.notes_sql as sql
 from SaitamaRobot import dispatcher, LOGGER, OWNER_ID, JOIN_LOGGER, SUPPORT_CHAT
 from SaitamaRobot.__main__ import DATA_IMPORT
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.alternate import typing_action
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 # from SaitamaRobot.modules.rules import get_rules
 import SaitamaRobot.modules.sql.rules_sql as rulessql
@@ -24,6 +24,7 @@ import SaitamaRobot.modules.sql.locks_sql as locksql
 from SaitamaRobot.modules.connection import connected
 
 
+@kaicmd(command="import")
 @user_admin
 @typing_action
 def import_data(update, context):
@@ -117,6 +118,7 @@ def import_data(update, context):
         msg.reply_text(text, parse_mode="markdown")
 
 
+@kaicmd(command="backup")
 @user_admin
 def export_data(update, context):
     chat_data = context.chat_data
@@ -325,7 +327,7 @@ def export_data(update, context):
         },
     }
     baccinfo = json.dumps(backup, indent=4)
-    with open("SaitamaRobot{}.backup".format(chat_id), "w") as f:
+    with open("KaiRobot{}.backup".format(chat_id), "w") as f:
         f.write(str(baccinfo))
     context.bot.sendChatAction(current_chat_id, "upload_document")
     tgl = time.strftime("%H:%M:%S - %d/%m/%Y", time.localtime(time.time()))
@@ -343,8 +345,8 @@ def export_data(update, context):
         pass
     context.bot.sendDocument(
         current_chat_id,
-        document=open("SaitamaRobot{}.backup".format(chat_id), "rb"),
-        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `SaitamaRobot-Backup` was specially made for notes.".format(
+        document=open("KaiRobot{}.backup".format(chat_id), "rb"),
+        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `KaiRobot-Backup` was specially made for notes.".format(
             chat.title,
             chat_id,
             tgl,
@@ -353,7 +355,7 @@ def export_data(update, context):
         reply_to_message_id=msg.message_id,
         parse_mode=ParseMode.MARKDOWN,
     )
-    os.remove("SaitamaRobot{}.backup".format(chat_id))  # Cleaning file
+    os.remove("KaiRobot{}.backup".format(chat_id))  # Cleaning file
 
 
 # Temporary data
@@ -381,11 +383,3 @@ Note that files / photos cannot be imported due to telegram restrictions.
 
 >> /export: Export group data, which will be exported are: rules, notes (documents, images, music, video, audio, voice, text, text buttons) \
 """
-
-IMPORT_HANDLER = CommandHandler("import", import_data, run_async=True)
-EXPORT_HANDLER = CommandHandler(
-    "export", export_data, pass_chat_data=True, run_async=True
-)
-
-dispatcher.add_handler(IMPORT_HANDLER)
-dispatcher.add_handler(EXPORT_HANDLER)

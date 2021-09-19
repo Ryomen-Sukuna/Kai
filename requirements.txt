@@ -55,3 +55,4 @@ cryptography
 pymongo
 pykeyboard
 google_trans_new
+gitpython

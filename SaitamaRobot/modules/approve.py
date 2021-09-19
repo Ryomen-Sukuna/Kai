@@ -1,16 +1,17 @@
 import html
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot import dispatcher, DRAGONS
+from SaitamaRobot import DRAGONS
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from telegram.ext import CallbackContext, CallbackQueryHandler
+from telegram.ext import CallbackContext, Filters
 import SaitamaRobot.modules.sql.approve_sql as sql
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.log_channel import loggable
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
 from telegram.utils.helpers import mention_html
 from telegram.error import BadRequest
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaicallback
 
 
+@kaicmd(command="approve", filters=Filters.chat_type.groups)
 @loggable
 @user_admin
 def approve(update, context):
@@ -55,6 +56,7 @@ def approve(update, context):
     return log_message
 
 
+@kaicmd(command="unapprove", filters=Filters.chat_type.groups)
 @loggable
 @user_admin
 def disapprove(update, context):
@@ -93,6 +95,7 @@ def disapprove(update, context):
     return log_message
 
 
+@kaicmd(command="approved", filters=Filters.chat_type.groups)
 @user_admin
 def approved(update, context):
     message = update.effective_message
@@ -109,6 +112,7 @@ def approved(update, context):
     message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
+@kaicmd(command="approval", filters=Filters.chat_type.groups)
 @user_admin
 def approval(update, context):
     message = update.effective_message
@@ -131,6 +135,7 @@ def approval(update, context):
         )
 
 
+@kaicmd(command="approve", filters=Filters.chat_type.groups)
 def unapproveall(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
@@ -163,6 +168,7 @@ def unapproveall(update: Update, context: CallbackContext):
         )
 
 
+@kaicallback(pattern=r"unapproveall_.*")
 def unapproveall_btn(update: Update, context: CallbackContext):
     query = update.callback_query
     chat = update.effective_chat
@@ -206,22 +212,5 @@ That's what approvals are for - approve of trustworthy users to allow them to se
 >> /unapproveall: Unapprove *ALL* users in a chat. This cannot be undone.
 """
 
-APPROVE = DisableAbleCommandHandler("approve", approve, run_async=True)
-DISAPPROVE = DisableAbleCommandHandler("unapprove", disapprove, run_async=True)
-APPROVED = DisableAbleCommandHandler("approved", approved, run_async=True)
-APPROVAL = DisableAbleCommandHandler("approval", approval, run_async=True)
-UNAPPROVEALL = DisableAbleCommandHandler("unapproveall", unapproveall, run_async=True)
-UNAPPROVEALL_BTN = CallbackQueryHandler(
-    unapproveall_btn, pattern=r"unapproveall_.*", run_async=True
-)
-
-dispatcher.add_handler(APPROVE)
-dispatcher.add_handler(DISAPPROVE)
-dispatcher.add_handler(APPROVED)
-dispatcher.add_handler(APPROVAL)
-dispatcher.add_handler(UNAPPROVEALL)
-dispatcher.add_handler(UNAPPROVEALL_BTN)
 
 __mod_name__ = "Approvals"
-__command_list__ = ["approve", "unapprove", "approved", "approval"]
-__handlers__ = [APPROVE, DISAPPROVE, APPROVED, APPROVAL]

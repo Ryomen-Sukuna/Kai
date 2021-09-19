@@ -4,22 +4,15 @@ from telegram import ParseMode
 from telegram.error import BadRequest
 from telegram.utils.helpers import mention_html
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import (
-    Filters,
-    CommandHandler,
-    CallbackQueryHandler,
-)
-from SaitamaRobot import dispatcher
+from telegram.ext import Filters
 from SaitamaRobot.modules.redis import REDIS
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import (
-    bot_admin,
-    user_admin,
-)
+from SaitamaRobot.modules.helper_funcs.chat_status import bot_admin, user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
 from SaitamaRobot.modules.helper_funcs.alternate import typing_action
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaicallback
 
 
+@kaicmd(command="addtag", pass_args=True, filters=Filters.chat_type.groups)
 @bot_admin
 @user_admin
 @typing_action
@@ -74,6 +67,7 @@ def addtag(update, context):
     )
 
 
+@kaicmd(command="removetag", pass_args=True, filters=Filters.chat_type.groups)
 @bot_admin
 @user_admin
 @typing_action
@@ -120,6 +114,7 @@ def removetag(update, context):
     )
 
 
+@kaicallback(pattern=r"tagall_")
 def tagg_all_button(update, context):
     query = update.callback_query
     chat = update.effective_chat
@@ -158,6 +153,7 @@ def tagg_all_button(update, context):
         )
 
 
+@kaicmd(command="untagme", filters=Filters.chat_type.groups)
 @typing_action
 def untagme(update, context):
     chat = update.effective_chat
@@ -180,6 +176,7 @@ def untagme(update, context):
     )
 
 
+@kaicmd(command="tagme", filters=Filters.chat_type.groups)
 @typing_action
 def tagme(update, context):
     chat = update.effective_chat
@@ -200,6 +197,7 @@ def tagme(update, context):
     )
 
 
+@kaicmd(command="tagall", filters=Filters.chat_type.groups)
 @bot_admin
 @user_admin
 @typing_action
@@ -237,6 +235,7 @@ def tagall(update, context):
         message.reply_text("Tagall list is empty!")
 
 
+@kaicmd(command="untagall", filters=Filters.chat_type.groups)
 @bot_admin
 @user_admin
 @typing_action
@@ -268,38 +267,3 @@ __help__ = """
 >> /addtag <userhandle>: add a user to chat tag list. (via handle, or reply)
 >> /removetag <userhandle>: remove a user to chat tag list. (via handle, or reply)
 """
-
-TAG_ALL_HANDLER = DisableAbleCommandHandler(
-    "tagall", tagall, filters=Filters.chat_type.groups, run_async=True
-)
-UNTAG_ALL_HANDLER = DisableAbleCommandHandler(
-    "untagall", untagall, filters=Filters.chat_type.groups, run_async=True
-)
-UNTAG_ME_HANDLER = CommandHandler(
-    "untagme", untagme, filters=Filters.chat_type.groups, run_async=True
-)
-TAG_ME_HANDLER = CommandHandler(
-    "tagme", tagme, filters=Filters.chat_type.group, run_async=True
-)
-ADD_TAG_HANDLER = DisableAbleCommandHandler(
-    "addtag", addtag, pass_args=True, filters=Filters.chat_type.groups, run_async=True
-)
-REMOVE_TAG_HANDLER = DisableAbleCommandHandler(
-    "removetag",
-    removetag,
-    pass_args=True,
-    filters=Filters.chat_type.groups,
-    run_async=True,
-)
-TAGALL_CALLBACK_HANDLER = CallbackQueryHandler(
-    tagg_all_button, pattern=r"tagall_", run_async=True
-)
-
-
-dispatcher.add_handler(TAG_ALL_HANDLER)
-dispatcher.add_handler(UNTAG_ALL_HANDLER)
-dispatcher.add_handler(UNTAG_ME_HANDLER)
-dispatcher.add_handler(TAG_ME_HANDLER)
-dispatcher.add_handler(ADD_TAG_HANDLER)
-dispatcher.add_handler(REMOVE_TAG_HANDLER)
-dispatcher.add_handler(TAGALL_CALLBACK_HANDLER)

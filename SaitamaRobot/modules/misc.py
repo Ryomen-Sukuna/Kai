@@ -1,14 +1,17 @@
+import html
 import time
+import git
 import os
 import re
 import codecs
+import datetime
+import platform
 from typing import List
 from random import randint
 
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import dispatcher, WALL_API, SUPPORT_CHAT
-import requests as r
+import requests
 import wikipedia
 from requests import get, post
 from telegram import (
@@ -21,14 +24,20 @@ from telegram import (
     Message,
     MessageEntity,
     TelegramError,
+    __version__ as ptbver,
 )
-
+from SaitamaRobot.__main__ import STATS, USER_INFO, TOKEN
+from SaitamaRobot.modules.sql import SESSION
 from telegram.error import BadRequest
-from telegram.ext.dispatcher import run_async
-from telegram.ext import CallbackContext, Filters, CommandHandler
+from telegram.utils.helpers import mention_html, escape_markdown
+from subprocess import Popen, PIPE
+from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
+from platform import python_version
+from telegram.ext import CallbackContext, Filters
 from SaitamaRobot import StartTime
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.alternate import send_action, typing_action
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaicallback
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -55,8 +64,9 @@ Keep in mind that your message <b>MUST</b> contain some text other than just a b
 """
 
 
+@kaicmd(command="echo", pass_args=True, filters=Filters.chat_type.groups)
 @user_admin
-def echo(update: Update, context: CallbackContext):
+def echo(update: Update, _):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -71,18 +81,7 @@ def echo(update: Update, context: CallbackContext):
     message.delete()
 
 
-def ping(update: Update, _):
-    msg = update.effective_message
-    start_time = time.time()
-    message = msg.reply_text("Pinging...")
-    end_time = time.time()
-    ping_time = round((end_time - start_time) * 1000, 3)
-    message.edit_text(
-        "*PONG!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
-    )
-
-
-def markdown_help_sender(update: Update):
+def markdown_help_sender(update: Update, _):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
         "Try forwarding the following message to me, and you'll see, and Use #test!"
@@ -94,6 +93,7 @@ def markdown_help_sender(update: Update):
     )
 
 
+@kaicmd(command="markdownhelp")
 def markdown_help(update: Update, context: CallbackContext):
     if update.effective_chat.type != "private":
         update.effective_message.reply_text(
@@ -113,6 +113,7 @@ def markdown_help(update: Update, context: CallbackContext):
     markdown_help_sender(update)
 
 
+@kaicmd(command="wiki")
 def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
@@ -148,6 +149,7 @@ def wiki(update: Update, context: CallbackContext):
 
 
 @send_action(ChatAction.UPLOAD_PHOTO)
+@kaicmd(command="wall")
 def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message
@@ -161,7 +163,7 @@ def wall(update: Update, context: CallbackContext):
     else:
         caption = query
         term = query.replace(" ", "%20")
-        json_rep = r.get(
+        json_rep = requests.get(
             f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}"
         ).json()
         if not json_rep.get("success"):
@@ -193,6 +195,7 @@ def wall(update: Update, context: CallbackContext):
                 )
 
 
+@kaicmd(command="paste")
 @typing_action
 def paste(update, context):
     msg = update.effective_message
@@ -235,6 +238,114 @@ def paste(update, context):
         return
 
 
+def get_readable_time(seconds: int) -> str:
+    count = 0
+    ping_time = ""
+    time_list = []
+    time_suffix_list = ["s", "m", "h", "days"]
+
+    while count < 4:
+        count += 1
+        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
+        if seconds == 0 and remainder == 0:
+            break
+        time_list.append(int(result))
+        seconds = int(remainder)
+
+    for x, _ in enumerate(time_list):
+        time_list[x] = str(time_list[x]) + time_suffix_list[x]
+    if time_list == 4:
+        ping_time += time_list.pop() + ", "
+
+    time_list.reverse()
+    ping_time += ":".join(time_list)
+
+    return ping_time
+
+
+stats_str = """
+"""
+
+# Credits to Dank-del <https://github.com/Dank-del/EnterpriseALRobot>
+
+
+@kaicmd(command="stats", can_disable=False)
+@sudo_plus
+def stats(update, context):
+    db_size = SESSION.execute(
+        "SELECT pg_size_pretty(pg_database_size(current_database()))"
+    ).scalar_one_or_none()
+    uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
+    botuptime = get_readable_time((time.time() - StartTime))
+    status = "*╒═══「 System statistics 」*\n\n"
+    status += "*• System Start time:* " + str(uptime) + "\n"
+    uname = platform.uname()
+    status += "*• System:* " + str(uname.system) + "\n"
+    status += "*• Node name:* " + escape_markdown(str(uname.node)) + "\n"
+    status += "*• Release:* " + escape_markdown(str(uname.release)) + "\n"
+    status += "*• Machine:* " + escape_markdown(str(uname.machine)) + "\n"
+    mem = virtual_memory()
+    cpu = cpu_percent()
+    disk = disk_usage("/")
+    status += "*• CPU:* " + str(cpu) + " %\n"
+    status += "*• RAM:* " + str(mem[2]) + " %\n"
+    status += "*• Storage:* " + str(disk[3]) + " %\n\n"
+    status += "*• Python Version:* " + python_version() + "\n"
+    status += "*• python-Telegram-Bot:* " + str(ptbver) + "\n"
+    status += "*• Uptime:* " + str(botuptime) + "\n"
+    status += "*• Database size:* " + str(db_size) + "\n"
+    kb = [[InlineKeyboardButton("Ping", callback_data="pingCB")]]
+    try:
+        update.effective_message.reply_text(
+            status
+            + "\n*Bot statistics*:\n"
+            + "\n".join([mod.__stats__() for mod in STATS])
+            + "\n\n[⍙ GitHub](https://github.com/Ryomen-Sukuna/Kai) | [⍚ GitLab](https://gitlab.com/Ryomen-Sukuna/Kai)\n\n"
+            + "╘══「 by [Ryomen-Sukuna](github.com/Ryomen-Sukuna) 」\n",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(kb),
+            disable_web_page_preview=True,
+        )
+    except BaseException:
+        update.effective_message.reply_text(
+            (
+                (
+                    (
+                        "\n*Bot statistics*:\n"
+                        + "\n".join(mod.__stats__() for mod in STATS)
+                    )
+                    + "\n\n⍙ [GitHub](https://github.com/Ryomen-Sukuna/Kai) | ⍚ [GitLab](https://gitlab.com/Ryomen-Sukuna/Kai)\n\n"
+                )
+                + "╘══「 by [Ryomen-Sukuna](github.com/Ryomen-Sukuna) 」\n"
+            ),
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(kb),
+            disable_web_page_preview=True,
+        )
+
+
+@kaicmd(command="ping")
+def ping(update: Update, _):
+    msg = update.effective_message
+    start_time = time.time()
+    message = msg.reply_text("Pinging...")
+    end_time = time.time()
+    ping_time = round((end_time - start_time) * 1000, 3)
+    message.edit_text(
+        "*PONG!!!*\n`{}ms`".format(ping_time), parse_mode=ParseMode.MARKDOWN
+    )
+
+
+@kaicallback(pattern=r"^pingCB")
+def pingCallback(update: Update, _):
+    query = update.callback_query
+    start_time = time.time()
+    requests.get("https://api.telegram.org")
+    end_time = time.time()
+    ping_time = round((end_time - start_time) * 1000, 3)
+    query.answer("Pong! {}ms".format(ping_time))
+
+
 __help__ = """
 *Available commands:*
 
@@ -274,31 +385,5 @@ __help__ = """
 Output: `1.0 USD = 75.505 INR`
 """
 
-ECHO_HANDLER = DisableAbleCommandHandler(
-    "echo", echo, filters=Filters.chat_type.groups, run_async=True
-)
-MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, run_async=True)
-PING_HANDLER = DisableAbleCommandHandler("ping", ping, run_async=True)
-PASTE_HANDLER = DisableAbleCommandHandler(
-    "paste", paste, pass_args=True, run_async=True
-)
-WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
-WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, run_async=True)
-
-dispatcher.add_handler(ECHO_HANDLER)
-dispatcher.add_handler(MD_HELP_HANDLER)
-dispatcher.add_handler(PING_HANDLER)
-dispatcher.add_handler(WIKI_HANDLER)
-dispatcher.add_handler(WALLPAPER_HANDLER)
-dispatcher.add_handler(PASTE_HANDLER)
 
 __mod_name__ = "Misc"
-__command_list__ = ["id", "echo", "ping", "paste", "wiki", "wall"]
-__handlers__ = [
-    ECHO_HANDLER,
-    MD_HELP_HANDLER,
-    PING_HANDLER,
-    PASTE_HANDLER,
-    WIKI_HANDLER,
-    WALLPAPER_HANDLER,
-]

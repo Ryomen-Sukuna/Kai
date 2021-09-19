@@ -1,24 +1,20 @@
 import html
 
-from SaitamaRobot import LOGGER, DRAGONS, TIGERS, WOLVES, dispatcher
+from SaitamaRobot import LOGGER, DRAGONS, TIGERS, WOLVES
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import reporting_sql as sql
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg, kaicallback
 from telegram import Chat, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import (
-    CallbackContext,
-    CallbackQueryHandler,
-    CommandHandler,
-    Filters,
-    MessageHandler,
-)
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import mention_html
 
 REPORT_GROUP = 12
 REPORT_IMMUNE_USERS = DRAGONS + TIGERS + WOLVES
 
 
+@kaicmd(command="reports")
 @user_admin
 def report_setting(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -64,6 +60,8 @@ def report_setting(update: Update, context: CallbackContext):
 
 @user_not_admin
 @loggable
+@kaicmd(command="report", filters=Filters.chat_type.groups, group=REPORT_GROUP)
+@kaimsg((Filters.regex(r"(?i)@admin(s)?")), group=REPORT_GROUP)
 def report(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     args = context.args
@@ -220,6 +218,7 @@ def __user_settings__(user_id):
     )
 
 
+@kaicallback(pattern=r"report_")
 def buttons(update: Update, context: CallbackContext):
     bot = context.bot
     query = update.callback_query
@@ -285,25 +284,5 @@ Note that the report commands do not work when admins use them; or when used to 
 admins don't need to report, or be reported!
 """
 
-SETTING_HANDLER = CommandHandler("reports", report_setting, run_async=True)
-REPORT_HANDLER = CommandHandler(
-    "report", report, filters=Filters.chat_type.groups, run_async=True
-)
-ADMIN_REPORT_HANDLER = MessageHandler(
-    Filters.regex(r"(?i)@admin(s)?"), report, run_async=True
-)
-REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(
-    buttons, pattern=r"report_", run_async=True
-)
-
-dispatcher.add_handler(REPORT_BUTTON_USER_HANDLER)
-dispatcher.add_handler(SETTING_HANDLER)
-dispatcher.add_handler(REPORT_HANDLER, REPORT_GROUP)
-dispatcher.add_handler(ADMIN_REPORT_HANDLER, REPORT_GROUP)
 
 __mod_name__ = "Reporting"
-__handlers__ = [
-    (REPORT_HANDLER, REPORT_GROUP),
-    (ADMIN_REPORT_HANDLER, REPORT_GROUP),
-    (SETTING_HANDLER),
-]

@@ -10,6 +10,7 @@ from aiohttp import ClientSession
 from Python_ARQ import ARQ
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
+from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
@@ -203,11 +204,14 @@ else:
         sw = None
         LOGGER.warning("Can't connect to SpamWatch!")
 
+from SaitamaRobot.modules.sql import SESSION
+
 # Updater
 updater = tg.Updater(
     TOKEN,
     workers=min(32, os.cpu_count() + 4),
     request_kwargs={"read_timeout": 10, "connect_timeout": 10},
+    persistence=PostgresPersistence(session=SESSION),
 )
 # Telethon
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
@@ -216,7 +220,7 @@ dispatcher = updater.dispatcher
 # Aiohttp Session
 aiohttpsession = ClientSession()
 # ARQ Client
-arq = ARQ(ARQ_API_URL, ARQ_API, aiohttpsession)
+arq = ARQ(ARQ_URL, ARQ_API, aiohttpsession)
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)

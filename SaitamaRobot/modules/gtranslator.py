@@ -5,14 +5,14 @@ from telegram import (
     InlineKeyboardMarkup,
 )
 from telegram.ext import CallbackContext
-from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from gpytranslate import SyncTranslator
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 
 trans = SyncTranslator()
 
 
+@kaicmd(command=["tr", "tl"])
 def translate(update: Update, context: CallbackContext) -> None:
     message = update.effective_message
     reply_msg = message.reply_to_message
@@ -43,6 +43,7 @@ def translate(update: Update, context: CallbackContext) -> None:
     message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
+@kaicmd(command="langs")
 def languages(update: Update, context: CallbackContext) -> None:
     update.effective_message.reply_text(
         "Click on the button below to see the list of supported language codes.",
@@ -73,10 +74,3 @@ __help__ = """
 
 
 __mod_name__ = "Translator"
-
-
-TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], translate, run_async=True)
-LANG_HANDLER = DisableAbleCommandHandler(["lang", "langs"], languages, run_async=True)
-
-dispatcher.add_handler(TRANSLATE_HANDLER)
-dispatcher.add_handler(LANG_HANDLER)

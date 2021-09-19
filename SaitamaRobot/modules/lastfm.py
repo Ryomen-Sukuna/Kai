@@ -3,14 +3,13 @@
 import requests
 
 from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import run_async, CommandHandler, CallbackContext
-
-from SaitamaRobot import dispatcher, LASTFM_API_KEY
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-
+from telegram.ext import CallbackContext
+from SaitamaRobot import LASTFM_API_KEY
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 import SaitamaRobot.modules.sql.last_fm_sql as sql
 
 
+@kaicmd(command="setuser")
 def set_user(update: Update, context: CallbackContext):
     args = context.args
     msg = update.effective_message
@@ -25,6 +24,7 @@ def set_user(update: Update, context: CallbackContext):
         )
 
 
+@kaicmd(command="clearuser")
 def clear_user(update: Update, _):
     user = update.effective_user.id
     sql.set_user(user, "")
@@ -33,6 +33,7 @@ def clear_user(update: Update, _):
     )
 
 
+@kaicmd(command="lastfm")
 def last_fm(update: Update, _):
     msg = update.effective_message
     user = update.effective_user.first_name
@@ -99,12 +100,3 @@ def last_fm(update: Update, _):
         ]
     )
     msg.reply_text(rep, reply_markup=buttons, parse_mode=ParseMode.HTML)
-
-
-SET_USER_HANDLER = CommandHandler("setuser", set_user, pass_args=True, run_async=True)
-CLEAR_USER_HANDLER = CommandHandler("clearuser", clear_user, run_async=True)
-LASTFM_HANDLER = DisableAbleCommandHandler("lastfm", last_fm, run_async=True)
-
-dispatcher.add_handler(SET_USER_HANDLER)
-dispatcher.add_handler(CLEAR_USER_HANDLER)
-dispatcher.add_handler(LASTFM_HANDLER)

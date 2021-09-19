@@ -2,7 +2,7 @@ from datetime import datetime
 from functools import wraps
 
 from telegram.ext import CallbackContext
-
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded
 
 FILENAME = __name__.rsplit(".", 1)[-1]
@@ -10,7 +10,6 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 if is_module_loaded(FILENAME):
     from telegram import ParseMode, Update
     from telegram.error import BadRequest, Unauthorized
-    from telegram.ext import CommandHandler, JobQueue
     from telegram.utils.helpers import escape_markdown
 
     from SaitamaRobot import EVENT_LOGS, LOGGER, dispatcher
@@ -19,20 +18,10 @@ if is_module_loaded(FILENAME):
 
     def loggable(func):
         @wraps(func)
-        def log_action(
-            update: Update,
-            context: CallbackContext,
-            job_queue: JobQueue = None,
-            *args,
-            **kwargs,
-        ):
-            if not job_queue:
-                result = func(update, context, *args, **kwargs)
-            else:
-                result = func(update, context, job_queue, *args, **kwargs)
-
-            chat = update.effective_chat
-            message = update.effective_message
+        def log_action(update, context, *args, **kwargs):
+            result = func(update, context, *args, **kwargs)
+            chat = update.effective_chat  # type: Optional[Chat]
+            message = update.effective_message  # type: Optional[Message]
 
             if result:
                 datetime_fmt = "%H:%M - %d-%m-%Y"
@@ -104,6 +93,7 @@ if is_module_loaded(FILENAME):
                 )
 
     @user_admin
+    @kaicmd(command="logchannel")
     def logging(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -122,6 +112,7 @@ if is_module_loaded(FILENAME):
             message.reply_text("No log channel has been set for this group!")
 
     @user_admin
+    @kaicmd(command="setlog")
     def setlog(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -163,6 +154,7 @@ if is_module_loaded(FILENAME):
             )
 
     @user_admin
+    @kaicmd(command="unsetlog")
     def unsetlog(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -210,19 +202,3 @@ Bans, Mutes, Warns, Notes - everything can be moderated.
 """
 
     __mod_name__ = "Logger"
-
-    LOG_HANDLER = CommandHandler("logchannel", logging, run_async=True)
-    SET_LOG_HANDLER = CommandHandler("setlog", setlog, run_async=True)
-    UNSET_LOG_HANDLER = CommandHandler("unsetlog", unsetlog, run_async=True)
-
-    dispatcher.add_handler(LOG_HANDLER)
-    dispatcher.add_handler(SET_LOG_HANDLER)
-    dispatcher.add_handler(UNSET_LOG_HANDLER)
-
-else:
-    # run anyway if module not loaded
-    def loggable(func):
-        return func
-
-    def gloggable(func):
-        return func

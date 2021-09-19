@@ -19,7 +19,6 @@ from SaitamaRobot import (
     DEV_USERS,
     EVENT_LOGS,
     OWNER_ID,
-    STRICT_GBAN,
     DRAGONS,
     SUPPORT_CHAT,
     SPAMWATCH_SUPPORT_CHAT,
@@ -34,6 +33,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     support_plus,
     user_admin,
 )
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg
 from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
@@ -71,6 +71,7 @@ UNGBAN_ERRORS = {
 }
 
 
+@kaicmd(command="gban")
 @support_plus
 def gban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -270,6 +271,7 @@ def gban(update: Update, context: CallbackContext):
         pass  # bot probably blocked by user
 
 
+@kaicmd(command="ungban")
 @support_plus
 def ungban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -381,6 +383,7 @@ def ungban(update: Update, context: CallbackContext):
         message.reply_text(f"Person has been un-gbanned. Took {ungban_time} sec")
 
 
+@kaicmd(command="gbanlist")
 @support_plus
 def gbanlist(update: Update, context: CallbackContext):
     banned_users = sql.get_gban_list()
@@ -444,6 +447,11 @@ def check_and_ban(update, user_id, should_message=True):
             update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
+@kaimsg(
+    (Filters.all & Filters.chat_type.groups),
+    can_disable=False,
+    group=GBAN_ENFORCE_GROUP,
+)
 def enforce_gban(update: Update, context: CallbackContext):
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     bot = context.bot
@@ -473,6 +481,7 @@ def enforce_gban(update: Update, context: CallbackContext):
                 check_and_ban(update, user.id, should_message=False)
 
 
+@kaicmd(command="antispam", filters=Filters.chat_type.groups)
 @user_admin
 def gbanstat(update: Update, context: CallbackContext):
     args = context.args
@@ -545,24 +554,4 @@ Constantly help banning spammers off from your group automatically So, you wont 
 *NOTE:* Users can appeal spamwatch bans at @SpamwatchSupport
 """
 
-GBAN_HANDLER = CommandHandler("gban", gban, run_async=True)
-UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
-GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
-GBAN_STATUS = CommandHandler(
-    "antispam", gbanstat, filters=Filters.chat_type.groups, run_async=True
-)
-GBAN_ENFORCER = MessageHandler(
-    Filters.all & Filters.chat_type.groups, enforce_gban, run_async=True
-)
-
-dispatcher.add_handler(GBAN_HANDLER)
-dispatcher.add_handler(UNGBAN_HANDLER)
-dispatcher.add_handler(GBAN_LIST)
-dispatcher.add_handler(GBAN_STATUS)
-
 __mod_name__ = "Anti-Spam"
-__handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
-
-if STRICT_GBAN:  # enforce GBANS if this is set
-    dispatcher.add_handler(GBAN_ENFORCER, GBAN_ENFORCE_GROUP)
-    __handlers__.append((GBAN_ENFORCER, GBAN_ENFORCE_GROUP))
