@@ -3,11 +3,10 @@ import subprocess
 from SaitamaRobot import LOGGER, DEV_USERS
 from telegram import ParseMode, Update
 from telegram.ext import Filters, CallbackContext
-from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
+from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 
 @kaicmd(command="sh", filters=Filters.user(DEV_USERS))
-@dev_plus
 def shell(update: Update, context: CallbackContext):
     message = update.effective_message
     cmd = message.text.split(" ", 1)
