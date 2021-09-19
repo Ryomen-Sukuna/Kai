@@ -216,7 +216,7 @@ dispatcher = updater.dispatcher
 # Aiohttp Session
 aiohttpsession = ClientSession()
 # ARQ Client
-arq = ARQ(ARQ_API_URL, ARQ_API, aiohttpsession)
+arq = ARQ(ARQ_URL, ARQ_API, aiohttpsession)
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
