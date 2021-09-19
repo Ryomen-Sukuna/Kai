@@ -29,6 +29,8 @@ from telegram import (
 from SaitamaRobot.__main__ import STATS, USER_INFO, TOKEN
 from SaitamaRobot.modules.sql import SESSION
 from telegram.error import BadRequest
+from telegram.utils.helpers import mention_html, escape_markdown
+from subprocess import Popen, PIPE
 from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
 from platform import python_version
 from telegram.ext import CallbackContext, Filters
