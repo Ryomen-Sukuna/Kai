@@ -13,6 +13,7 @@ from telegram import (
     Message,
 )
 from telegram.ext import CallbackContext
+from SaitamaRobot.modules.helper_funcs.alternate import typing_action
 from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
 info_btn = "More Information"
