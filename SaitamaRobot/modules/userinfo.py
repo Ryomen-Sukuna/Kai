@@ -13,7 +13,7 @@ from telegram import (
     Update,
     MessageEntity,
 )
-from telegram.ext import CallbackContext, CommandHandler
+from telegram.ext import CallbackContext
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
@@ -25,18 +25,16 @@ from SaitamaRobot import (
     TIGERS,
     WOLVES,
     INFOPIC,
-    dispatcher,
     sw,
 )
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
 from SaitamaRobot.modules.redis.afk_db import is_user_afk, afk_reason
 from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot import telethn as SaitamaTelethonClient
+from SaitamaRobot import telethn as Kai
 
 
 def no_by_per(totalhp, percentage):
@@ -108,6 +106,7 @@ def make_bar(per):
     return "■" * done + "□" * (10 - done)
 
 
+@kaicmd(command="id")
 def get_id(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -150,12 +149,7 @@ def get_id(update: Update, context: CallbackContext):
         )
 
 
-@SaitamaTelethonClient.on(
-    events.NewMessage(
-        pattern="/ginfo ",
-        from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or []),
-    ),
-)
+@Kai.on(events.NewMessage(pattern="/ginfo ", from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(" ", 1)[1]
     try:
@@ -190,6 +184,7 @@ async def group_info(event) -> None:
     await event.reply(msg)
 
 
+@kaicmd(command="gifid")
 def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
@@ -201,6 +196,7 @@ def gifid(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Please reply to a gif to get its ID.")
 
 
+@kaicmd(command=["info", "book"])
 def info(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -348,6 +344,7 @@ def info(update: Update, context: CallbackContext):
     rep.delete()
 
 
+@kaicmd(command="me")
 def about_me(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -370,6 +367,7 @@ def about_me(update: Update, context: CallbackContext):
         update.effective_message.reply_text("There isnt one, use /setme to set one.")
 
 
+@kaicmd(command="setme")
 def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
@@ -402,14 +400,7 @@ def set_about_me(update: Update, context: CallbackContext):
             )
 
 
-@sudo_plus
-def stats(update: Update, context: CallbackContext):
-    stats = "<b>📊 Current stats:</b>\n" + "\n".join(mod.__stats__() for mod in STATS)
-
-    result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
-    update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
-
-
+@kaicmd(command="bio")
 def about_bio(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -434,6 +425,7 @@ def about_bio(update: Update, context: CallbackContext):
         )
 
 
+@kaicmd(command="setbio")
 def set_about_bio(update: Update, context: CallbackContext):
     message = update.effective_message
     sender_id = update.effective_user.id
@@ -527,33 +519,5 @@ When marked as AFK, any mentions will be replied to with a message to say you're
 Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
 """
 
-SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio, run_async=True)
-GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio, run_async=True)
-STATS_HANDLER = CommandHandler("stats", stats, run_async=True)
-ID_HANDLER = DisableAbleCommandHandler("id", get_id, run_async=True)
-GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, run_async=True)
-INFO_HANDLER = DisableAbleCommandHandler(("info", "book"), info, run_async=True)
-SET_ABOUT_HANDLER = DisableAbleCommandHandler("setme", set_about_me, run_async=True)
-GET_ABOUT_HANDLER = DisableAbleCommandHandler("me", about_me, run_async=True)
-
-dispatcher.add_handler(STATS_HANDLER)
-dispatcher.add_handler(ID_HANDLER)
-dispatcher.add_handler(GIFID_HANDLER)
-dispatcher.add_handler(INFO_HANDLER)
-dispatcher.add_handler(SET_BIO_HANDLER)
-dispatcher.add_handler(GET_BIO_HANDLER)
-dispatcher.add_handler(SET_ABOUT_HANDLER)
-dispatcher.add_handler(GET_ABOUT_HANDLER)
 
 __mod_name__ = "Info & AFK"
-__command_list__ = ["setbio", "bio", "setme", "me", "info"]
-__handlers__ = [
-    ID_HANDLER,
-    GIFID_HANDLER,
-    INFO_HANDLER,
-    SET_BIO_HANDLER,
-    GET_BIO_HANDLER,
-    SET_ABOUT_HANDLER,
-    GET_ABOUT_HANDLER,
-    STATS_HANDLER,
-]
