@@ -18,20 +18,10 @@ if is_module_loaded(FILENAME):
 
     def loggable(func):
         @wraps(func)
-        def log_action(
-            update: Update,
-            context: CallbackContext,
-            job_queue: JobQueue = None,
-            *args,
-            **kwargs,
-        ):
-            if not job_queue:
-                result = func(update, context, *args, **kwargs)
-            else:
-                result = func(update, context, job_queue, *args, **kwargs)
-
-            chat = update.effective_chat
-            message = update.effective_message
+        def log_action(update, context, *args, **kwargs):
+            result = func(update, context, *args, **kwargs)
+            chat = update.effective_chat  # type: Optional[Chat]
+            message = update.effective_message  # type: Optional[Message]
 
             if result:
                 datetime_fmt = "%H:%M - %d-%m-%Y"
