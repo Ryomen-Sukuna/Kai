@@ -68,6 +68,7 @@ def blacklist(update, context):
             return
         send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
 
+
 @kaicmd(command="addblacklist", pass_args=True)
 @user_admin
 @typing_action
@@ -250,7 +251,7 @@ def blacklist_mode(update, context):
         elif args[0].lower() == "tban":
             if len(args) == 1:
                 teks = (
-                    "It looks like you tried to set time value for blacklist" 
+                    "It looks like you tried to set time value for blacklist"
                     "but you didn't specified time;\nTry, `/blacklistmode tban <timevalue>`."
                     "Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."
                 )

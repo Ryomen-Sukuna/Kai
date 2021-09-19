@@ -49,6 +49,6 @@ def convert(update: Update, context: CallbackContext):
             f"*Invalid Args!!:* Required 3 But Passed {len(args) -1}",
             parse_mode=ParseMode.MARKDOWN,
         )
-        
-        
+
+
 __command_list__ = ["cash"]

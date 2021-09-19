@@ -3,10 +3,10 @@ from typing import Optional, List
 import re
 
 from telegram import (
-    Message, 
-    Chat, 
-    Update, 
-    User, 
+    Message,
+    Chat,
+    Update,
+    User,
     ChatPermissions,
 )
 
@@ -33,7 +33,9 @@ from SaitamaRobot.modules.helper_funcs.decorators import kaicmd, kaimsg, kaicall
 FLOOD_GROUP = 3
 
 
-@kaimsg((Filters.all & ~Filters.status_update & Filters.chat_type.groups), group=FLOOD_GROUP)
+@kaimsg(
+    (Filters.all & ~Filters.status_update & Filters.chat_type.groups), group=FLOOD_GROUP
+)
 @connection_status
 @loggable
 def check_flood(update, context) -> str:
@@ -288,6 +290,7 @@ def flood(update, context):
                 limit,
             ),
         )
+
 
 @kaicmd(command="setfloodmode", pass_args=True, filters=Filters.chat_type.groups)
 @user_admin

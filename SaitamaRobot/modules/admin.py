@@ -259,7 +259,11 @@ def demote(update: Update, context: CallbackContext) -> str:
         return
 
 
-@kaicmd(command=["admincache", "refresh"], filters=Filters.chat_type.groups, can_disable=False)
+@kaicmd(
+    command=["admincache", "refresh"],
+    filters=Filters.chat_type.groups,
+    can_disable=False,
+)
 @user_admin
 def refresh_admin(update, _):
     try:

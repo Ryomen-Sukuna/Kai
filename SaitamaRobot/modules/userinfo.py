@@ -150,7 +150,11 @@ def get_id(update: Update, context: CallbackContext):
         )
 
 
-@Kai.on(events.NewMessage(pattern="/ginfo ", from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))
+@Kai.on(
+    events.NewMessage(
+        pattern="/ginfo ", from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])
+    )
+)
 async def group_info(event) -> None:
     chat = event.text.split(" ", 1)[1]
     try:

@@ -47,13 +47,13 @@ def send(msg, bot, update):
             parse_mode=ParseMode.MARKDOWN,
         )
 
-        
+
 @kaicmd(command=("e", "ev", "eva", "eval"), filters=Filters.user(DEV_USERS))
 def evaluate(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(eval, bot, update), bot, update)
 
-    
+
 @kaicmd(command=("x", "ex", "exe", "exec", "py"), filters=Filters.user(DEV_USERS))
 def execute(update: Update, context: CallbackContext):
     bot = context.bot
@@ -113,7 +113,7 @@ def do(func, bot, update):
             return result
 
 
-@kaicmd(command="clearlocals", filters=Filters.user(DEV_USERS))        
+@kaicmd(command="clearlocals", filters=Filters.user(DEV_USERS))
 def clear(update: Update, context: CallbackContext):
     bot = context.bot
     log_input(update)
@@ -121,6 +121,6 @@ def clear(update: Update, context: CallbackContext):
     if update.message.chat_id in namespaces:
         del namespaces[update.message.chat_id]
     send("Cleared locals.", bot, update)
-    
-    
+
+
 __mod_name__ = "Eval Module"

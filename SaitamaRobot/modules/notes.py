@@ -246,7 +246,7 @@ def slash_get(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Wrong Note ID 😾")
 
 
-@kaicmd(command='save')
+@kaicmd(command="save")
 @user_admin
 @connection_status
 def save(update: Update, context: CallbackContext):
@@ -291,7 +291,7 @@ def save(update: Update, context: CallbackContext):
         return
 
 
-@kaicmd(command='clear')
+@kaicmd(command="clear")
 @user_admin
 @connection_status
 def clear(update: Update, context: CallbackContext):
@@ -306,7 +306,7 @@ def clear(update: Update, context: CallbackContext):
             update.effective_message.reply_text("That's not a note in my database!")
 
 
-@kaicmd(command='removeallnotes')
+@kaicmd(command="removeallnotes")
 def clearall(update: Update, _):
     chat = update.effective_chat
     user = update.effective_user

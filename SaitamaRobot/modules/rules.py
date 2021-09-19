@@ -17,6 +17,7 @@ from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import escape_markdown
 from SaitamaRobot.modules.helper_funcs.decorators import kaicmd
 
+
 @kaicmd(command="rules", filters=Filters.chat_type.groups)
 def get_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id

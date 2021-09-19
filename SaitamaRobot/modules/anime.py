@@ -550,6 +550,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
 def kaizoku(update: Update, context: CallbackContext):
     site_search(update, context, "kaizoku")
 
+
 @kaicmd(command="kayo")
 def kayo(update: Update, context: CallbackContext):
     site_search(update, context, "kayo")
