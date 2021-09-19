@@ -134,7 +134,8 @@ def approval(update, context):
             f"{member.user['first_name']} is not an approved user. They are affected by normal commands.",
         )
 
-@kaicmd(command='approve', filters=Filters.chat_type.groups)
+
+@kaicmd(command="approve", filters=Filters.chat_type.groups)
 def unapproveall(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user

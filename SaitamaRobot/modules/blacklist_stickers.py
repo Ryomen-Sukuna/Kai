@@ -159,7 +159,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
             "Tell me what stickers you want to add to the blacklist.",
         )
 
-        
+
 @kaicmd(command=["unblsticker", "rmblsticker"])
 @user_admin
 def unblackliststicker(update: Update, context: CallbackContext):
@@ -260,7 +260,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
             "Tell me what stickers you want to add to the blacklist.",
         )
 
-        
+
 @kaicmd(command="blstickermode")
 @loggable
 @user_admin

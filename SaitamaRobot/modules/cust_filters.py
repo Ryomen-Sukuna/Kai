@@ -253,7 +253,7 @@ def stop_filter(update, context):
     )
 
 
-@kaimsg((CustomFilters.has_text & ~Filters.update.edited_message))    
+@kaimsg((CustomFilters.has_text & ~Filters.update.edited_message))
 def reply_filter(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -468,7 +468,7 @@ def reply_filter(update, context):
                     LOGGER.exception("Error in filters: " + excp.message)
             break
 
-            
+
 @kaicmd(command="removeallfilters", filters=Filters.chat_type.groups)
 def rmall_filters(update, context):
     chat = update.effective_chat
@@ -495,7 +495,7 @@ def rmall_filters(update, context):
             parse_mode=ParseMode.MARKDOWN,
         )
 
-        
+
 @kaicallback(pattern=r"filters_.*")
 def rmall_callback(update, context):
     query = update.callback_query

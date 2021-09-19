@@ -140,7 +140,7 @@ def unrestr_members(
             pass
 
 
-@kaicmd(command='locktypes')
+@kaicmd(command="locktypes")
 def locktypes(update, context):
     update.effective_message.reply_text(
         "\n • ".join(
@@ -150,7 +150,7 @@ def locktypes(update, context):
     )
 
 
-@kaicmd(command='lock', pass_args=True)
+@kaicmd(command="lock", pass_args=True)
 @user_admin
 @loggable
 @typing_action
@@ -257,7 +257,7 @@ def lock(update, context) -> str:
     return ""
 
 
-@kaicmd(command='unlock', pass_args=True)
+@kaicmd(command="unlock", pass_args=True)
 @user_admin
 @loggable
 @typing_action
@@ -499,7 +499,7 @@ def build_lock_message(chat_id):
     return res
 
 
-@kaicmd(command='locks')
+@kaicmd(command="locks")
 @user_admin
 @typing_action
 def list_locks(update, context):

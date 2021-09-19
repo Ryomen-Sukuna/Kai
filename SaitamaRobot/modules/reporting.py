@@ -60,7 +60,7 @@ def report_setting(update: Update, context: CallbackContext):
 
 @user_not_admin
 @loggable
-@kaicmd(command='report', filters=Filters.chat_type.groups, group=REPORT_GROUP)
+@kaicmd(command="report", filters=Filters.chat_type.groups, group=REPORT_GROUP)
 @kaimsg((Filters.regex(r"(?i)@admin(s)?")), group=REPORT_GROUP)
 def report(update: Update, context: CallbackContext) -> str:
     bot = context.bot

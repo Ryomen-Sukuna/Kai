@@ -78,7 +78,7 @@ UNFBAN_ERRORS = {
 }
 
 
-@kaicmd(command='newfed')
+@kaicmd(command="newfed")
 def new_fed(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
@@ -133,7 +133,7 @@ def new_fed(update: Update, context: CallbackContext):
         )
 
 
-@kaicmd(command='delfed', pass_args=True)
+@kaicmd(command="delfed", pass_args=True)
 def del_fed(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     chat = update.effective_chat

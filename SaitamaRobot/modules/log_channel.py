@@ -93,7 +93,7 @@ if is_module_loaded(FILENAME):
                 )
 
     @user_admin
-    @kaicmd(command='logchannel')
+    @kaicmd(command="logchannel")
     def logging(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -112,7 +112,7 @@ if is_module_loaded(FILENAME):
             message.reply_text("No log channel has been set for this group!")
 
     @user_admin
-    @kaicmd(command='setlog')
+    @kaicmd(command="setlog")
     def setlog(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -154,7 +154,7 @@ if is_module_loaded(FILENAME):
             )
 
     @user_admin
-    @kaicmd(command='unsetlog')
+    @kaicmd(command="unsetlog")
     def unsetlog(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
