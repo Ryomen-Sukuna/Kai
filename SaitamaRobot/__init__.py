@@ -10,6 +10,7 @@ from aiohttp import ClientSession
 from Python_ARQ import ARQ
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
+from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
