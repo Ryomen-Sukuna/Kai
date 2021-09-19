@@ -2280,7 +2280,6 @@ def is_user_fed_owner(fed_id, user_id):
 
 
 # There's no handler for this yet, but updating for v12 in case its used
-@run_async
 def welcome_fed(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     chat = update.effective_chat
