@@ -490,14 +490,14 @@ def __user_info__(user_id):
 __help__ = """
 *AFK:*
 >> /afk <reason>: mark yourself as AFK (away from keyboard).
->> `brb <reason>`: same as the afk command - but not a command.
+>> `brb <reason>`*:*same as the afk command - but not a command.
 When marked as AFK, any mentions will be replied to with a message to say you're not available!
 
 *ID:*
 >> /id: get the current group id. If used by replying to a message, gets that user's id.
 >> /gifid: reply to a gif to me to tell you its file ID.
 
-*Self addded information:*
+*Self added information:*
 >> /setme <text>: will set your info
 >> /me: will get your or another user's info.
 
