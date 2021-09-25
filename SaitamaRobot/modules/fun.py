@@ -110,43 +110,43 @@ def slap(update: Update, context: CallbackContext):
 
 
 def pat(update: Update, context: CallbackContext):
-    bot = context.bot
-    args = context.args
-    message = update.effective_message
-
-    reply_to = message.reply_to_message or message
-
-    curr_user = html.escape(message.from_user.first_name)
-    user_id = extract_user(message, args)
-
-    if user_id:
-        patted_user = bot.get_chat(user_id)
-        user1 = curr_user
-        user2 = html.escape(patted_user.first_name)
-
+    chat_id = update.effective_chat.id
+    msg = str(update.message.text)
+    try:
+        msg = msg.split(" ", 1)[1]
+    except IndexError:
+        msg = ""
+    msg_id = (
+        update.effective_message.reply_to_message.message_id
+        if update.effective_message.reply_to_message
+        else update.effective_message.message_id
+    )
+    pats = []
+    pats = json.loads(
+        urllib.request.urlopen(
+            urllib.request.Request(
+                "http://headp.at/js/pats.json",
+                headers={
+                    "User-Agent": "Mozilla/5.0 (X11; U; Linux i686) "
+                    "Gecko/20071127 Firefox/2.0.0.11"
+                },
+            )
+        )
+        .read()
+        .decode("utf-8")
+    )
+    if "@" in msg and len(msg) > 5:
+        context.bot.send_photo(
+            chat_id,
+            f"https://headp.at/pats/{urllib.parse.quote(random.choice(pats))}",
+            caption=msg,
+        )
     else:
-        user1 = bot.first_name
-        user2 = curr_user
-
-    pat_type = random.choice(("Text", "Gif", "Sticker"))
-    if pat_type == "Gif":
-        try:
-            temp = random.choice(fun_strings.PAT_GIFS)
-            reply_to.reply_animation(temp)
-        except BadRequest:
-            pat_type = "Text"
-
-    if pat_type == "Sticker":
-        try:
-            temp = random.choice(fun_strings.PAT_STICKERS)
-            reply_to.reply_sticker(temp)
-        except BadRequest:
-            pat_type = "Text"
-
-    if pat_type == "Text":
-        temp = random.choice(fun_strings.PAT_TEMPLATES)
-        reply = temp.format(user1=user1, user2=user2)
-        reply_to.reply_text(reply, parse_mode=ParseMode.HTML)
+        context.bot.send_photo(
+            chat_id,
+            f"https://headp.at/pats/{urllib.parse.quote(random.choice(pats))}",
+            reply_to_message_id=msg_id,
+        )
 
 
 def roll(update: Update, context: CallbackContext):
