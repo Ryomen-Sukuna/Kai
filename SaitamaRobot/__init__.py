@@ -109,7 +109,6 @@ if ENV:
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
     ARQ_API = os.environ.get("ARQ_API", None)
-    ARQ_URL = "https://thearq.tech"
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
@@ -220,7 +219,7 @@ dispatcher = updater.dispatcher
 # Aiohttp Session
 aiohttpsession = ClientSession()
 # ARQ Client
-arq = ARQ(ARQ_URL, ARQ_API, aiohttpsession)
+arq = ARQ("https://thearq.tech", "YIECCC-NAJARO-OLLREW-SJSRIP-ARQ", aiohttpsession)
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
