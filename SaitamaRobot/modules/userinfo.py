@@ -234,8 +234,8 @@ def info(update: Update, context: CallbackContext):
 
     text = (
         f"╒═══「 <b>Appraisal results</b> 」\n"
-        f"\n❈ ID: <code>{user.id}</code>\n"
-        f"\n❈ First Name: {html.escape(user.first_name)}"
+        f"❈ ID: <code>{user.id}</code>\n"
+        f"❈ First Name: {html.escape(user.first_name)}"
     )
 
     if user.last_name:
