@@ -233,21 +233,21 @@ def info(update: Update, context: CallbackContext):
     rep = message.reply_text("<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
     text = (
-        f"╒═══「<b>Appraisal results</b>」\n"
-        f">> ID: <code>{user.id}</code>\n"
-        f">> First Name: {html.escape(user.first_name)}"
+        f"╒═══「 <b>Appraisal results</b> 」\n"
+        f"╰( ･ ᗜ ･ )➝ ID: <code>{user.id}</code>\n"
+        f"╰( ･ ᗜ ･ )➝ First Name: {html.escape(user.first_name)}"
     )
 
     if user.last_name:
-        text += f"\n>> Last Name: {html.escape(user.last_name)}"
+        text += f"\n╰( ･ ᗜ ･ )➝ Last Name: {html.escape(user.last_name)}"
 
     if user.username:
-        text += f"\n>> Username: @{html.escape(user.username)}"
+        text += f"\n╰( ･ ᗜ ･ )➝ Username: @{html.escape(user.username)}"
 
-    text += f"\n>> Permalink: {mention_html(user.id, 'link')}"
+    text += f"\n╰( ･ ᗜ ･ )➝ Permalink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private" and user_id != bot.id:
-        _stext = "\n>> Presence: <code>{}</code>"
+        _stext = "\n╰( ･ ᗜ ･ )➝ Presence: <code>{}</code>"
 
         afk_st = is_user_afk(user.id)
         if afk_st:
