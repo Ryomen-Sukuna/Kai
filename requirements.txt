@@ -15,7 +15,7 @@ humanize
 jikanpy
 lxml
 nltk
-Pillow>=4.2.0
+Pillow==8.4.0
 pretty_errors
 psutil
 psycopg2-binary
