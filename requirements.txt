@@ -26,7 +26,7 @@ requests
 spamwatch
 speedtest-cli
 spongemock
-SQLAlchemy==1.4.11
+SQLAlchemy==1.4.26
 pyrogram
 tgcrypto
 telethon==1.16.4
