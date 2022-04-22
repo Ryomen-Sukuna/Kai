@@ -44,6 +44,5 @@ Should you be forking this repo then do not forget to star it - <img alt="GitHub
 + [TsunayoshiSawada](https://github.com/SawadaTsunayoshi) for make awesome bot like saitama
 + [Dank-Del](https://github.com/Dank-del) for SPB & NLP module & others
 + [Userbotindo](https://github.com/userbotindo) for misc
-+ [HeLLxGodLike](https://github.com/HeLLxGodLike) for helping me on this repo & fix stickers search
 + Well, it's all in the commit history 
 Feel free to open pull requests should any be missing.
